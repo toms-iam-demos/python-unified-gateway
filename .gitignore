@@ -5,17 +5,17 @@ __pycache__/
 *.pyd
 *.log
 
-# Virtual envs
+# Venv
 .venv/
 venv/
-
-# Env / secrets
-.env
-.env.*
-
-# macOS cruft
-.DS_Store
 
 # Editors
 .vscode/
 .idea/
+
+# macOS
+.DS_Store
+
+# Env / secrets
+.env
+.env.*
