@@ -1,32 +1,25 @@
+# Secrets / credentials
+.env
+secrets/
+*.pem
+*.key
+
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.log
-
-# Venv
 .venv/
 venv/
 
-# Editors
-.vscode/
-.idea/
-
-# macOS
+# OS / editor cruft
 .DS_Store
-
-# Env / secrets
-.env
-.env.*
-
-# Secrets dir (never commit)
-secrets/
-
-# backup / scratch
-*.bak
+Icon?
+Icon\r
 *.swp
+*.swo
+*~
+*.save
 
-# keys / certs
-*.pem
-*.key
+# Logs
+*.log
