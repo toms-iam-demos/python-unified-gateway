@@ -19,3 +19,14 @@ venv/
 # Env / secrets
 .env
 .env.*
+
+# Secrets dir (never commit)
+secrets/
+
+# backup / scratch
+*.bak
+*.swp
+
+# keys / certs
+*.pem
+*.key

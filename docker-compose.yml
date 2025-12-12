@@ -1,12 +1,36 @@
-
-
 services:
-  ds-gw:
+  python-unified-gateway:
     container_name: python-unified-gateway
     build: .
+    restart: unless-stopped
+
+    # IMPORTANT: Traefik can only discover containers on the same Docker network.
+    networks:
+      - traefik-network
+
+    # Optional: keep this ONLY if you want localhost debugging on the host.
+    # It will NOT be used by Traefik.
     ports:
       - "8001:8001"
+
     env_file:
       - .env
+
     volumes:
       - ./secrets:/app/secrets:ro
+
+    labels:
+      - "traefik.enable=true"
+
+      # Router: match host + path
+      - "traefik.http.routers.gateway.rule=Host(`api.tifirmo.io`) && PathPrefix(`/docusign`)"
+      - "traefik.http.routers.gateway.entrypoints=websecure"
+      - "traefik.http.routers.gateway.tls=true"
+      - "traefik.http.routers.gateway.tls.certresolver=le"
+
+      # Service: gateway listens on 8001 inside container
+      - "traefik.http.services.gateway.loadbalancer.server.port=8001"
+
+networks:
+  traefik-network:
+    external: true
