@@ -1,25 +1,47 @@
-# Secrets / credentials
-.env
-secrets/
-*.pem
-*.key
-
-# Python
+# ---- Python ----
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*.so
 .venv/
 venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# OS / editor cruft
+# ---- macOS / Editor ----
 .DS_Store
 Icon?
 Icon\r
+.idea/
+.vscode/
 *.swp
-*.swo
-*~
-*.save
 
-# Logs
+# ---- Env / Secrets ----
+.env
+.env.*
+secrets/
+**/secrets/
+*.pem
+*.key
+*.pfx
+*.p12
+
+# ---- Runtime data (do NOT version) ----
+data/
+**/data/
+*.db
+*.db-wal
+*.db-shm
+
+# ---- Backups / scratch ----
+*.bak
+*.bak.*
+*~ 
+
+# ---- Logs ----
 *.log
+logs/
+**/logs/
