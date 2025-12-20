@@ -4,7 +4,18 @@ services:
     container_name: python-unified-gateway
     env_file:
       - .env
+
+    # Canonical DB configuration (single source of truth)
+    environment:
+      - GATEWAY_DB_ENABLED=1
+      - GATEWAY_DB_PATH=/app/data/gateway.db
+
+    # Local-only: direct host port for convenience.
+    # (When Traefik becomes ingress, we remove this.)
     ports:
       - "8001:8001"
+
+    # Persist DB + provide secrets (single merged list; no surprises)
     volumes:
+      - ./data:/app/data
       - ./secrets/ds_private_key:/run/secrets/ds_private_key:ro
