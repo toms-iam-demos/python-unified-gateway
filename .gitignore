@@ -45,3 +45,10 @@ data/
 *.log
 logs/
 **/logs/
+
+# macOS Finder metadata
+.DS_Store
+**/.DS_Store
+cat >> .gitignore <<'EOF'
+.DS_Store
+**/.DS_Store

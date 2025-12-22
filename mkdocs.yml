@@ -1,0 +1,39 @@
+site_name: python-unified-gateway
+site_description: Local-first API orchestration, webhook ingestion, and replayable demonstration platform.
+docs_dir: docs
+site_dir: .site
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - toc.follow
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Orientation:
+      - System at a Glance: 00_orientation/00_system-at-a-glance.md
+      - Glossary: 00_orientation/10_glossary.md
+      - Design Laws: 00_orientation/20_design-laws.md
+      - Definition of Done: 00_orientation/30_definition-of-done.md
+  - Architecture:
+      - Data Flow: 01_architecture/20_data-flow.md
+  - Events:
+      - Event Contract: 02_events/00_event-contract.md
+  - API:
+      - HTTP API: 03_api/00_http-api.md
+  - Runbooks:
+      - Local Dev: 05_runbooks/10_local-dev.md
+  - ADR:
+      - ADR Template: 06_adr/0000_template.md
+  - Demo:
+      - Live Demo Checklist: 07_demo/10_live-demo-checklist.md
