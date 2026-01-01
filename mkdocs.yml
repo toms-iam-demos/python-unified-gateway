@@ -33,7 +33,8 @@ nav:
       - HTTP API: 03_api/00_http-api.md
   - Runbooks:
       - Local Dev: 05_runbooks/10_local-dev.md
-  - ADR:
-      - ADR Template: 06_adr/0000_template.md
+  - Architecture Decisions:
+      - ADR Index: 007_adr/index.md
+      - ADR Template: 007_adr/0000_template.md
   - Demo:
       - Live Demo Checklist: 07_demo/10_live-demo-checklist.md
