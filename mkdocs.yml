@@ -21,20 +21,28 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Orientation:
-      - System at a Glance: 00_orientation/00_system-at-a-glance.md
-      - Glossary: 00_orientation/10_glossary.md
-      - Design Laws: 00_orientation/20_design-laws.md
-      - Definition of Done: 00_orientation/30_definition-of-done.md
+      - System at a Glance: 001_orientation/00_system-at-a-glance.md
+      - Glossary: 001_orientation/10_glossary.md
+      - Design Laws: 001_orientation/20_design-laws.md
+      - Definition of Done: 001_orientation/30_definition-of-done.md
   - Architecture:
-      - Data Flow: 01_architecture/20_data-flow.md
+      - Data Flow: 002_architecture/20_data-flow.md
   - Events:
-      - Event Contract: 02_events/00_event-contract.md
+      - Event Contract: 003_events/00_event-contract.md
   - API:
-      - HTTP API: 03_api/00_http-api.md
+      - HTTP API: 004_api/00_http-api.md
   - Runbooks:
-      - Local Dev: 05_runbooks/10_local-dev.md
+      - Local Dev: 006_runbooks/10_local-dev.md
   - Architecture Decisions:
       - ADR Index: 007_adr/index.md
       - ADR Template: 007_adr/0000_template.md
+      - Frontend Design Architecture: 007_adr/0011-frontend-architecture-and-design-governance.md
+  - Frontend Design:
+      - Canon and Versions: frontend/index.md
+      - Design Principles: frontend/design-principles.md
+      - Product Specification: frontend/product-specification.md
+      - Design System: frontend/design-system.md
+      - Organization Profiles: frontend/organization-profile.md
+      - Source Replicas: frontend/replica-specification.md
   - Demo:
-      - Live Demo Checklist: 07_demo/10_live-demo-checklist.md
+      - Live Demo Checklist: 008_demo/10_live-demo-checklist.md

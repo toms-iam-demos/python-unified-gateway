@@ -144,3 +144,10 @@ Runbooks optimize for action, not explanation.
   - Explicit addenda (when necessary)
 
 This structure exists to prevent context loss, accidental regression, and the slow erosion of system intent.
+
+## Frontend design canon
+
+[ADR-0011](007_adr/0011-frontend-architecture-and-design-governance.md) defines the
+organization-independent product shell, organization profile and source-replica
+boundaries. The [frontend index](frontend/index.md) identifies the current versioned
+specifications and their validation limits.

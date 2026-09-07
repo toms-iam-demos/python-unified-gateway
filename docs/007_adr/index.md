@@ -20,3 +20,5 @@ Each ADR captures:
 - [ADR-0008: Pro Notebooks Are Authoring Tools; Published Artifacts Are Static or Browser-Safe](0008-pro-notebooks-are-authoring-only.md)
 - [ADR-0009: The Gateway Is the Canonical Correlation Authority](0009-gateway-canonical-correlation-authority.md)
 - [ADR-0010: External Event Feed Authentication and Integrity](0010-external-event-feed-authentication-and-integrity.md)
+
+- [ADR-0011: Frontend Design Architecture and Governance](0011-frontend-architecture-and-design-governance.md)
