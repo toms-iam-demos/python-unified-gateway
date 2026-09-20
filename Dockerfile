@@ -22,8 +22,9 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy entire application
-COPY . .
+# Runtime code and static operator assets only. Local tools, documentation,
+# credentials and SQLite state never belong in the application image.
+COPY gateway/ ./gateway/
 
 # Default environment — override in docker-compose
 ENV PYTHONPATH=/app

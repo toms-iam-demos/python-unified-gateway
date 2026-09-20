@@ -32,6 +32,8 @@ def persist_inbound_event(
     raw_body: bytes,
     json_parsed: Optional[Dict[str, Any]],
     correlation_id: Optional[str] = None,
+    verify_status: str = "unknown",
+    verify_reason: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Best-effort persistence. Never raises to caller.
@@ -68,7 +70,7 @@ def persist_inbound_event(
                   ?, NULL, ?,
                   ?, ?, ?, ?, NULL,
                   ?, ?, ?, ?,
-                  'unknown', NULL, ?
+                  ?, ?, ?
                 )
                 """,
                 (
@@ -76,6 +78,7 @@ def persist_inbound_event(
                     corr, received_at,
                     method, host, path, remote_addr,
                     headers_json, raw_body, body_sha256, json_text,
+                    verify_status, verify_reason,
                     dedupe_key,
                 ),
             )

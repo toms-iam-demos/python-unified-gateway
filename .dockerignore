@@ -1,6 +1,19 @@
-.venv/
-__pycache__/
-*.pyc
-.DS_Store
-.env
-secrets/
+# Allow only the inputs required by the production Dockerfile.
+**
+!Dockerfile
+!requirements.txt
+!gateway/
+!gateway/**
+# Exclude accidental local state inside the application package too.
+**/__pycache__/
+**/*.pyc
+**/.env
+**/.env.*
+**/secrets/
+**/data/
+**/*.db
+**/*.db-*
+**/*.pem
+**/*.key
+**/*.bak
+**/.DS_Store

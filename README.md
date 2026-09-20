@@ -147,3 +147,7 @@ Current priorities include:
 > *Predictable means trustworthy.*
 
 This gateway exists to make complex platform integrations understandable, inspectable, and repeatable—before they are ever made large.
+
+## Live architecture explorer
+
+The operator explorer is disabled by default. After protecting `/explorer/*` through the existing ingress policy (or binding locally to loopback), set `GATEWAY_EXPLORER_ENABLED=1` and recreate the service. Open `/explorer/ui` for registered routes, request timing, ledger metadata, docusign and runtime views. See [run and test instructions](docs/006_runbooks/13_architecture_explorer.md). Existing webhook console remains at `/webhooks/monitor/ui`.

@@ -3,6 +3,11 @@ site_description: Local-first API orchestration, webhook ingestion, and replayab
 docs_dir: docs
 site_dir: .site
 
+# Local authoring history must not enter published documentation.
+exclude_docs: |
+  /000_genesis/
+  **/.ipynb_checkpoints/
+
 theme:
   name: material
   features:
@@ -33,10 +38,25 @@ nav:
       - HTTP API: 004_api/00_http-api.md
   - Runbooks:
       - Local Dev: 006_runbooks/10_local-dev.md
+      - Hetzner API Ingress: 006_runbooks/11_hetzner_api_ingress.md
+      - Connect HMAC Verification: 006_runbooks/12_connect_hmac.md
+      - Architecture Explorer: 006_runbooks/13_architecture_explorer.md
+      - Release Scope: 006_runbooks/14_release_scope.md
   - Architecture Decisions:
       - ADR Index: 007_adr/index.md
       - ADR Template: 007_adr/0000_template.md
-      - Frontend Design Architecture: 007_adr/0011-frontend-architecture-and-design-governance.md
+      - 007_adr/0001-external-event-service-authoritative-ingress.md
+      - 007_adr/0002-gateway-owns-delivery-custody.md
+      - 007_adr/0003-workflow-engines-not-systems-of-record.md
+      - 007_adr/0004-raw-payloads-vs-normalized-facts.md
+      - 007_adr/0005-replay-semantics-are-explicit-and-typed.md
+      - 007_adr/0006-static-first-docs-live-data-via-gateway.md
+      - 007_adr/0007-authoritative-decisions-require-live-systems.md
+      - 007_adr/0008-pro-notebooks-are-authoring-only.md
+      - 007_adr/0009-gateway-canonical-correlation-authority.md
+      - 007_adr/0010-external-event-feed-authentication-and-integrity.md
+      - 007_adr/0011-frontend-architecture-and-design-governance.md
+      - 007_adr/0012-connect-webhook-verification-failures-rejected.md
   - Frontend Design:
       - Canon and Versions: frontend/index.md
       - Design Principles: frontend/design-principles.md

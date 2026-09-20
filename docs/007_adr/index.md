@@ -2,6 +2,10 @@
 
 This section documents the key architectural decisions that govern the system.
 
+All active PUG ADRs belong in `docs/007_adr/` and use the shared numbered sequence,
+regardless of which author or tool helped prepare them. Supporting runbooks belong
+in `docs/006_runbooks/`; frontend specifications belong in `docs/frontend/`.
+
 Each ADR captures:
 - the context of the decision,
 - the decision itself,
@@ -20,5 +24,5 @@ Each ADR captures:
 - [ADR-0008: Pro Notebooks Are Authoring Tools; Published Artifacts Are Static or Browser-Safe](0008-pro-notebooks-are-authoring-only.md)
 - [ADR-0009: The Gateway Is the Canonical Correlation Authority](0009-gateway-canonical-correlation-authority.md)
 - [ADR-0010: External Event Feed Authentication and Integrity](0010-external-event-feed-authentication-and-integrity.md)
-
 - [ADR-0011: Frontend Design Architecture and Governance](0011-frontend-architecture-and-design-governance.md)
+- [ADR-0012: Connect Webhook Verification Failures Are Rejected, Not Quarantined](0012-connect-webhook-verification-failures-rejected.md)
