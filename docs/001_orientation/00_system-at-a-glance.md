@@ -68,4 +68,4 @@ webhooks       │  (ACK-first)       │
 - Local dev: `../05_runbooks/10_local-dev.md`
 
 ## References
-- ADR template: `../06_adr/0000_template.md`
+- ADR template: `../007_adr/0000_template.md`

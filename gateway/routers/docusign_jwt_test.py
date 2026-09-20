@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 import jwt  # PyJWT
 import requests
+from gateway.observability import span
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
@@ -73,7 +74,8 @@ def jwt_test() -> Dict[str, Any]:
     }
 
     try:
-        token_resp = requests.post(token_url, data=data, timeout=20)
+        with span("docusign OAuth token"):
+            token_resp = requests.post(token_url, data=data, timeout=20)
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Token request to DocuSign failed: {e}")
 
@@ -100,7 +102,8 @@ def jwt_test() -> Dict[str, Any]:
     headers = {"Authorization": f"Bearer {access_token}"}
 
     try:
-        ui_resp = requests.get(userinfo_url, headers=headers, timeout=20)
+        with span("docusign OAuth userinfo"):
+            ui_resp = requests.get(userinfo_url, headers=headers, timeout=20)
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Userinfo request to DocuSign failed: {e}")
 

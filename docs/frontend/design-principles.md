@@ -1,9 +1,9 @@
 ---
 title: Frontend design principles
-version: 1.1.0
+version: 1.2.1
 status: accepted
 owner: PUG project maintainer
-updated: 2026-09-06
+updated: 2026-09-20
 governing_adr: ADR-0011
 ---
 
@@ -26,8 +26,19 @@ Arkansas Forward informs that profile's public-service, efficiency and taxpayer-
 - [Arkansas Forward](https://governor.arkansas.gov/wp-content/uploads/AR-Forward.pdf)
 - [Governing ADR](../007_adr/0011-frontend-architecture-and-design-governance.md)
 
+## Approved branding contract
+
+Use the [organization profile's approved branding contract](organization-profile.md#approved-branding-contract)
+for shared tokens, consistent console presentation and recorded approval evidence.
+The [governing ADR](../007_adr/0011-frontend-architecture-and-design-governance.md)
+continues to define the boundary; this specification does not create another contract.
+
 ## Version history
 
-1.0.0 — September 6, 2026: establishes the accepted baseline from the frontend work; governed by ADR-0011. Future revisions record rationale and validation evidence.
+1.0.0  -  September 6, 2026: establishes the accepted baseline from the frontend work; governed by ADR-0011. Future revisions record rationale and validation evidence.
 
-1.1.0 — September 6, 2026: distinguish organization-independent platform rules from the Arkansas reference profile. No runtime rebranding or multi-tenancy claim.
+1.1.0  -  September 6, 2026: distinguish organization-independent platform rules from the Arkansas reference profile. No runtime rebranding or multi-tenancy claim.
+
+1.2.0 - September 7, 2026: clarify approved branding, approval evidence and consistent application across console surfaces under ADR-0011.
+
+1.2.1 - September 20, 2026: reference the shared profile contract instead of duplicating it; no branding or architectural change.

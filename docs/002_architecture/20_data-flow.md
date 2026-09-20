@@ -59,4 +59,4 @@ tags: [pug, architecture, dataflow]
 - HTTP routes: `../03_api/00_http-api.md`
 
 ## References
-- ADR template: `../06_adr/0000_template.md`
+- ADR template: `../007_adr/0000_template.md`

@@ -8,15 +8,15 @@
 
 | Artifact | Version | Responsibility |
 | --- | --- | --- |
-| [Design principles](design-principles.md) | 1.1.0 | Audience, hybrid identity and tone |
+| [Design principles](design-principles.md) | 1.2.1 | Audience, hybrid identity and tone |
 | [Product specification](product-specification.md) | 1.1.0 | Navigation, journeys and capability states |
-| [Design system specification](design-system.md) | 1.1.0 | Typography, colors, logos and components |
+| [Design system specification](design-system.md) | 1.2.1 | Typography, colors, logos and components |
 | [Replica specification](replica-specification.md) | 1.1.0 | Source fidelity, deviations and acceptance |
-| [Organization profile contract](organization-profile.md) | 1.0.0 | Configuration boundary; implementation pending |
+| [Organization profile contract](organization-profile.md) | 1.1.0 | Configuration boundary; implementation pending |
 
 All specifications follow ADR-0011. Changes record version, owner, date, rationale and evidence. No lower-level version may override architecture. Archive the previous specification when publishing a replacement; this table always identifies the current version.
 
-The platform is organization-independent. Arkansas is the current reference profile, not a prerequisite. Current specification revisions preserve the preserved 1.0.0 baseline in the examples project documentation history.
+Approved branding governs all console surfaces consistently through the active organization profile. Named organizations appear only as scoped reference examples, not platform requirements. Prior versions remain available in repository history and the examples documentation history.
 
 ## Canonical ownership
 

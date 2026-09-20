@@ -43,4 +43,4 @@ If a design decision cannot be explained to a state IT architect in under **60 s
 
 ## References
 - System overview: `00_system-at-a-glance.md`
-- ADRs: `../06_adr/0000_template.md`
+- ADRs: `../007_adr/0000_template.md`

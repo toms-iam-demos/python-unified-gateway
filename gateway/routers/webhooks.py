@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 import asyncio
+import functools
 import json
+
+import anyio
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 
 from gateway.db.events_store import persist_inbound_event
+from gateway.connect_hmac import require_connect_hmac
+from gateway.observability import span, current
 
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 
@@ -33,6 +38,8 @@ async def _broadcast_event(event: Dict[str, Any]) -> None:
 @router.post("/docusign")
 async def docusign_webhook(request: Request):
     raw_body = await request.body()
+    with span("webhook HMAC verification"):
+        require_connect_hmac(raw_body, request.headers.items())
     headers = dict(request.headers)
 
     try:
@@ -40,23 +47,38 @@ async def docusign_webhook(request: Request):
     except Exception:
         parsed = None
 
-    # Best-effort persistence (fail-open)
-    persist_result = persist_inbound_event(
-        source="docusign",
-        method=request.method,
-        host=headers.get("host", ""),
-        path=str(request.url.path),
-        remote_addr=request.client.host if request.client else None,
-        headers=headers,
-        raw_body=raw_body,
-        json_parsed=parsed if isinstance(parsed, dict) else None,
-        correlation_id=headers.get("x-correlation-id") or headers.get("x-request-id"),
-    )
+    # Best-effort persistence (fail-open). Offloaded to a worker thread:
+    # sqlite3 is synchronous, and running it inline on this coroutine would
+    # block the event loop for every other in-flight request on this worker
+    # for the duration of the disk write. Verification still happens before
+    # persistence as required by ADR-0010.
+    with span("webhook idempotency / ledger persistence"):
+        persist_result = await anyio.to_thread.run_sync(
+            functools.partial(
+                persist_inbound_event,
+                source="docusign",
+                method=request.method,
+                host=headers.get("host", ""),
+                path=str(request.url.path),
+                remote_addr=request.client.host if request.client else None,
+                headers=headers,
+                raw_body=raw_body,
+                json_parsed=parsed if isinstance(parsed, dict) else None,
+                correlation_id=headers.get("x-correlation-id") or headers.get("x-request-id"),
+                verify_status="verified",
+                verify_reason="hmac-sha256",
+            )
+        )
+    trace = current.get()
+    if trace is not None:
+        trace["event_id"] = persist_result.get("event_id")
+        trace["persisted"] = bool(persist_result.get("persisted"))
+
 
     event = {
         "id": len(_webhook_events) + 1,
         "source": "docusign",
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "headers": headers,
         "body_raw": raw_body.decode(errors="replace"),
         "json": parsed,

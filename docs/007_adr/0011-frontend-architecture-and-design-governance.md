@@ -4,7 +4,7 @@ title: Frontend Design Architecture and Governance
 owner: PUG project maintainer
 status: accepted
 decision_date: 2026-09-06
-last_verified: 2026-09-06
+last_verified: 2026-09-07
 tags: [pug, adr, frontend, design, governance]
 ---
 
@@ -19,9 +19,9 @@ Accepted as design direction on September 6, 2026. Repository review and merge e
 This record consolidates and supersedes the initial ADR-FE-0001–0004 records. It belongs to the normal PUG ADR register. The earlier records remain historical material, not separate active authorities.
 
 ## Context
-The first reference implementation combines an administration portfolio, organizational source-page replicas and operator workspaces. Its console evolved into an approved blend of docusign developer typography, PUG identity and Arkansas branding. That work exposed two distinct needs: a consistent product experience and accurate demonstrations of another organization's experience.
+The first reference implementation combines an administration portfolio, organizational source-page replicas and operator workspaces. Its console combines PUG identity, developer-oriented presentation and approved organization branding. That work exposed two distinct needs: a consistent product experience and accurate demonstrations of another organization's experience.
 
-Arkansas demonstrates the design; it does not define the platform. The same architecture must accommodate a business, university, nonprofit, government or other organization without duplicating the shared frontend. Design intent needs a durable home, while colors, components, journeys and source examples need room to evolve.
+No reference organization defines the platform. The same architecture must accommodate a business, university, nonprofit, government or other organization without duplicating the shared frontend. Design intent needs a durable home, while colors, components, journeys and source examples need room to evolve.
 
 ## Decision
 Adopt one organization-independent frontend architecture with three explicit design boundaries, governed by this ADR and implemented through versioned specifications.
@@ -38,7 +38,11 @@ A versioned profile supplies an organization's identity, approved brand assets a
 
 Shared components consume that configuration. Changing organizations must not require changing their source to replace names, seals, strategy language or organizational hierarchy. “Department” is one configurable unit label; the reusable concepts are organization, unit, use case and capability workspace.
 
-The approved docusign-inspired/Arkansas visual blend is the first reference profile. Its colors, logo treatments, mascot captions and public-service language belong in its specifications, not in universal platform rules. Organization customization must preserve component behavior, accessibility requirements and truthful state presentation.
+Approved branding is the governing presentation contract. Each organization profile identifies one approved, versioned set of typography, semantic colors, identity assets, logo treatments, terminology and messaging. Every console surface, including the homepage, capability tabs, Insights and administrative views, must use that same profile through shared components and tokens. Individual pages must not introduce independent brand variants.
+
+Approval must identify the accountable brand owner or authorized delegate, applicable surfaces, profile version, source/provenance and approval date. Reference websites and captured stylesheets are design evidence; their availability alone does not establish approval or permission to reuse assets. Product approval remains the PUG maintainer's responsibility; organization branding approval is recorded separately.
+
+Organization-specific visual blends and examples belong in profile specifications. Customization must preserve component behavior, accessibility requirements and truthful state presentation. Source replicas retain their separately approved fidelity contract and are not recolored to match the console.
 
 Profile selection is not authorization. Supporting multiple profiles does not establish tenant authentication or data isolation. Concurrent multi-organization hosting requires an explicit security and deployment design.
 
@@ -62,7 +66,7 @@ One architecture decision governs a small set of purpose-specific artifacts:
 | Validation evidence | Observed conformance to identified versions | A relevant implementation or baseline changes |
 | Change history | Rationale, approval and supersession | A reviewed change is accepted |
 
-The documentation index identifies one current version of each specification. Specifications must conform to this ADR; components implement their applicable specifications; tests and reference screenshots establish conformance. Design and product specifications are complementary—neither may silently override the other. Resolve conflicts in a reviewed specification change.
+The documentation index identifies one current version of each specification. Specifications must conform to this ADR; components implement their applicable specifications; tests and reference screenshots establish conformance. Design and product specifications are complementary - neither may silently override the other. Resolve conflicts in a reviewed specification change.
 
 Historical notes, development checkpoints and example copies cannot override current specifications. Keep implementation status separate from design intent so a requirement is never mistaken for a delivered capability.
 
@@ -80,11 +84,13 @@ The cost is explicit configuration and evidence management. Profiles, components
 A single stylesheet for every surface would be simpler but would destroy source fidelity. A frontend fork per organization would accommodate customization but multiply maintenance and inconsistent behavior. Recording every visual choice as an ADR would preserve history at the expense of a usable architecture register. These alternatives are rejected.
 
 ## Acceptance and current position
-The architecture's defining extension check is a second, non-government organization configured without modifying the shared shell. Verify that its identity, terminology, catalog and enabled workspaces change correctly, and that reference-profile names or assets do not leak into it.
+The architecture's defining extension check is a second organization with distinct approved branding configured without modifying the shared shell. Verify that its identity, terminology, catalog and enabled workspaces change correctly, and that reference-profile names or assets do not leak into it.
+
+Verify consistent application of the approved profile across every console surface, including navigation, typography, colors, assets, interaction states and responsive layouts. Check source replicas against their own approved baselines. Record any scoped exception with its approver and review date.
 
 Frontend changes must also demonstrate the relevant interaction behavior, source-style isolation and accurate capability states. Appearance changes require review at declared desktop/mobile viewports. Accessibility and clone-parity claims require corresponding evidence. Document-only changes require consistency and link checks, not an application rebuild.
 
-The current Arkansas implementation is a reference baseline, not full conformance: profile configuration has not been extracted from hard-coded templates/routes. A complete visual regression baseline, accessibility audit, validated replica parity and live AI/MCP integration remain outstanding. These are tracked implementation and validation gaps, not exceptions to this decision.
+The current reference implementation is a baseline, not full conformance: profile configuration has not been extracted from hard-coded templates/routes. A complete visual regression baseline, accessibility audit, validated replica parity and live AI/MCP integration remain outstanding. These are tracked implementation and validation gaps, not exceptions to this decision.
 
 ## Related decisions and canonical location
 [ADR-0002](0002-gateway-owns-delivery-custody.md) and
@@ -102,7 +108,9 @@ as independent authorities.
 
 ## Review history
 - **2026-09-06:** consolidated the initial frontend decisions into the normal ADR register.
-- **2026-09-06:** clarified organization independence; Arkansas is a reference profile.
+- **2026-09-06:** clarified organization independence; the initial organization is a reference profile.
 - **2026-09-06:** editorial/design review organized the accepted intent around product shell, organization profile and source replica, and clarified acceptance versus implementation evidence. Previous text retained in the examples documentation history; no invariant was relaxed.
 
 - **Release review:** supporting specifications consolidated into the core documentation tree; distribution copies require source revision and checksum. No runtime release is implied.
+
+- **2026-09-07:** user-directed clarification makes approved branding the consistent presentation contract across console surfaces. Organization-specific examples remain in profile specifications. This clarification preserves the three architectural boundaries; it does not claim a profile loader or completed conformance validation.

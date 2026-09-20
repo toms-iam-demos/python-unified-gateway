@@ -1,0 +1,29 @@
+/* Operator surface: follows the existing monitor's neutral dark palette.
+   Organization-profile rendering remains a separate, documented design task. */
+:root {
+  color-scheme: dark;
+  --background: #0b1020;
+  --panel: #11162a;
+  --ink: #e6edf3;
+  --muted: #aebbd0;
+  --border: #455574;
+  --accent: #a5f3fc;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--ink); font: 15px/1.5 system-ui, sans-serif; }
+header, nav, main { padding: 20px; max-width: 1500px; margin: auto; }
+h1 { margin: 0; }
+a { color: var(--accent); }
+button { color: var(--ink); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; font: inherit; }
+button:hover, button[aria-pressed="true"] { border-color: var(--accent); }
+button:focus-visible, a:focus-visible, pre:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+button:disabled { opacity: .6; cursor: wait; }
+nav { display: flex; gap: 8px; flex-wrap: wrap; }
+main { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px; }
+.node { display: block; width: 100%; text-align: left; margin: 8px 0; overflow-wrap: anywhere; }
+.branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.arrow { text-align: center; color: var(--accent); }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--panel); padding: 18px; border-radius: 10px; max-height: 75vh; overflow: auto; }
+#status { color: var(--muted); min-height: 1.5em; }
+#status[data-error="true"] { color: #fda4af; }
+@media (max-width: 750px) { main { grid-template-columns: minmax(0, 1fr); } }

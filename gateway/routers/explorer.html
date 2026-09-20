@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PUG architecture explorer</title>
+  <link rel="stylesheet" href="../static/explorer.css">
+  <script src="../static/explorer.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>PUG architecture explorer</h1>
+    <p>Registered routes and measured request activity</p>
+    <a href="../webhooks/monitor/ui">Webhook monitor</a>
+    <button id="refresh" type="button">Refresh</button>
+    <p id="status" role="status" aria-live="polite">Loading…</p>
+  </header>
+  <nav id="tabs" aria-label="Explorer views"></nav>
+  <main>
+    <section id="view" aria-label="Selected view"></section>
+    <aside aria-label="Inspector">
+      <h2>Inspector</h2>
+      <pre id="detail" tabindex="0">Select a node, route, event or trace.</pre>
+    </aside>
+  </main>
+</body>
+</html>
