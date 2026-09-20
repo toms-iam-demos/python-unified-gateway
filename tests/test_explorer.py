@@ -49,8 +49,8 @@ class ExplorerTests(unittest.TestCase):
         self.assertNotIn("cdn.jsdelivr.net", original)
         script = self.client.get("/static/monitor.js")
         self.assertEqual(script.status_code, 200)
-        self.assertIn("/events/latest?limit=80&include_body=1", script.text)
-        self.assertIn("setInterval(loadLatest", script.text)
+        self.assertIn("/events/latest?limit=80&include_body=0&include_json_obj=0", script.text)
+        self.assertIn("summary polling", script.text)
         with patch.dict(
             os.environ, {"DOCUSIGN_CONNECT_HMAC_SECRET": KEY}
         ), patch.object(

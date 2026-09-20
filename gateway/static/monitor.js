@@ -1,164 +1,107 @@
-  const API_LATEST = "/events/latest?limit=80&include_body=1&include_json_obj=1";
-  const API_EVENT  = (id) => `/events/${encodeURIComponent(id)}?include_body=1&include_json_obj=1`;
-  const SSE_URL    = "/webhooks/monitor/stream";
-
-  const els = {
-    status:  document.getElementById("status"),
-    mode:    document.getElementById("mode"),
-    src:     document.getElementById("src"),
-    list:    document.getElementById("list"),
-    sel:     document.getElementById("sel"),
-    json:    document.getElementById("json"),
-    headers: document.getElementById("headers"),
-    raw:     document.getElementById("raw"),
-    refresh: document.getElementById("refresh"),
-    clear:   document.getElementById("clear"),
-  };
-  // --- DIAGNOSTIC: prove JS is executing (shows on-page) ---
-  try {
-    els.status.textContent = "JS loaded (boot)";
-    els.status.className = "pill ok";
-  } catch (e) {
-    // If even this fails, DOM ids are mismatched or script isn't running.
-  }
-
-  function showFatal(msg) {
-    try {
-      els.status.textContent = "JS error: " + msg;
-      els.status.className = "pill bad";
-    } catch (e) {}
-  }
-
-  window.addEventListener("error", (ev) => {
-    showFatal(ev.message || "window error");
-  });
-
-  window.addEventListener("unhandledrejection", (ev) => {
-    showFatal((ev.reason && ev.reason.message) ? ev.reason.message : String(ev.reason));
-  });
-
-
-  const seen = new Set();
-  const cache = new Map(); // id -> full event object (from /events/latest)
-
-  let pollTimer = null;
-
-  function setStatus(text, cls) {
+(() => {
+  'use strict';
+  const ids = ['status','mode','src','list','sel','json','headers','raw','refresh','clear'];
+  const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+  const API_LATEST = '/events/latest?limit=80&include_body=0&include_json_obj=0';
+  const API_EVENT = id => `/events/${encodeURIComponent(id)}?include_body=1&include_json_obj=1&body_max_chars=16000`;
+  let timer, busy = false, stopped = false, failures = 0, selection = 0, detailController;
+  const pretty = value => JSON.stringify(value, null, 2);
+  function status(text, cls = 'warn') {
     els.status.textContent = text;
-    els.status.className = "pill " + (cls || "warn");
+    els.status.className = 'pill ' + cls;
   }
-
-  function setMode(text) {
-    els.mode.textContent = text;
-  }
-
-  function pretty(obj) {
-    try { return JSON.stringify(obj, null, 2); }
-    catch { return String(obj); }
-  }
-
-  function addEvent(evt) {
-    const id = evt.event_id || evt.id || evt.correlation_id || "(no-id)";
-    cache.set(id, evt);
-    if (seen.has(id)) return;
-    seen.add(id);
-
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <div class="meta">
-        <span><code>${evt.source || "unknown"}</code></span>
-        <span>${evt.timestamp || ""}</span>
-      </div>
-      <div class="title">${id}</div>
-      <div class="meta"><span>${evt.status || "ok"}</span><span>click to view</span></div>
-    `;
-    li.onclick = () => loadOne(id);
-    els.list.prepend(li);
-  }
-
-  async function loadLatest() {
-    const res = await fetch(API_LATEST, { cache: "no-store" });
-    if (!res.ok) throw new Error("latest HTTP " + res.status);
-    const data = await res.json();
-    const events = Array.isArray(data) ? data : (data.events || data.items || []);
-    for (const evt of events) addEvent(evt);
-  }
-
-  async function loadOne(id) {
-    els.sel.textContent = id;
-
-    // Use cached full event object from /events/latest (work-safe).
-    const evt = cache.get(id);
-    if (!evt) {
-      els.src.textContent = "unknown";
-      els.headers.textContent = pretty({ error: "event not in cache", id });
-      els.raw.textContent = "";
-      els.json.textContent = "{}";
-      return;
-    }
-
-    els.src.textContent = evt.source || "unknown";
-
-    // Headers: backend stores JSON string in headers_json
-    let headersObj = {};
+  async function request(url, controller = new AbortController()) {
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
-      headersObj = evt.headers_json ? JSON.parse(evt.headers_json) : {};
-    } catch (e) {
-      headersObj = { _parse_error: String(e), _raw: evt.headers_json };
+      const response = await fetch(url, {cache: 'no-store', signal: controller.signal});
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const data = await response.json();
+      if (data.ready !== true) throw new Error('Event store unavailable');
+      return data;
+    } finally { clearTimeout(timeout); }
+  }
+  function clearDetail() {
+    selection++;
+    if (detailController) detailController.abort();
+    els.sel.textContent = 'none';
+    els.src.textContent = 'docusign';
+    els.json.textContent = '{}';
+    els.headers.textContent = '{}';
+    els.raw.textContent = '';
+  }
+  async function loadOne(id) {
+    clearDetail();
+    const version = selection;
+    detailController = new AbortController();
+    els.sel.textContent = id;
+    els.json.textContent = 'Loading preview...';
+    try {
+      const data = await request(API_EVENT(id), detailController);
+      if (version !== selection) return;
+      const evt = data.event;
+      if (!evt) throw new Error('Event not found');
+      els.src.textContent = evt.source || 'unknown';
+      els.headers.textContent = evt.headers_omitted ? 'Headers exceed preview limit.' : pretty(JSON.parse(evt.headers_json || '{}'));
+      els.raw.textContent = (evt.body_raw || '') + (evt.body_truncated ? '\n[Preview truncated; original retained in ledger.]' : '');
+      els.json.textContent = evt.json_omitted
+        ? `JSON exceeds preview limit (${evt.json_bytes} bytes). See bounded raw preview below.`
+        : pretty(evt.json_obj ?? {});
+    } catch (error) {
+      if (version !== selection) return;
+      els.json.textContent = 'Preview unavailable: ' + (error.name === 'AbortError' ? 'request timed out' : error.message);
     }
-
-    els.headers.textContent = pretty(headersObj);
-    els.raw.textContent = evt.body_raw || "";
-    els.json.textContent = pretty(evt.json_obj || {});
   }
-
-  function startPolling() {
-    if (pollTimer) return;
-    setMode("polling");
-    setStatus("Polling (work-safe)", "warn");
-    pollTimer = setInterval(loadLatest, 2500);
+  function render(events) {
+    const fragment = document.createDocumentFragment();
+    for (const evt of events.slice(0, 80)) {
+      const id = evt.event_id;
+      if (!id) continue;
+      const item = document.createElement('li');
+      const meta = document.createElement('div'); meta.className = 'meta';
+      meta.textContent = `${evt.source || 'unknown'} · ${evt.received_at || ''}`;
+      const title = document.createElement('div'); title.className = 'title'; title.textContent = id;
+      const state = document.createElement('div'); state.className = 'meta';
+      state.textContent = `${evt.verify_status || 'unknown'} · click to view`;
+      item.append(meta, title, state);
+      item.tabIndex = 0; item.setAttribute('role', 'button');
+      item.onclick = () => loadOne(id);
+      item.onkeydown = event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); loadOne(id); } };
+      fragment.append(item);
+    }
+    els.list.replaceChildren(fragment);
   }
-
-  async function connect() {
-    setMode("initial");
-    setStatus("Loading history…", "warn");
-    await loadLatest();
-    setStatus("History loaded", "ok");
-
-    setMode("sse");
-    setStatus("Connecting…", "warn");
-
-    const es = new EventSource(SSE_URL);
-    let gotFirst = false;
-
-    const silentFallback = setTimeout(() => {
-      if (!gotFirst) {
-        es.close();
-        startPolling();
-      }
-    }, 4000);
-
-    es.onmessage = (e) => {
-      gotFirst = true;
-      clearTimeout(silentFallback);
-      setStatus("Connected (live)", "ok");
-      try { addEvent(JSON.parse(e.data)); } catch {}
-    };
-
-    es.onerror = () => {
-      es.close();
-      startPolling();
-    };
+  async function poll() {
+    if (busy || stopped || document.hidden) return;
+    clearTimeout(timer);
+    busy = true;
+    try {
+      const data = await request(API_LATEST);
+      if (!Array.isArray(data.events)) throw new Error('Invalid event response');
+      if (stopped) return;
+      render(data.events);
+      failures = 0;
+      status(`Updated ${new Date().toLocaleTimeString()}`, 'ok');
+    } catch (error) {
+      failures++;
+      status('List stale: ' + (error.name === 'AbortError' ? 'request timed out' : error.message), 'bad');
+    } finally {
+      busy = false;
+      if (!stopped && !document.hidden) timer = setTimeout(poll, Math.min(60000, 5000 * 2 ** Math.min(failures, 4)));
+    }
   }
-
-  els.refresh.onclick = loadLatest;
+  els.refresh.onclick = () => { stopped = false; poll(); };
   els.clear.onclick = () => {
-    els.list.innerHTML = "";
-    seen.clear();
-    els.sel.textContent = "none";
-    els.json.textContent = "{}";
-    els.headers.textContent = "{}";
-    els.raw.textContent = "";
+    stopped = true; clearTimeout(timer); clearDetail(); els.list.replaceChildren();
+    status('Cleared. Refresh to resume.');
   };
-
-  connect();
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(timer);
+    if (!document.hidden) poll();
+  });
+  window.addEventListener('pagehide', () => {
+    stopped = true; clearTimeout(timer); clearDetail();
+  });
+  els.mode.textContent = 'summary polling';
+  status('Loading summaries...');
+  poll();
+})();

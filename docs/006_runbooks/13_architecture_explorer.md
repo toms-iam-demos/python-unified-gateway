@@ -2,7 +2,7 @@
 
 The explorer inspects registered routes and bounded request metadata. It never invokes
 webhooks or OAuth to establish health. The existing persisted-event monitor remains at
-`/webhooks/monitor/ui`, using its published static JavaScript and polling fallback.
+`/webhooks/monitor/ui`, using summary polling and bounded, on-demand event previews.
 
 ## Enablement and access
 
@@ -62,9 +62,9 @@ Pydantic, individual SQL operations and historical-event durations are not measu
 At most 200 completed traces are retained per worker. Restart clears them; different
 workers can return different samples. Explorer and static requests are excluded. Traces
 contain no request bodies, headers, tokens, query strings or unmatched raw paths.
-The Data view calls the existing protected `/events/latest` API; that API can return
-sensitive headers/parsed payload fields even though the explorer displays selected
-metadata only. Its access policy must remain intact.
+The Data view calls the protected `/events/latest` API without requesting bodies or
+parsed JSON. Headers remain potentially sensitive even though the explorer displays
+selected metadata only. Its access policy must remain intact.
 
 The UI refreshes every ten seconds while visible, unless a request is running or a route
 button has keyboard focus. Requests time out after eight seconds; switching views cancels
