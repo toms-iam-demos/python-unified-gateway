@@ -73,7 +73,7 @@ Compose environment values. Do not enable explorer before its route protection e
 - Confirm internal and public `/health` return the expected PUG response. Health alone
   does not verify HMAC configuration, the database or provider connectivity.
 - Verify unauthenticated monitor/events requests are denied and authenticated monitor
-  inspection works, including `/static/monitor.js`, polling and cached event details.
+  inspection works, including `/static/monitor.js`, summary polling and bounded event details.
 - If explorer is disabled, confirm its routes return 404 at the application. If enabled,
   confirm unauthenticated access is denied at the edge and authorized UI/metadata/traces
   requests work. Inspect browser console/network output for CSP and asset failures.
@@ -101,3 +101,18 @@ No schema change requires restoring the database for this release. Restore a bac
 only for a demonstrated data problem with an explicit plan for events accepted since
 that backup. Finish by recording the running revision/image, verification results and
 any unresolved delivery backlog.
+
+## September 20 deployment reconciliation
+
+Server-local memory safeguards were discovered during preflight and brought into the
+release before deployment. Event lists omit bodies/JSON unless requested; list body
+previews are capped at 4000 bytes in SQL, detail previews at the requested bounded
+limit, and headers over 16 KiB are omitted. Original ledger payloads remain unchanged.
+The monitor polls at most 80 summaries and loads a 16000-byte preview on selection,
+with cancellation, backoff and no overlapping polls. These supersede the January
+note's cached full-event approach. Tests cover large payloads and UI request behavior.
+
+The server's existing external Traefik network and `/app/secrets` mount must be
+retained. Direct host access on port 8001 must bind to loopback, with public operator
+traffic going through Traefik authentication. Do not copy local Compose mount paths
+over the server configuration.

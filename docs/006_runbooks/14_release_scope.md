@@ -6,7 +6,7 @@ runbooks live here, and frontend specifications remain in `docs/frontend/`.
 
 ## Included in this release
 
-- Current main's persisted-event monitor, static JavaScript and polling fallback.
+- The deployed persisted-event monitor, summary polling and bounded detail previews.
 - Connect HMAC verification before persistence and broadcast, with verification metadata.
 - Worker-thread ledger writes and optional, bounded operator telemetry/explorer.
 - Relevant tests and corrected canonical documentation.

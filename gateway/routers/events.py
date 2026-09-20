@@ -145,13 +145,15 @@ async def latest_events(
 ) -> Dict[str, Any]:
     """
     DB-backed latest events (schema-aligned).
-    Safe-by-default: body omitted unless include_body=1.
+    Body and JSON omitted unless requested. List previews are capped at 4000 bytes
+    per field in SQL, before rows enter Python. Oversized JSON is omitted intact.
     Returns HTTP 200 even when DB is disabled/degraded.
     """
     status = _db_status()
     if not status["ready"]:
         return {"ready": False, "db": status["db"], "returned": 0, "events": []}
 
+    preview_limit = min(body_max_chars, 4000)
     sql = """
         select
           event_id,
@@ -166,13 +168,16 @@ async def latest_events(
           path,
           remote_addr,
           status_code,
-          headers_json,
+          CASE WHEN length(CAST(headers_json AS BLOB)) <= 16384 THEN headers_json ELSE NULL END AS headers_json,
+          COALESCE(length(CAST(headers_json AS BLOB)), 0) > 16384 AS headers_omitted,
           body_sha256,
-          json_parsed,
+          CASE WHEN ? AND length(CAST(json_parsed AS BLOB)) <= ? THEN json_parsed ELSE NULL END AS json_parsed,
+          COALESCE(length(CAST(json_parsed AS BLOB)), 0) AS json_bytes,
           verify_status,
           verify_reason,
           dedupe_key,
-          body_raw
+          CASE WHEN ? THEN substr(CAST(body_raw AS BLOB), 1, ?) ELSE NULL END AS body_raw,
+          COALESCE(length(CAST(body_raw AS BLOB)), 0) AS body_bytes
         from events
         order by received_at desc
         limit ?
@@ -180,7 +185,7 @@ async def latest_events(
 
     try:
         c = connect()
-        rows = _fetchall_dicts(c, sql, (limit,))
+        rows = _fetchall_dicts(c, sql, (include_json_obj, preview_limit, include_body, preview_limit, limit))
     except Exception as e:
         return {
             "ready": False,
@@ -213,6 +218,11 @@ async def latest_events(
             "body_sha256": r.get("body_sha256"),
             "json_parsed": r.get("json_parsed"),
             "json_obj": _maybe_parse_json(r.get("json_parsed"), include_json_obj),
+            "json_bytes": r.get("json_bytes", 0),
+            "body_bytes": r.get("body_bytes", 0),
+            "json_omitted": bool(r.get("json_bytes")) and r.get("json_parsed") is None,
+            "body_truncated": bool(include_body and r.get("body_bytes", 0) > preview_limit),
+            "headers_omitted": bool(r.get("headers_omitted")),
             "verify_status": r.get("verify_status"),
             "verify_reason": r.get("verify_reason"),
             "dedupe_key": r.get("dedupe_key"),
@@ -233,7 +243,10 @@ async def get_event(
     include_json_obj: int = Query(1, ge=0, le=1),
 ) -> Dict[str, Any]:
     """
-    Fetch a single event by event_id.
+    Fetch a single event by event_id with bounded payload previews.
+    body_max_chars is retained for compatibility but now bounds bytes in SQL.
+    Headers over 16 KiB and JSON exceeding the preview limit are omitted.
+    The original ledger record is unchanged.
     Returns HTTP 200 with event=None if not found.
     Never crashes if DB disabled/degraded.
     """
@@ -241,6 +254,7 @@ async def get_event(
     if not status["ready"]:
         return {"ready": False, "db": status["db"], "event": None}
 
+    preview_limit = body_max_chars
     sql = """
         select
           event_id,
@@ -255,13 +269,16 @@ async def get_event(
           path,
           remote_addr,
           status_code,
-          headers_json,
+          CASE WHEN length(CAST(headers_json AS BLOB)) <= 16384 THEN headers_json ELSE NULL END AS headers_json,
+          COALESCE(length(CAST(headers_json AS BLOB)), 0) > 16384 AS headers_omitted,
           body_sha256,
-          json_parsed,
+          CASE WHEN ? AND length(CAST(json_parsed AS BLOB)) <= ? THEN json_parsed ELSE NULL END AS json_parsed,
+          COALESCE(length(CAST(json_parsed AS BLOB)), 0) AS json_bytes,
           verify_status,
           verify_reason,
           dedupe_key,
-          body_raw
+          CASE WHEN ? THEN substr(CAST(body_raw AS BLOB), 1, ?) ELSE NULL END AS body_raw,
+          COALESCE(length(CAST(body_raw AS BLOB)), 0) AS body_bytes
         from events
         where event_id = ?
         limit 1
@@ -269,7 +286,7 @@ async def get_event(
 
     try:
         c = connect()
-        r = _fetchone_dict(c, sql, (event_id,))
+        r = _fetchone_dict(c, sql, (include_json_obj, preview_limit, include_body, preview_limit, event_id))
     except Exception as e:
         return {
             "ready": False,
@@ -302,6 +319,11 @@ async def get_event(
         "body_sha256": r.get("body_sha256"),
         "json_parsed": r.get("json_parsed"),
         "json_obj": _maybe_parse_json(r.get("json_parsed"), include_json_obj),
+        "json_bytes": r.get("json_bytes", 0),
+        "body_bytes": r.get("body_bytes", 0),
+        "json_omitted": bool(r.get("json_bytes")) and r.get("json_parsed") is None,
+        "body_truncated": bool(include_body and r.get("body_bytes", 0) > preview_limit),
+        "headers_omitted": bool(r.get("headers_omitted")),
         "verify_status": r.get("verify_status"),
         "verify_reason": r.get("verify_reason"),
         "dedupe_key": r.get("dedupe_key"),
