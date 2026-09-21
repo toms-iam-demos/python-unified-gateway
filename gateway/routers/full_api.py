@@ -24,8 +24,32 @@ SPEC_DIR = Path(__file__).resolve().parents[1] / 'api_specs'
 METHODS = {'get', 'post', 'put', 'patch', 'delete', 'head', 'options'}
 PRODUCTS = {
     'esignature': ('https://demo.docusign.net/restapi', 'signature impersonation'),
-    'agreement-manager': ('https://api-d.docusign.com', 'signature impersonation adm_store_unified_repo_read adm_store_unified_repo_write models_read document_uploader_read document_uploader_write public_dms_document_read'),
+    'agreement-manager': ('https://api-d.docusign.com', 'signature impersonation adm_store_unified_repo_read models_read document_uploader_read'),
 }
+# Deliberately code-reviewed, not environment/user configurable. New spec entries
+# are denied automatically. A GET verb alone does not establish safe semantics.
+ALLOWED_READS = frozenset({
+    ('esignature', '/v2.1/accounts/{accountId}/templates'),
+    ('esignature', '/v2.1/accounts/{accountId}/envelopes'),
+    ('esignature', '/v2.1/accounts/{accountId}/identity_verification'),
+    ('agreement-manager', '/v1/accounts/{accountId}/agreements'),
+    ('agreement-manager', '/v1/accounts/{accountId}/agreements/{agreementId}'),
+    ('agreement-manager', '/v1/accounts/{accountId}/agreement-types'),
+    ('agreement-manager', '/v1/accounts/{accountId}/upload/jobs/{jobId}'),
+})
+
+
+def is_allowed(product, path, method):
+    return method.lower() == 'get' and (product, path) in ALLOWED_READS
+
+
+def enforce_policy(product, path, method):
+    if not is_allowed(product, path, method):
+        raise HTTPException(403, {'code': 'operation_locked',
+            'message': 'Reference only. This operation is disabled by PUG server policy.'},
+            headers={'Cache-Control': 'no-store'})
+
+
 router = APIRouter(dependencies=[Depends(operator)])
 _cache = {}
 _lock = threading.Lock()
@@ -82,7 +106,7 @@ def operation_schema(spec, path, method, product):
     op.pop('security', None)  # FastAPI adds the operator dependency's scheme.
     op['description'] = ('Sandbox provider operation. Registered from the official specification; not individually live-tested. '
         'Account paths are restricted to the configured PUG sandbox account. '
-        'Executing POST, PUT, PATCH or DELETE can change provider state, send messages, or remove data.\n\n' + op.get('description', ''))
+        'Only explicitly allowlisted reads can execute. All other operations are locked.\n\n' + op.get('description', ''))
     if spec.get('swagger') == '2.0':
         parameters, forms = [], {}
         form_required = []
@@ -112,12 +136,32 @@ def operation_schema(spec, path, method, product):
         if param.get('in') == 'path' and param.get('name') == 'accountId':
             param.setdefault('schema', {})['default'] = os.getenv('DS_WORKFLOW_ACCOUNT_ID', '')
     op.pop('servers', None)
+    allowed = is_allowed(product, path, method)
+    op['x-pug-executable'] = allowed
+    op['description'] = ('READ-ONLY: enabled for authenticated operators. ' if allowed else
+        'LOCKED: reference only. The server rejects this operation before credentials or provider calls. ') + op['description']
+    if not allowed:
+        op['summary'] = '[LOCKED] ' + op.get('summary', op['operationId'])
+        op.setdefault('responses', {})['403'] = {'description': 'Operation disabled by PUG server policy.'}
     return op
 
 
 def handler(product, path, method, operation):
     async def forward(request: Request):
+        enforce_policy(product, path, method)
         from starlette.concurrency import run_in_threadpool
+        if request.method.lower() != method.lower():
+            raise HTTPException(405, 'Method mismatch.')
+        if any(h.lower() in ('x-http-method-override', 'x-method-override', 'x-http-method') for h in request.headers):
+            raise HTTPException(400, 'Method override headers are not supported.')
+        allowed_query = {p['name'] for p in operation.get('parameters', []) if p.get('in') == 'query'}
+        # Agreement Manager can use reusable parameter definitions.
+        for p in operation.get('parameters', []):
+            if '$ref' in p:
+                param = COMPONENTS.get('parameters', {}).get(p['$ref'].split('/')[-1], {})
+                if param.get('in') == 'query': allowed_query.add(param['name'])
+        if any(name not in allowed_query for name in request.query_params):
+            raise HTTPException(422, 'Unsupported query parameter.')
         cfg = configuration()
         resolved = path
         for name, value in request.path_params.items():
@@ -126,14 +170,11 @@ def handler(product, path, method, operation):
             if not value or value in ('.', '..') or any(c in value for c in '/\\%?#'):
                 raise HTTPException(422, 'Invalid path identifier.')
             resolved = resolved.replace('{' + name + '}', quote(value, safe=''))
-        # Bound uploads before buffering; streamed bodies without Content-Length are bounded too.
-        limit = 35 * 1024 * 1024
-        chunks = []; size = 0
+        # No request payloads are accepted on this read-only surface.
         async for chunk in request.stream():
-            size += len(chunk)
-            if size > limit: raise HTTPException(413, 'Request exceeds the 35 MiB gateway limit.')
-            chunks.append(chunk)
-        body = b''.join(chunks)
+            if chunk:
+                raise HTTPException(400, 'Request bodies are not accepted on read-only operations.')
+        body = b''
         def call():
             headers = {'Authorization': 'Bearer ' + token(product), 'Accept': request.headers.get('accept', 'application/json')}
             if request.headers.get('content-type'): headers['Content-Type'] = request.headers['content-type']
@@ -181,7 +222,7 @@ for product in PRODUCTS:
             local_path = '/docusign/' + product + path
             router.add_api_route(local_path, handler(product, path, method, op), methods=[method.upper()],
                 response_class=Response, openapi_extra=op)
-            OPERATIONS.append({'product':product,'method':method.upper(),'path':local_path,'operation_id':op['operationId'],'verification':'not_live_tested'})
+            OPERATIONS.append({'product':product,'method':method.upper(),'path':local_path,'operation_id':op['operationId'],'verification':'not_live_tested','executable':is_allowed(product,path,method)})
 
 
 def install(app):
