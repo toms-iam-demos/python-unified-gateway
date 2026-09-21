@@ -107,8 +107,8 @@ def test_every_locked_operation_stops_before_configuration_or_network(monkeypatc
         assert r.status_code==403,(op,r.status_code)
         assert r.json()['detail']['code']=='operation_locked'
         blocked+=1
-    assert blocked==417
-    assert sum(op['executable'] for op in api.OPERATIONS)==7
+    assert blocked==418
+    assert sum(op['executable'] for op in api.OPERATIONS)==6
     assert all(op['method']=='GET' for op in api.OPERATIONS if op['executable'])
 
 def test_read_routes_reject_method_overrides_unknown_queries_and_bodies(monkeypatch):
@@ -133,6 +133,8 @@ def test_swagger_marks_locked_operations_and_no_write_scopes():
     scopes=api.PRODUCTS['agreement-manager'][1].split()
     assert not any('write' in scope for scope in scopes)
     assert 'public_dms_document_read' not in scopes
+    assert 'document_uploader_read' not in scopes
+    assert not api.is_allowed('agreement-manager', '/v1/accounts/{accountId}/upload/jobs/{jobId}', 'get')
 
 def test_jwt_diagnostic_requires_operator_login(monkeypatch):
     from gateway.app import create_app

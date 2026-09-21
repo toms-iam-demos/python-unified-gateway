@@ -24,7 +24,7 @@ SPEC_DIR = Path(__file__).resolve().parents[1] / 'api_specs'
 METHODS = {'get', 'post', 'put', 'patch', 'delete', 'head', 'options'}
 PRODUCTS = {
     'esignature': ('https://demo.docusign.net/restapi', 'signature impersonation'),
-    'agreement-manager': ('https://api-d.docusign.com', 'signature impersonation adm_store_unified_repo_read models_read document_uploader_read'),
+    'agreement-manager': ('https://api-d.docusign.com', 'signature impersonation adm_store_unified_repo_read models_read'),
 }
 # Deliberately code-reviewed, not environment/user configurable. New spec entries
 # are denied automatically. A GET verb alone does not establish safe semantics.
@@ -35,7 +35,6 @@ ALLOWED_READS = frozenset({
     ('agreement-manager', '/v1/accounts/{accountId}/agreements'),
     ('agreement-manager', '/v1/accounts/{accountId}/agreements/{agreementId}'),
     ('agreement-manager', '/v1/accounts/{accountId}/agreement-types'),
-    ('agreement-manager', '/v1/accounts/{accountId}/upload/jobs/{jobId}'),
 })
 
 
