@@ -41,6 +41,10 @@ def create_app() -> FastAPI:
     if os.getenv("GATEWAY_EXPLORER_ENABLED", "0").strip() == "1":
         app.include_router(explorer.router)
         app.add_middleware(TraceMiddleware)
+    if os.getenv("PUG_AUDIT_ENABLED", "0").strip() == "1":
+        from gateway.security_audit import SecurityAuditMiddleware, router as audit_router
+        app.include_router(audit_router)
+        app.add_middleware(SecurityAuditMiddleware)
     return app
 
 
