@@ -32,6 +32,10 @@ def create_app() -> FastAPI:
     if os.getenv("GATEWAY_WORKFLOWS_ENABLED", "0").strip() == "1":
         app.include_router(workflows.router)
 
+    if os.getenv("GATEWAY_FULL_DOCUSIGN_API_ENABLED", "0").strip() == "1":
+        from gateway.routers.full_api import install
+        install(app)
+
     # Operator access remains an edge responsibility. Enable only after the
     # existing ingress policy protects /explorer/* (or on a loopback-only host).
     if os.getenv("GATEWAY_EXPLORER_ENABLED", "0").strip() == "1":
