@@ -8,7 +8,7 @@ from typing import Annotated
 from uuid import UUID
 
 import bcrypt
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field, ValidationError
 
@@ -17,7 +17,7 @@ from gateway import workflow_client as provider
 basic = HTTPBasic(auto_error=False, scheme_name="PUGOperator", description="Use your existing PUG operator login. docusign credentials stay on the server.")
 
 
-def operator(credentials: Annotated[HTTPBasicCredentials | None, Depends(basic)]):
+def operator(request: Request, credentials: Annotated[HTTPBasicCredentials | None, Depends(basic)]):
     if credentials is None:
         provider.fail(401, "operator_login_required", "PUG operator login required.", {"WWW-Authenticate": 'Basic realm="PUG"'})
     try:
@@ -33,6 +33,8 @@ def operator(credentials: Annotated[HTTPBasicCredentials | None, Depends(basic)]
         provider.fail(503, "operator_auth_not_configured", "Operator authentication is not configured correctly.")
     if selected is None or not valid:
         provider.fail(401, "operator_login_required", "Invalid PUG operator login.", {"WWW-Authenticate": 'Basic realm="PUG"'})
+
+    request.state.audit_actor = credentials.username
 
 
 def private_response(response: Response):
