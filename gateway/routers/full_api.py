@@ -131,6 +131,17 @@ def operation_schema(spec, path, method, product):
                 schema = response.pop('schema')
                 response['content'] = {c: {'schema':schema} for c in op.get('produces') or ['application/json']}
         op.pop('consumes', None); op.pop('produces', None)
+    if spec.get('swagger') != '2.0':
+        # OpenAPI path-item parameters are inherited by every operation. Resolve
+        # reusable parameters here so Swagger can render the account selector.
+        merged = {}
+        params = normalize(copy.deepcopy(spec['paths'][path].get('parameters', [])), product) + op.get('parameters', [])
+        for param in params:
+            if '$ref' in param:
+                name = param['$ref'].split('/')[-1].removeprefix(product + '_')
+                param = normalize(copy.deepcopy(spec['components']['parameters'][name]), product)
+            merged[(param['in'], param['name'])] = param
+        op['parameters'] = list(merged.values())
     for param in op.get('parameters', []):
         if param.get('in') == 'path' and param.get('name') == 'accountId':
             param.setdefault('schema', {})['default'] = os.getenv('DS_WORKFLOW_ACCOUNT_ID', '')

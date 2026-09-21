@@ -144,3 +144,14 @@ def test_jwt_diagnostic_requires_operator_login(monkeypatch):
     doc=c.get('/docs').text
     assert '"supportedSubmitMethods": ["get"]' in doc
     assert '"persistAuthorization": false' in doc
+
+
+def test_every_swagger_path_parameter_is_rendered():
+    import re
+    schema=app().openapi()
+    for path,item in schema['paths'].items():
+        for method,op in item.items():
+            if method not in api.METHODS:continue
+            expected=set(re.findall(r"\{([^}]+)\}",path))
+            actual={p['name'] for p in op.get('parameters',[]) if p.get('in')=='path' and p.get('required')}
+            assert actual==expected,(method,path,expected,actual)
