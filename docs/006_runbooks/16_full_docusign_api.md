@@ -13,7 +13,7 @@ All `accountId` path parameters must equal `DS_WORKFLOW_ACCOUNT_ID`. The fixed e
 
 ## Consent
 
-eSignature uses `signature impersonation`. Agreement Manager requests `signature impersonation adm_store_unified_repo_read models_read`. A missing grant produces a 503 with code `docusign_consent_required`. Token caches are separated by product and identity. A provider 401 clears the cache for a subsequent request; no write is retried automatically.
+eSignature uses `signature impersonation`. Agreement Manager requests `signature impersonation adm_store_unified_repo_read`. A missing grant produces a 503 with code `docusign_consent_required`. Token caches are separated by product and identity. A provider 401 clears the cache for a subsequent request; no write is retried automatically.
 
 ## Try the verified reads
 
@@ -33,7 +33,7 @@ Enabled operations: eSignature templates list, envelopes list, identity-verifica
 
 Method-override headers, unrecognized query parameters, encoded path escape characters, and GET bodies are rejected. Responses are bounded to 50 MiB. Authenticated read responses can still contain sensitive agreement metadata; operator credentials must remain private. The existing JWT diagnostic now also checks operator login inside the application. Signed webhook ingestion remains a separate route protected by HMAC; the read-only outbound API policy does not disable incoming webhooks.
 
-The eSignature `signature` scope is broad; its read-only restriction is enforced by PUG code, not a provider read-only scope. Agreement Manager tokens request only read scopes, even if broader consent was previously granted. The code does not revoke consent already recorded at docusign. No live provider writes are used to verify this policy; exhaustive local tests prevent token/config/network access for every locked operation, and deployed negative probes verify the guard directly.
+The eSignature `signature` scope is broad; its read-only restriction is enforced by PUG code, not a provider read-only scope. Agreement Manager tokens request only the required agreement-read scope alongside JWT impersonation/signature. The optional forward-compatibility models_read scope is deliberately omitted: the three enabled endpoints do not require it. Read-only probes confirmed agreement list (one sample), agreement types (63 types), and one existing agreement detail all return 200 with this minimum scope set. Broader consent, if granted elsewhere, is not requested by this adapter. The code does not revoke consent already recorded at docusign. No live provider writes are used to verify this policy; exhaustive local tests prevent token/config/network access for every locked operation, and deployed negative probes verify the guard directly.
 
 The separate ID Evidence API is not included in the eSignature specification and is not claimed as implemented here.
 

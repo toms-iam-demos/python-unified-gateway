@@ -134,6 +134,7 @@ def test_swagger_marks_locked_operations_and_no_write_scopes():
     assert not any('write' in scope for scope in scopes)
     assert 'public_dms_document_read' not in scopes
     assert 'document_uploader_read' not in scopes
+    assert 'models_read' not in scopes
     assert not api.is_allowed('agreement-manager', '/v1/accounts/{accountId}/upload/jobs/{jobId}', 'get')
 
 def test_jwt_diagnostic_requires_operator_login(monkeypatch):
