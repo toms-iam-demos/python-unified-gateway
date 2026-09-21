@@ -143,6 +143,23 @@ def operation_schema(spec, path, method, product):
             merged[(param['in'], param['name'])] = param
         op['parameters'] = list(merged.values())
     for param in op.get('parameters', []):
+        if product == 'agreement-manager' and param.get('in') == 'query' and not param.get('required', False):
+            # Provider examples are documentation, not values for first-page
+            # requests. In particular, the example cursor is not a valid token.
+            param.pop('example', None)
+            param.pop('examples', None)
+            query_schema = param.get('schema', {})
+            if '$ref' in query_schema:
+                name = query_schema['$ref'].split('/')[-1].removeprefix(product + '_')
+                query_schema = normalize(copy.deepcopy(spec['components']['schemas'][name]), product)
+            query_schema = {k: v for k, v in query_schema.items() if k not in ('example', 'examples', 'default')}
+            if param['name'] == 'limit':
+                query_schema['default'] = 10
+            param['schema'] = query_schema
+            if param['name'] == 'ctoken':
+                param['description'] = 'Leave blank for the first page. For subsequent pages, use only the continuation token returned by the preceding response.'
+            elif param['name'] == '$search':
+                param['description'] = 'Optional search expression only (for example, Acme). Leave blank to list agreements; do not enter a URL or $search= prefix.\n\n' + param.get('description', '')
         if param.get('in') == 'path' and param.get('name') == 'accountId':
             param.setdefault('schema', {})['default'] = os.getenv('DS_WORKFLOW_ACCOUNT_ID', '')
     op.pop('servers', None)

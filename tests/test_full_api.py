@@ -155,3 +155,16 @@ def test_every_swagger_path_parameter_is_rendered():
             expected=set(re.findall(r"\{([^}]+)\}",path))
             actual={p['name'] for p in op.get('parameters',[]) if p.get('in')=='path' and p.get('required')}
             assert actual==expected,(method,path,expected,actual)
+
+
+def test_agreement_first_page_has_no_prefilled_optional_examples():
+    schema=app().openapi()
+    params=schema['paths']['/docusign/agreement-manager/v1/accounts/{accountId}/agreements']['get']['parameters']
+    for p in params:
+        if p.get('in')!='query':continue
+        assert 'example' not in p and 'examples' not in p
+        assert '$ref' not in p['schema']
+        assert 'example' not in p['schema'] and 'examples' not in p['schema']
+        if p['name']=='limit':assert p['schema']['default']==10
+        else:assert 'default' not in p['schema']
+    assert 'Leave blank for the first page' in next(p for p in params if p['name']=='ctoken')['description']

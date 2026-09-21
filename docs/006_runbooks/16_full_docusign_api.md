@@ -25,6 +25,8 @@ Use the configured account ID shown in Swagger. For envelopes supply `from_date`
 
 Read-only provider probes on 2026-09-20 returned 200 for all three. Identity verification returned six enabled workflows. This verifies workflow availability, not a completed identity check. Agreement Manager consent was still missing at that probe.
 
+For the first Agreement Manager list request, use only `accountId` and `limit=10`. Leave `ctoken`, `$search`, `$filter`, and other optional filters blank. `ctoken` is an opaque pagination token from a previous response, not a credential or an arbitrary string. Search inputs take expressions, not full URLs. Provider example values are removed from optional Swagger inputs to avoid accidental submission.
+
 ## Writes and coverage
 
 Swagger retains every operation for reference, but marks disabled operations `[LOCKED]`. Write Execute buttons are removed, and credentials are not persisted by Swagger. Server enforcement also covers direct HTTP callers and authenticated operators; hiding buttons is not the security boundary.
