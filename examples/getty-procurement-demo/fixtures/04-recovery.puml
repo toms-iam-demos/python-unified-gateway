@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowColor #6143B7
+skinparam participantBackgroundColor #F1EEF8
+skinparam participantBorderColor #6143B7
+participant "docusign sandbox" as D
+participant "PUG receiver" as P
+participant "Durable inbox / worker" as W
+participant "Oracle simulator" as O
+D -> P: Completed event
+P -> P: Verify signature on raw bytes
+P -> W: Commit receipt and pending work
+P --> D: 2xx after commit
+W -> D: Read authoritative status + evidence
+D --> W: Completed + document references
+W -> W: Validate mapping / buyer-approved plan
+W -> O: Command with stable ID + expected version
+O -> O: Apply once; store command receipt
+O --x W: Response lost
+W -> W: Mark UNKNOWN; do not blindly resend
+W -> O: Lookup receipt by command ID
+O --> W: Applied; PO version 4
+W -> O: Read PO and reference
+O --> W: Expected values
+W -> W: Mark VERIFIED with evidence
+D -> P: Redelivery of same event
+P --> D: 2xx; no second business effect
+@enduml
