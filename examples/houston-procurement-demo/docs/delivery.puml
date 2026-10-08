@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName SansSerif
+skinparam ArrowColor #075CA3
+title Reviewed delivery and response-loss recovery
+actor "Demo reviewer" as user
+participant "PUG API" as api
+database "Plans" as plans
+database "Local inbox" as inbox
+user -> api : Save evidence + expected version
+api -> plans : Invalidate earlier approvals
+user -> api : Prepare
+api -> api : Evaluate evidence and arithmetic
+api -> plans : Immutable payload + digest
+user -> api : Approve current plan
+api -> plans : Record simulated approval
+user -> api : Execute command
+api -> inbox : Insert unique command ID + digest
+inbox --> api : Receipt
+alt normal response
+ api --> user : Delivered
+else injected response loss
+ api --> user : Unknown - reconcile required
+ user -> api : Replay same command
+ api -> inbox : Look up existing command
+ api --> user : Duplicate suppressed
+ user -> api : Reconcile
+ api -> inbox : Compare stored digest
+ api --> user : Delivered; no second insertion
+end
+note over api,inbox
+Both stores share SQLite here.
+Real remote systems need durable outbox,
+receipt/read-back and fault testing.
+end note
+@enduml

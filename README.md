@@ -16,6 +16,10 @@ Built to run locally and deploy as a containerized service, PUG keeps integratio
 
 docusign is the first implemented connection. The architecture is intended for integrations across business, government and other complex organizations.
 
+## Run a local demo
+
+The [portable examples](examples/README.md) include Leadership expense reconciliation, Getty procurement and Houston procurement. Each runs with Python in its own virtual environment, with bundled synthetic data and a browser interface. No gateway deployment or provider credentials are required. Download and Windows/macOS setup instructions are in the example catalog.
+
 ## Direction
 
 Consistent event contracts, downstream adapters, reliable delivery and controlled replay.

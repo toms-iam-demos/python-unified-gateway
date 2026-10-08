@@ -1,0 +1,350 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Houston procurement | Technical report</title><link rel="stylesheet" href="report.css"></head><body><header><a href="/">← Return to the demonstration</a><p>PUG / RESEARCH + ENGINEERING / 07 OCT 2026</p><h1>Houston procurement intelligence</h1><p>From agreement to accountability.</p><a href="Houston-Procurement-IAM-Technical-Report.tex" download>Download the canonical LaTeX source</a></header><main><aside>Independent concept. Synthetic data. No city endorsement or live provider connection.</aside><h2 id="executive-recommendation">Executive recommendation</h2>
+<p>Demonstrate a procurement officer resolving one consequential exception, not merely watching an agreement get signed. A fictional facilities work order arrives with an index-driven price variance. The officer sees the source inputs, corrects the discrepancy, records supporting evidence, reviews a frozen command and hands the packet to a simulated downstream inbox. A deliberately lost response then proves that the system can reconcile an uncertain outcome without creating another transaction.</p>
+<p>This story makes the IAM proposition tangible: agreement information becomes an accountable decision, with a traceable handoff. It also creates a useful division of labor. docusign would handle agreement intake, execution and agreement information; PUG would supply explicit calculations, validation and integration controls; the purchasing or finance platform would remain authoritative for its transactions. The current package implements the PUG-side local demonstration only.</p>
+<p>Houston’s announced ecosystem identifies Beacon for solicitation activity and SAP Business Network for supplier transactions. The design therefore does not inherit an Oracle assumption from the earlier Getty example. No public evidence gathered here establishes Houston’s internal SAP release, integration middleware, destination API contract or granted access. These must be discovered with the system owner.<a href="#src:S2">[S2]</a></p>
+<p>The recommended demonstration has four chapters: price assurance, invoice evidence, emergency justification and renewal readiness. They share a reusable state machine and canonical command. Each provides an observable success condition and a negative test. The revised UI uses the actual public-site city seal and skyline imagery, with locally bundled Fjalla One and Open Sans typography. Its staff-workspace layout is an independent proposal, explicitly labeled as a demonstration rather than an authenticated city portal.</p>
+<h3 id="what-the-audience-should-leave-believing">What the audience should leave believing</h3>
+<ol>
+<li><p>A completed agreement can carry structured, reviewed evidence into an operational process.</p></li>
+<li><p>A modest Python service can add deterministic mathematics and integration safeguards to an agreement workflow.</p></li>
+<li><p>Human authority remains explicit: a price calculation does not approve a contract, and a complete invoice packet does not release payment.</p></li>
+<li><p>A useful proof of concept can be reproducible on another laptop without city credentials, paid provider traffic or a production deployment.</p></li>
+</ol>
+<h2 id="research-method-and-evidence-boundaries">Research method and evidence boundaries</h2>
+<p>Research prioritized Houston’s own procurement pages, published administrative policies and audit reports, followed by docusign documentation. Each entry in the source register records a source class, date, finding and design implication. The same register is visible in the application. The evidence is a public-document review, not an interview-based discovery assessment.</p>
+<p>The General Services audit reports no detailed audit findings. Its observations include City Cost Index inconsistencies, missing invoice support and opportunities to strengthen administration. The principal scope is FY2021 through September 2023, with limited later testing. The report’s process appendices provide useful context for work-order review and delivery. These historical observations motivate scenarios; they do not prove that today’s staff or systems still have the same conditions.<a href="#src:S1">[S1]</a></p>
+<p>A published 2021 HCD contract package contains docusign envelope identifiers. That supports a historical eSignature observation, not a claim about current IAM licenses, agreement repositories or citywide adoption.<a href="#src:S12">[S12]</a></p>
+<h3 id="evidence-that-must-not-become-an-automatic-rule">Evidence that must not become an automatic rule</h3>
+<p>The policy collection includes documents dated 2022 and 2023. A page remaining online does not establish that every threshold, exception or implementing practice is current. The example consequently contains no executable monetary procurement threshold. A production policy pack must be signed off by the responsible procurement and legal owners, with effective dates and version history.<a href="#src:S3">[S3]</a><a href="#src:S5">[S5]</a></p>
+<p>OBO-related applicability is especially unsuitable for improvisation. A July 2026 news report describes litigation affecting race-based program provisions, but the current court order, any stay and the city’s implementation instructions were not verified here. No affected preference, numeric participation goal or certification decision is modeled. The local checklist represents only a reviewer recording that applicable requirements have been considered.<a href="#src:S7">[S7]</a><a href="#src:S8">[S8]</a></p>
+<p>No supplier personal details, signature images, employee benefits records, actual invoice files or proprietary unit-price-book content were copied into the demo. All displayed commercial values and names are synthetic. The source register links to public documents instead of republishing them.</p>
+<h2 id="stakeholders-systems-and-authority">Stakeholders, systems and authority</h2>
+<table style="width:92%;">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 34%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Role / boundary</th>
+<th style="text-align: left;">Proposed responsibility</th>
+<th style="text-align: left;">Must remain outside automated discretion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Department requester</td>
+<td style="text-align: left;">Provide scope, incident facts or service need</td>
+<td style="text-align: left;">Self-approval of procurement authority</td>
+</tr>
+<tr>
+<td style="text-align: left;">Project manager</td>
+<td style="text-align: left;">Check commercial basis and acceptance evidence</td>
+<td style="text-align: left;">Treating extracted text as verified pricing</td>
+</tr>
+<tr>
+<td style="text-align: left;">Contract administrator</td>
+<td style="text-align: left;">Assemble packet, track versions and obligations</td>
+<td style="text-align: left;">Certifying completeness without source evidence</td>
+</tr>
+<tr>
+<td style="text-align: left;">SPD / CPO</td>
+<td style="text-align: left;">Determine procurement path and authorized review</td>
+<td style="text-align: left;">Emergency qualification by a software score</td>
+</tr>
+<tr>
+<td style="text-align: left;">Finance / receiving</td>
+<td style="text-align: left;">Validate payable and receipt prerequisites</td>
+<td style="text-align: left;">Payment release by this demonstration</td>
+</tr>
+<tr>
+<td style="text-align: left;">OBO / legal owner</td>
+<td style="text-align: left;">Determine current applicability and approved exceptions</td>
+<td style="text-align: left;">Inferring eligibility or legal rules from stale pages</td>
+</tr>
+<tr>
+<td style="text-align: left;">Integration operator</td>
+<td style="text-align: left;">Monitor delivery, retries and reconciliation</td>
+<td style="text-align: left;">Retrying an uncertain write blindly</td>
+</tr>
+</tbody>
+</table>
+<p>These are proposed demonstration personas aligned to the process narrative, not a verified city organization chart or authorization matrix. All local personas are operated by the same user. Production segregation of duties must be enforced by identity and policy, not by changing a label in the UI.</p>
+<p>Published Pay or Play materials distinguish acknowledgement, elections, subcontractor and waiver records, with reporting through the Workforce Utilization Module. A future integration should reference that process instead of cloning sensitive employee information into IAM indiscriminately.<a href="#src:S6">[S6]</a></p>
+<h2 id="scenario-one-facilities-work-order-price-assurance">Scenario one: facilities work-order price assurance</h2>
+<h3 id="business-story">Business story</h3>
+<p>A fictional General Services project manager receives a cooling-repair work-order proposal from Bayou Demo Services. The scope references a catalog-based estimate. A candidate value has been extracted or entered, but the proposed index does not match the reviewed basis. The procurement analyst needs to see both the difference and why it exists before assembling the approval packet.</p>
+<p>The local fixture uses an invented base price of $120,000, a coefficient of 1.04 and an approved illustrative index of 1.08. The submitted index is 1.13. These values and their multiplicative relationship are an instructional calculation, not a verified Houston contract formula or an authentic catalog. <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mtext mathvariant="normal">Reviewed value</mtext></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mn>120</mn><mo>,</mo><mn>000</mn><mo>×</mo><mn>1.04</mn><mo>×</mo><mn>1.08</mn><mo>=</mo><mi>$</mi><mn>134</mn><mo>,</mo><mn>784</mn></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mtext mathvariant="normal">Submitted value</mtext></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mn>120</mn><mo>,</mo><mn>000</mn><mo>×</mo><mn>1.04</mn><mo>×</mo><mn>1.13</mn><mo>=</mo><mi>$</mi><mn>141</mn><mo>,</mo><mn>024</mn></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mtext mathvariant="normal">Variance</mtext></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>$</mi><mn>6</mn><mo>,</mo><mn>240</mn><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\text{Reviewed value} &amp;= 120{,}000\times1.04\times1.08=\$134{,}784\\
+\text{Submitted value} &amp;= 120{,}000\times1.04\times1.13=\$141{,}024\\
+\text{Variance} &amp;= \$6{,}240.
+\end{align*}</annotation></semantics></math></p>
+<h3 id="walkthrough-and-evidence">Walkthrough and evidence</h3>
+<p>The analyst opens the record and sees a blocked preparation action. The reviewer checks the catalog/index basis, funding review and conflict-disclosure review. Correcting the index to 1.08 removes the arithmetic blocker after the change is saved. The service produces a frozen packet with its record version, reviewed inputs and decision warnings. Approval then permits one local delivery.</p>
+<p>In a real implementation, the candidate values would include document ID, page or anchor, extraction run, confidence where available, effective index quarter and reviewer identity. The software would compare an approved pricing schedule to the proposal line items. A contract-specific rounding policy would define whether rounding occurs per line, subtotal or final amount. This fixture rounds the final result to the nearest cent using decimal half-up arithmetic; that is a declared demo convention.</p>
+<h3 id="what-this-proves-and-what-it-does-not">What this proves and what it does not</h3>
+<p>The example proves repeatable arithmetic, evidence gating and invalidation of stale approvals. It does not prove AI extraction accuracy, authorized access to a price book, contract interpretation or actual savings. The $6,240 is a synthetic discrepancy, never a realized savings claim.</p>
+<p>The local operation <code>register_reviewed_work_order</code> records a review packet in an inbox. Its name does not confer purchase-order or work-order issuance authority. An actual destination mapping would need an approved business object and API contract.</p>
+<h2 id="scenario-two-invoice-evidence-and-service-acceptance">Scenario two: invoice evidence and service acceptance</h2>
+<p>A fictional roof-maintenance payment application seeks $48,000 against a $120,000 contract. The accepted cumulative value is $84,000 and prior paid value is $36,000. The outstanding accepted amount is therefore $48,000. A request of $48,000.01 must fail the amount gate. <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">Accepted but unpaid</mtext><mo>=</mo><mtext mathvariant="normal">Accepted cumulative</mtext><mo>−</mo><mtext mathvariant="normal">Prior paid</mtext><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{Accepted but unpaid}=\text{Accepted cumulative}-\text{Prior paid}.</annotation></semantics></math></p>
+<p>The reviewer must record references to the signed work order, service acceptance, invoice support and applicable compliance review. A real evidence model should distinguish a document’s existence, validity, period and reviewer decision. A checked box here is a simulated attestation; the application does not inspect uploaded PDFs or authenticate a city employee.</p>
+<p>A future acceptance mapping should preserve invoice identifier, supplier identifier, contract reference, accepted quantities, unit of measure, tax treatment, retention, prior-payment reconciliation and the destination’s duplicate-invoice key. This minimal example excludes tax, retainage, partial reversals and credit notes so that the demonstrated arithmetic remains inspectable. Those exclusions are extension requirements, not assumptions that the city never uses them.</p>
+<p>The handoff is <code>register_invoice_review_packet</code>. Finance remains responsible for payable posting and payment release. Duplicate command protection is demonstrated at the transport layer; real duplicate-invoice protection also requires the destination’s business key. Two distinct commands carrying the same real invoice would need additional business-level detection.</p>
+<h2 id="scenario-three-emergency-justification-and-escalation">Scenario three: emergency justification and escalation</h2>
+<p>A fictional stormwater pump incident requires an urgent $185,000 estimated response. The demonstration clock begins at a synthetic incident, not at the current wall clock. The reviewer records elapsed hours, the actual contact hour and the actual completed-form hour. AP 5-11 provides the public basis for the eight- and 24-hour intervals shown.<a href="#src:S3">[S3]</a></p>
+<p>An absent contact at hour 26 appears overdue. Recording contact at hour 9 marks it late; it does not rewrite history as timely. A completed form at hour 25 is likewise late. The evidence includes incident facts, the cost ceiling, a simulated CPO determination and review of the council approval path. A future timestamp cannot satisfy the gate.</p>
+<p>Lateness is retained as a warning while a completed packet can still be sent for review. Preventing submission forever after a missed deadline would discourage transparent remediation. This is a deliberate design choice: the application facilitates escalation and records the discrepancy, while the authorized officer decides the operational and legal response.</p>
+<p>The packet must never auto-issue an EPO or infer that a public emergency exists. Production discovery must establish the incident-time definition, time zone, stabilization context, contact evidence, escalation channel, alternate personnel and applicable approval authority. The numeric estimate is a fixture; it does not select a legal threshold or procurement method.</p>
+<p>A useful future Workflow Builder notification would include the record reference, department, incident time, deadline, elapsed time, cost ceiling, missing evidence and a secure task link. Send only necessary information. The current package previews state in the browser and sends no email, invitation, SMS or Telegram notification.</p>
+<h2 id="scenario-four-renewal-and-performance-readiness">Scenario four: renewal and performance readiness</h2>
+<p>A fictional facility-inspection agreement ends on January 15, 2027. The contract’s invented 90-calendar-day notice term yields October 17, 2026. The fixed demo date is October 7, 2026, leaving ten days. The 90-day interval is not represented as a citywide requirement.</p>
+<p>The contract manager verifies the extracted clause, performance review, budget review and competition/renewal authority. AP 5-13 is a basis for including performance evidence within its applicability; it is not a basis for inventing renewal rights.<a href="#src:S4">[S4]</a></p>
+<p>A real agreement record should distinguish end date, renewal option, automatic renewal, notice recipient, delivery method, business-day conventions and the clause that supports each value. An AI-generated date should remain proposed until a reviewer confirms the actual contract text. The demo operation creates a renewal review task, not an executed renewal or a notice to a supplier.</p>
+<p>Negative tests include an overdue notice date, a missing performance evaluation and an altered interval after approval. Changing saved evidence increments the record version and marks prepared or approved commands stale. The user must prepare and review a new command against the updated record.</p>
+<h2 id="iam-demonstration-design">IAM demonstration design</h2>
+<table style="width:92%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 34%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Capability</th>
+<th style="text-align: left;">Proposed live sandbox demonstration</th>
+<th style="text-align: left;">Current local implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Workflow Builder</td>
+<td style="text-align: left;">Structured intake and HTTP extension calling a narrowly scoped decision service</td>
+<td style="text-align: left;">Form controls call local FastAPI endpoints</td>
+</tr>
+<tr>
+<td style="text-align: left;">eSignature</td>
+<td style="text-align: left;">Execute approved synthetic work-order documentation; capture completion event</td>
+<td style="text-align: left;">Simulated signed-reference checklist only</td>
+</tr>
+<tr>
+<td style="text-align: left;">Agreement Manager</td>
+<td style="text-align: left;">Ingest synthetic agreement; inspect fields, terms and source evidence</td>
+<td style="text-align: left;">Typed fixtures and inspectable JSON, no extraction engine</td>
+</tr>
+<tr>
+<td style="text-align: left;">PUG decision service</td>
+<td style="text-align: left;">Deterministic math, candidate validation, review task and controlled handoff</td>
+<td style="text-align: left;">Implemented with FastAPI and SQLite</td>
+</tr>
+<tr>
+<td style="text-align: left;">Procurement destination</td>
+<td style="text-align: left;">Owner-approved SAP interface, receipt and read-back</td>
+<td style="text-align: left;">Local inbox with unique command ID and digest</td>
+</tr>
+</tbody>
+</table>
+<p>Vendor release notes describe Workflow Builder and its HTTP web request capability; actual entitlement and available configuration must be checked in the selected sandbox.<a href="#src:S9">[S9]</a> Agreement Manager’s API documentation supports a future ingestion/query story, but this package neither exercises those endpoints nor verifies a tenant license.<a href="#src:S10">[S10]</a></p>
+<p>Custom field configuration should be versioned and trialed on a dedicated synthetic corpus. Configuration changes can affect existing mappings and processing. Review a dry run and establish rollback/reprocessing expectations before applying a package to a shared tenant.<a href="#src:S11">[S11]</a></p>
+<h3 id="proposed-workflow-builder-request-contract">Proposed Workflow Builder request contract</h3>
+<p>The enterprise extension should accept a small business payload: tenant-scoped agreement reference, scenario, source event ID, verified commercial inputs, evidence references and an expected record version. It should return a stable decision code, calculated metrics, blockers, warnings and a correlation ID. A timeout is an unknown outcome until reconciled; it is not evidence that the destination rejected the transaction.</p>
+<p>The local browser API is a demonstration interface, not that production contract. In particular, its process token is not a Workflow Builder service credential. A real endpoint needs supported server-to-server authentication, authorization, bounded request size, rate limits and an audited identity. Connect events require signature verification over the correct raw request bytes before persistence or state transition, plus replay/deduplication controls. Actual validation must use the provider’s current documentation and a test tenant.</p>
+<h2 id="architecture-and-canonical-data">Architecture and canonical data</h2>
+<p><img src="architecture.svg" alt="image" /></p>
+<h3 id="canonical-envelope-and-field-provenance">Canonical envelope and field provenance</h3>
+<p>The implemented envelope carries schema version, command ID, source record ID, cohort, expected version, operation, destination, evidence, inputs and evaluation. Monetary values use integer cents; decimal multipliers remain strings. The serialized payload is stored with a SHA-256 digest. The cohort is a cleanup ownership label, not a security tenant boundary.</p>
+<p>An enterprise extension should add tenant ID, agreement/envelope IDs, source event ID, source-document hashes, field-level provenance, policy version, authenticated reviewer IDs, approval timestamps, destination business keys and retention labels. Avoid overloading a display name as a supplier identifier. Map fund, department and cost center to owner-approved reference data instead of guessing IDs from public PDFs.</p>
+<p>The JSON diagram below is an illustrative flattened overview. The real local export contains typed nested evidence, inputs and evaluation objects. The source files can be edited and regenerated with PlantUML; the application ships pre-rendered SVG so its runtime requires no Java.</p>
+<p><img src="command.svg" alt="image" /></p>
+<h2 id="state-delivery-and-failure-semantics">State, delivery and failure semantics</h2>
+<p>A record starts in review. Every saved evidence update increments its version. Preparation is refused until the evaluator has no blockers. Preparation freezes the payload and records the source version. Approval is allowed only for that current prepared version. Evidence changes invalidate prior prepared and approved plans.</p>
+<p>Execution inserts one inbox entry keyed by command ID. Replaying that same ID returns a duplicate-suppressed result. The response-loss switch stores the entry but leaves the plan outcome unknown. Reconciliation looks up the existing receipt and checks its digest before marking delivery complete. It never inserts a second entry to resolve uncertainty.</p>
+<p>All these tables share one SQLite transaction boundary. This is intentionally simpler than a remote system. It demonstrates the semantics but does not establish distributed exactly-once delivery. A real integration needs an outbox committed with the source decision, a durable worker, bounded exponential retry with jitter, a dead-letter or intervention path, destination idempotency where supported, and a queryable receipt or business-key reconciliation procedure.</p>
+<p><img src="delivery.svg" alt="image" /></p>
+<h3 id="operational-failure-matrix">Operational failure matrix</h3>
+<table style="width:92%;">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Condition</th>
+<th style="text-align: left;">Demonstrated behavior</th>
+<th style="text-align: left;">Production requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Missing evidence / variance</td>
+<td style="text-align: left;">Refuse preparation with specific blockers</td>
+<td style="text-align: left;">Persist evidence provenance and reviewer decision</td>
+</tr>
+<tr>
+<td style="text-align: left;">Concurrent evidence edit</td>
+<td style="text-align: left;">Version conflict or stale approval</td>
+<td style="text-align: left;">Enforce destination concurrency if relevant</td>
+</tr>
+<tr>
+<td style="text-align: left;">Execution before approval</td>
+<td style="text-align: left;">Reject request</td>
+<td style="text-align: left;">Authenticated approval policy and separation of duties</td>
+</tr>
+<tr>
+<td style="text-align: left;">Duplicate delivery</td>
+<td style="text-align: left;">Same command ID suppressed</td>
+<td style="text-align: left;">Business-key and provider idempotency rules</td>
+</tr>
+<tr>
+<td style="text-align: left;">Response lost after accept</td>
+<td style="text-align: left;">Unknown state, receipt reconciliation</td>
+<td style="text-align: left;">Durable remote status query; no blind rewrite</td>
+</tr>
+<tr>
+<td style="text-align: left;">Invalid payload / digest</td>
+<td style="text-align: left;">Reject or stop reconciliation</td>
+<td style="text-align: left;">Alert operator, preserve evidence and correlation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Late emergency packet</td>
+<td style="text-align: left;">Preserve late warning and actual times</td>
+<td style="text-align: left;">Human escalation; no backdating</td>
+</tr>
+<tr>
+<td style="text-align: left;">Reset requested</td>
+<td style="text-align: left;">Typed cohort and manifest required</td>
+<td style="text-align: left;">Retention and ownership policy; no tenant-wide wipe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="security-and-data-handling-design">Security and data-handling design</h2>
+<h3 id="implemented-local-controls">Implemented local controls</h3>
+<p>The supplied launcher binds to loopback only. The app rejects unexpected hosts and foreign-origin API requests. A random per-process token is required by API operations and supplied to the local page. The main UI uses same-origin assets and a restrictive content security policy. Swagger loads its standard externally hosted UI assets and has a separate CSP; provider data is still not sent by this demo. For a fully offline environment, vendor those Swagger assets or disable the docs UI.</p>
+<p>Inputs are explicitly modeled and scenario-scoped. Arbitrary extra fields are rejected. SQL values are parameterized; dynamic table identifiers are internal constants. The package provides no arbitrary URL runner, external connector or provider credential input. The browser’s checkboxes do not bypass the server’s evaluation, version and state checks.</p>
+<p>These controls are suitable to the local demonstration boundary. They are not proof of production hardening. Anyone with access to the local session can operate all demo personas. A local administrator can modify the SQLite file, so its audit records are not tamper-evident. Binding the app to a network interface would invalidate the intended security model.</p>
+<h3 id="required-controls-before-an-enterprise-pilot">Required controls before an enterprise pilot</h3>
+<ol>
+<li><p>Corporate identity with MFA and role-based, tenant-scoped authorization. Enforce reviewer independence on the server.</p></li>
+<li><p>Separate read, prepare, approve, execute and reset permissions. Default to read-only and deny unlisted operations.</p></li>
+<li><p>Dedicated synthetic sandbox account, least-privilege OAuth scopes, secure token storage and explicit production isolation.</p></li>
+<li><p>Signed webhook verification, event deduplication, event-to-tenant binding and resource-ownership validation.</p></li>
+<li><p>Document malware scanning, size/type restrictions, encrypted storage, retention schedules and records-request handling.</p></li>
+<li><p>Structured audit events to a protected destination, redacted telemetry and alerts for unauthorized attempts, retry storms and unresolved unknown outcomes.</p></li>
+<li><p>Approved destination adapter with request/response contracts, concurrency controls and a kill switch that stops new writes while allowing reconciliation reads.</p></li>
+</ol>
+<p>No attachment upload is included in version one. That avoids falsely presenting a basic file picker as safe document handling. The next implementation should reference approved test documents, then add ingestion only after defining scanning, storage and retention controls.</p>
+<h2 id="corpus-generation-dashboarding-and-cleanup">Corpus generation, dashboarding and cleanup</h2>
+<p>The generator supports 4–10,000 records, cycling evenly through four versioned fixture types and fictional suppliers. Contents are deterministic for the fixture revision; the cohort ID is unique per run. The 10,000-record option is a local scalability and navigation demonstration, not a statistically representative model of Houston procurement or a provider load test.</p>
+<p>The queue supports search and pagination across the full corpus. Aggregate counters distinguish records from unique local deliveries. No generated record calls docusign, so changing the corpus slider does not consume IAM API credits. Dependency installation and source research are network activities outside the simulator’s provider-request count.</p>
+<p>Export captures records, plans, receipts and audit entries in JSON. Cleanup first returns a manifest with owned record IDs, count, cohort and hash. The UI asks the operator to type the exact cohort confirmation. Reset removes only that cohort’s synthetic records and associated local plans/receipts; it retains the audit history. This is intentionally not a design for deleting real agreements in bulk.</p>
+<p>For a future real synthetic-corpus exercise, maintain a creation manifest containing provider IDs and a strong ownership tag, preview proposed deletions, enforce an age/retention policy, cap batch size, support dry run, use a separate destructive permission and verify each result. Do not infer that an agreement is disposable because its title contains “demo.”</p>
+<h2 id="verification-and-acceptance-criteria">Verification and acceptance criteria</h2>
+<p>The automated suite exercises authentication/origin handling, decimal rounding, price blockers, approval-before-execution, stale versions, replay, lost-response reconciliation, emergency deadline boundaries, invoice overage, renewal dates, input scope, manifest checks, all four end-to-end flows and a 10,000-record corpus. The release verification file records the actual environment and result, while browser verification checks the rendered walkthrough.</p>
+<p>Success means the reviewer can explain the $6,240 discrepancy from visible inputs, cannot prepare while blockers remain, can see an old approval invalidated by an edit, and can resolve an unknown outcome with exactly one local inbox receipt. It also means a reset cannot target an unrelated cohort and the example starts from a fresh environment using only its documented dependencies.</p>
+<p>No automated result here certifies real IAM extraction, a SAP interface, city policy compliance, a production security assessment or remote recovery behavior. Windows startup instructions are supplied for portability; the recorded test environment must distinguish actual testing from intended support.</p>
+<h2 id="enterprise-pilot-plan-and-discovery-questions">Enterprise pilot plan and discovery questions</h2>
+<table style="width:92%;">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 40%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Deliverable</th>
+<th style="text-align: left;">Exit evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0: research review</td>
+<td style="text-align: left;">Validate source register with procurement, GSD, legal and OBO owners</td>
+<td style="text-align: left;">Approved applicability, current dates, no unresolved policy assumptions encoded</td>
+</tr>
+<tr>
+<td style="text-align: left;">1: local walkthrough</td>
+<td style="text-align: left;">Run four synthetic cases and failure injections</td>
+<td style="text-align: left;">User can explain every gate and destination boundary</td>
+</tr>
+<tr>
+<td style="text-align: left;">2: real IAM sandbox</td>
+<td style="text-align: left;">Ingest a small synthetic document set and verify candidate fields</td>
+<td style="text-align: left;">Tenant entitlement, source provenance, reviewed extraction results</td>
+</tr>
+<tr>
+<td style="text-align: left;">3: read-only destination</td>
+<td style="text-align: left;">Discover actual procurement API and reference data</td>
+<td style="text-align: left;">Owner-approved endpoint/version, permissions, schemas and business keys</td>
+</tr>
+<tr>
+<td style="text-align: left;">4: controlled handoff</td>
+<td style="text-align: left;">Send allowlisted synthetic review packets with outbox and audit</td>
+<td style="text-align: left;">Receipt/read-back, duplicate and timeout tests, independent approvals</td>
+</tr>
+<tr>
+<td style="text-align: left;">5: measured pilot</td>
+<td style="text-align: left;">Bounded users, dataset and operations</td>
+<td style="text-align: left;">Signed operating runbook, kill switch, retention plan, measured outcomes</td>
+</tr>
+</tbody>
+</table>
+<p>Key discovery questions are concrete: Which system owns work orders and invoice status? Which contract families use catalog pricing, and what is the actual formula? Which evidence is mandatory at each stage? Where are index effective dates stored? Who can approve a discrepancy? What constitutes valid service acceptance? How is emergency contact recorded? Which notice clauses recur? Which IAM capabilities are licensed in the chosen sandbox? What event/receipt facilities does the destination expose? Who signs off current legal applicability?</p>
+<p>Measure review-cycle elapsed time, missing-evidence rate at first submission, variance cases found before approval, duplicate writes prevented, unresolved-delivery age, extraction corrections and operator effort. Establish a baseline before claiming improvement. Do not turn synthetic dashboard counts into a savings or efficiency claim.</p>
+<h2 id="houston-visual-identity-and-staff-workspace-rationale">Houston visual identity and staff-workspace rationale</h2>
+<p>The public procurement site provides the visual reference: city identity, departmental context, a skyline banner and public procurement resources. The revised demonstration uses its actual seal and Rosemont skyline assets. The published stylesheets identify Fjalla One and Open Sans; their heading/body pairing and the observed departmental blue inform the newly authored interface. These are website implementation references, not a certified brand manual.<a href="#src:S13">[S13]</a><a href="#src:S14">[S14]</a><a href="#src:S15">[S15]</a></p>
+<p>The proposed employee experience reorganizes those conventions around daily work. A compact department masthead and left navigation replace the prior vendor-style presentation. The four task entries lead to the same tested review flows; a persona panel establishes reviewer context. The public policy and supplier links remain available as external references. PUG and docusign occupy a supporting integration position rather than replacing the city identity.</p>
+<p>No private city portal was accessed or reproduced. The reviewer is a demo persona, not an authenticated city employee. A persistent demonstration ribbon and explicit no-connection statement distinguish the concept from an official service. There is no credential-collection screen. City imagery remains attributed third-party material; no ownership, endorsement or general open-content license is claimed. Font license files and full asset URLs accompany the package in the branding provenance document.</p>
+<h2 id="portable-example-and-maintenance">Portable example and maintenance</h2>
+<p>The example belongs under <code>examples/houston-procurement-demo</code> in PUG, on a dedicated publication branch. It runs independently in a virtual environment on port 8089. It does not add live gateway routes, change the reverse proxy, merge itself into the default branch or replace the Getty/expense examples. Runtime databases, virtual environments and environment files are ignored by Git.</p>
+<p>The canonical sources are the Python modules, static UI, source registry, tests, PlantUML files and this self-contained LaTeX document. Generated SVGs support the local UI. Embedded TikZ diagrams make this report compile without external figure files. A test-only repository workflow checks the example; deployment remains a separate decision.</p>
+<p>Prioritize the next change by its proof value: real synthetic agreement ingestion and provenance, authenticated review, and an outbox-backed destination adapter. Avoid adding a broad API blaster until the narrow business commands, ownership boundaries and destructive-operation controls have been established.</p>
+<h2 id="source-register">Source register</h2>
+<p>Sources were reviewed on 07 October 2026 unless a specific document date is shown. Dates identify evidence, not a guarantee of current legal effect. Classification and limitations are part of the result.</p>
+<h3 class="unnumbered" id="src:S1">S1 — General Services contract management audit</h3>
+<p>Primary • audit; 2026-03-25</p>
+<p><a href="https://houstontx.gov/controller/audit/reports/2026-05.pdf" class="uri">https://houstontx.gov/controller/audit/reports/2026-05.pdf</a></p>
+<h3 class="unnumbered" id="src:S2">S2 — Beacon procurement portal announcement</h3>
+<p>Primary • city; 2025 launch</p>
+<p><a href="https://www.houstontx.gov/bizwithhou/Beacon.html" class="uri">https://www.houstontx.gov/bizwithhou/Beacon.html</a></p>
+<h3 class="unnumbered" id="src:S3">S3 — AP 5-11: procurement exceptions</h3>
+<p>Primary • dated policy; 2022-12-12</p>
+<p><a href="https://www.houstontx.gov/policies/adminpolicies/5-11.pdf" class="uri">https://www.houstontx.gov/policies/adminpolicies/5-11.pdf</a></p>
+<h3 class="unnumbered" id="src:S4">S4 — AP 5-13: contractor performance</h3>
+<p>Primary • dated policy; 2022-08-08</p>
+<p><a href="https://www.houstontx.gov/policies/adminpolicies/5-13.pdf" class="uri">https://www.houstontx.gov/policies/adminpolicies/5-13.pdf</a></p>
+<h3 class="unnumbered" id="src:S5">S5 — AP 5-8: informal procurements</h3>
+<p>Primary • dated policy; 2023-11-06</p>
+<p><a href="https://www.houstontx.gov/policies/adminpolicies/5-8.pdf" class="uri">https://www.houstontx.gov/policies/adminpolicies/5-8.pdf</a></p>
+<h3 class="unnumbered" id="src:S6">S6 — Pay or Play program forms</h3>
+<p>Primary • city; Checked 2026-10-07</p>
+<p><a href="https://www.houstontx.gov/obo/popforms.html" class="uri">https://www.houstontx.gov/obo/popforms.html</a></p>
+<h3 class="unnumbered" id="src:S7">S7 — OBO contract compliance</h3>
+<p>Primary • city; Checked 2026-10-07</p>
+<p><a href="https://www.houstontx.gov/obo/contract_compliance.html" class="uri">https://www.houstontx.gov/obo/contract_compliance.html</a></p>
+<h3 class="unnumbered" id="src:S8">S8 — Public report on MWBE litigation</h3>
+<p>Secondary • unresolved legal context; 2026-07-28</p>
+<p><a href="https://www.houstonchronicle.com/politics/houston/article/houston-mwbe-program-unconstitutional-ruling-22365214.php" class="uri">https://www.houstonchronicle.com/politics/houston/article/houston-mwbe-program-unconstitutional-ruling-22365214.php</a></p>
+<h3 class="unnumbered" id="src:S9">S9 — docusign May 2026 release notes</h3>
+<p>Primary • vendor; 2026-05</p>
+<p><a href="https://community.docusign.com/product-updates/docusign-esignature-26-1-02-00-release-notes-may-2026-26875" class="uri">https://community.docusign.com/product-updates/docusign-esignature-26-1-02-00-release-notes-may-2026-26875</a></p>
+<h3 class="unnumbered" id="src:S10">S10 — Agreement Manager API FAQ</h3>
+<p>Primary • vendor; 2026-05-21</p>
+<p><a href="https://community.docusign.com/agreement-manager-api-139/docusign-agreement-manager-api-faq-27066" class="uri">https://community.docusign.com/agreement-manager-api-139/docusign-agreement-manager-api-faq-27066</a></p>
+<h3 class="unnumbered" id="src:S11">S11 — Configure agreement types and fields</h3>
+<p>Primary • vendor documentation; Checked 2026-10-07</p>
+<p><a href="https://developers.docusign.com/docusign-cli/configure-agreement-types-and-fields/upload-package/" class="uri">https://developers.docusign.com/docusign-cli/configure-agreement-types-and-fields/upload-package/</a></p>
+<h3 class="unnumbered" id="src:S12">S12 — Published HCD procurement contract</h3>
+<p>Primary • historical city artifact; 2021</p>
+<p><a href="https://houstontx.gov/housing/procurement/contracts/b2know/B2GNOW_2021_Contract-072821.pdf" class="uri">https://houstontx.gov/housing/procurement/contracts/b2know/B2GNOW_2021_Contract-072821.pdf</a></p>
+<h3 class="unnumbered" id="src:S13">S13 — Houston procurement visual identity</h3>
+<p>Primary city website implementation; checked 07 October 2026.</p>
+<p><a href="https://www.houstontx.gov/bizwithhou/" class="uri">https://www.houstontx.gov/bizwithhou/</a></p>
+<h3 class="unnumbered" id="src:S14">S14 — City website typography stylesheet</h3>
+<p>Primary city website implementation; checked 07 October 2026.</p>
+<p><a href="https://houstontx.gov/_siteAssets/css/main.css" class="uri">https://houstontx.gov/_siteAssets/css/main.css</a></p>
+<h3 class="unnumbered" id="src:S15">S15 — City website light-theme stylesheet</h3>
+<p>Primary city website implementation; checked 07 October 2026.</p>
+<p><a href="https://houstontx.gov/2023upgrade/css/2023-light.css" class="uri">https://houstontx.gov/2023upgrade/css/2023-light.css</a></p>
+</main><footer>PUG • Portable procurement demonstration • Public research with explicit limitations</footer></body></html>
