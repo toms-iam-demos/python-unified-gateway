@@ -107,7 +107,7 @@ def enrich(r):
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    return (ROOT / "app/static/index.html").read_text().replace("__TOKEN__", TOKEN)
+    return (ROOT / "app/static/index.html").read_text(encoding="utf-8").replace("__TOKEN__", TOKEN)
 
 
 @app.get("/health")
@@ -125,7 +125,7 @@ def catalog():
     return {
         "scenarios": SCENARIOS,
         "evidence_labels": EVIDENCE,
-        "sources": json.loads((ROOT / "docs/sources.json").read_text()),
+        "sources": json.loads((ROOT / "docs/sources.json").read_text(encoding="utf-8")),
     }
 
 

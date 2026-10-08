@@ -64,7 +64,7 @@ async def local_boundary(request: Request, call_next):
 
 @app.get('/', response_class=HTMLResponse)
 def home():
-    return (ROOT / 'static' / 'index.html').read_text().replace('__TOKEN__', TOKEN)
+    return (ROOT / 'static' / 'index.html').read_text(encoding="utf-8").replace('__TOKEN__', TOKEN)
 
 @app.get('/health')
 def health(): return {'status': 'ok', 'mode': 'local_simulation', 'external_calls': 0}

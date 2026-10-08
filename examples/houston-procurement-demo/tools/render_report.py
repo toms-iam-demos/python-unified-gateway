@@ -6,7 +6,7 @@ import pypandoc
 
 root = Path(__file__).resolve().parents[1]
 docs = root / "docs"
-s = (docs / "Houston-Procurement-IAM-Technical-Report.tex").read_text()
+s = (docs / "Houston-Procurement-IAM-Technical-Report.tex").read_text(encoding="utf-8")
 # HTML uses the exact report prose and pre-rendered diagrams rather than inline TikZ.
 s = re.sub(r"\\begin\{titlepage\}.*?\\end\{titlepage\}", "", s, flags=re.S)
 s = s.replace(r"\tableofcontents\newpage", "")

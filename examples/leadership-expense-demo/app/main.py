@@ -31,9 +31,9 @@ async def headers(request, call_next):
 def index(): return FileResponse(ROOT/'app/static/index.html')
 
 @app.get('/api/example')
-def example(): return json.loads((ROOT/'examples/balanced.json').read_text())
+def example(): return json.loads((ROOT/'examples/balanced.json').read_text(encoding="utf-8"))
 
-@app.post('/api/reconcile', operation_id='reconcileExpenseReport', openapi_extra={'requestBody': {'required': True, 'content': {'application/json': {'schema': {'type': 'object'}, 'example': json.loads((ROOT/'examples/balanced.json').read_text())}}}})
+@app.post('/api/reconcile', operation_id='reconcileExpenseReport', openapi_extra={'requestBody': {'required': True, 'content': {'application/json': {'schema': {'type': 'object'}, 'example': json.loads((ROOT/'examples/balanced.json').read_text(encoding="utf-8"))}}}})
 async def calculate(request: Request):
     # Bound actual bytes, not just a caller-supplied Content-Length.
     body = bytearray()

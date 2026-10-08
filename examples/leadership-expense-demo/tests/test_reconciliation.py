@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 class ReconciliationTests(unittest.TestCase):
-    def setUp(self): self.data=json.loads((Path(__file__).parents[1]/'examples/balanced.json').read_text())
+    def setUp(self): self.data=json.loads((Path(__file__).parents[1]/'examples/balanced.json').read_text(encoding="utf-8"))
     def test_balanced(self):
         r=reconcile(self.data)
         self.assertEqual((r['expense_total_cents'],r['c3_total_cents'],r['c4_total_cents'],r['reimbursement_due_cents']),(96000,66000,30000,52000))
