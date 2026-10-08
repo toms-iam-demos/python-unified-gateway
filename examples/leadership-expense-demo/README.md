@@ -87,7 +87,7 @@ GitHub Actions runs this on Python 3.10 and 3.12. Pinned dependencies provide re
 This example lives inside the existing PUG repository. Do not initialize a nested repository.
 
 ```sh
-git clone --branch examples/leadership-expense-demo https://github.com/toms-iam-demos/python-unified-gateway.git
+git clone --branch examples/reviewed-demo-collection https://github.com/toms-iam-demos/python-unified-gateway.git
 cd python-unified-gateway/examples/leadership-expense-demo
 ```
 

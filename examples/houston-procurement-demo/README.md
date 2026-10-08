@@ -11,7 +11,7 @@ A portable, Houston-informed procurement demonstration with a branded control ro
 Python 3.11–3.14 is the intended range; verification records the versions actually tested.
 
 ```sh
-git clone --branch examples/houston-procurement-demo https://github.com/toms-iam-demos/python-unified-gateway.git
+git clone --branch examples/reviewed-demo-collection https://github.com/toms-iam-demos/python-unified-gateway.git
 cd python-unified-gateway/examples/houston-procurement-demo
 python -m venv .venv
 ```
