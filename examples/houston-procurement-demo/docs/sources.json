@@ -106,5 +106,32 @@
     "url": "https://houstontx.gov/housing/procurement/contracts/b2know/B2GNOW_2021_Contract-072821.pdf",
     "finding": "A published contract package contains docusign envelope identifiers. This is historical evidence of eSignature use, not proof of present IAM licensing or integration architecture.",
     "implication": "Tell a beyond-signature story without implying city endorsement, current entitlement or access to city systems."
+  },
+  {
+    "id": "S13",
+    "title": "Houston procurement visual identity",
+    "date": "Checked 2026-10-07",
+    "classification": "Primary \u2022 city website implementation",
+    "url": "https://www.houstontx.gov/bizwithhou/",
+    "finding": "The public page uses a city-seal masthead, a skyline banner and departmental resource navigation.",
+    "implication": "Use the actual city assets and familiar department naming in a clearly labeled staff-portal concept."
+  },
+  {
+    "id": "S14",
+    "title": "City website typography stylesheet",
+    "date": "Checked 2026-10-07",
+    "classification": "Primary \u2022 city website implementation",
+    "url": "https://houstontx.gov/_siteAssets/css/main.css",
+    "finding": "The published stylesheet imports Fjalla One and Open Sans.",
+    "implication": "Bundle licensed fonts locally and use the observed heading/body pairing."
+  },
+  {
+    "id": "S15",
+    "title": "City website light-theme stylesheet",
+    "date": "Checked 2026-10-07",
+    "classification": "Primary \u2022 city website implementation",
+    "url": "https://houstontx.gov/2023upgrade/css/2023-light.css",
+    "finding": "Published styles include departmental blue #34587F and Open Sans body styling.",
+    "implication": "Adapt observed visual conventions, without claiming a formal brand-standard certification."
   }
 ]

@@ -43,7 +43,7 @@ If the repository is already cloned, save unrelated work before switching branch
 4. Open **Invoice evidence**. Try an invoice above 4,800,000 cents; save and see the gate. Restore the amount and complete the checklist. This produces a review packet, not a payable.
 5. Open **Emergency justification**. Enter contact hour 9 and form hour 25 with elapsed 26. Complete the synthetic evidence. The late history remains visible; the packet can be reviewed without backdating.
 6. Open **Renewal readiness**. A fictional 90-day term yields an October 17, 2026 notice date, ten days after the fixed demo date. It is not a Houston-wide rule.
-7. Visit **Research** for evidence and limitations; **Architecture** for PlantUML diagrams; **API lab** to authorize Swagger with a process-scoped local token.
+7. Visit **Policy & research** for evidence and limitations; **Connected workflow** for PlantUML diagrams; **Integration lab** to authorize Swagger with a process-scoped local token.
 8. Export evidence. Preview and confirm cohort reset. Generate 10,000 records; search `HOU-10000` and filter all four scenarios. Fixture contents repeat deterministically; cohort IDs are unique.
 
 ## Verify
@@ -53,7 +53,7 @@ python -m pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-The full report also opens as a readable HTML page from the Research tab; its canonical source is LaTeX.
+The full report also opens as a readable HTML page from the Policy & research tab; its canonical source is LaTeX.
 
 See [VERIFICATION.md](VERIFICATION.md) for actual test results. See [technical report](docs/Houston-Procurement-IAM-Technical-Report.tex), [implementation map](docs/IMPLEMENTATION.md), and [source register](docs/sources.json).
 
@@ -64,5 +64,5 @@ See [VERIFICATION.md](VERIFICATION.md) for actual test results. See [technical r
 - Local personas are **not** enterprise identity or independently enforced approval roles.
 - SQLite audit is **not** immutable or tamper-evident storage.
 - Example policies are not legal advice or a current city policy certification. No monetary procurement threshold, racial participation rule, automatic award or payment release is encoded.
-- Runtime data, virtual environments and `.env` stay Git-ignored. No city seal, actual supplier record, signature image or licensed pricing catalog is included.
+- Runtime data, virtual environments and `.env` stay Git-ignored. The city seal and skyline image are attributed public-site assets; no actual supplier record, signature image or licensed pricing catalog is included. See [branding provenance](docs/BRANDING.md) for sources, rights notes and the distinction between city identity and our proposed staff portal.
 - A real IAM/SAP adapter requires its own identity, entitlements, policy validation, rate limits, tenant isolation and integration tests. Current GitHub publication changes no production gateway routes.

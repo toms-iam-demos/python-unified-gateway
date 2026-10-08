@@ -6,6 +6,7 @@ This is a local simulator, not a docusign or SAP connector. The technical report
 | --- | --- |
 | `app/domain.py` | Four versioned synthetic fixtures, decimal arithmetic, evidence gates and date/timing calculations |
 | `app/main.py` | Local HTTP API, SQLite transactions, version checks, immutable plans, digest checks, unique inbox receipts, audit and scoped reset |
+| `app/static/houston-theme.css` | Houston staff-portal visual layer; city asset and font credits in `BRANDING.md` |
 | `app/static/` | Responsive Houston-inspired workspace, research registry, architecture diagrams and API lab |
 | `docs/sources.json` | Source register with dates, evidence classifications and implications |
 | `docs/*.puml` / `*.svg` | Editable PlantUML and pre-rendered diagrams; Java is not needed to run the demo |

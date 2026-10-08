@@ -49,6 +49,7 @@ function act(fn) {
 }
 
 function view(name) {
+    $('.breadcrumb').textContent='Employee workspace / '+({workspace:'Procurement home',research:'Policy & research',architecture:'Connected workflow',lab:'Integration lab'}[name]);
     $$('.view').forEach(e => e.classList.toggle('hidden', e.id !== name));
     $$('nav button').forEach(e => e.classList.toggle('active', e.dataset.view === name))
 }

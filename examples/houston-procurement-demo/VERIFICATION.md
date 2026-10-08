@@ -15,3 +15,7 @@
 Actual verification was on macOS with Python 3.14.3. Windows instructions are included but were not executed on a Windows machine. A GitHub Actions matrix is supplied for Python 3.11 and 3.14; its remote status is separate from these local results. No real docusign, SAP, Houston procurement system, payment or notification was invoked.
 
 The local inbox shares a SQLite transaction boundary with plans. It demonstrates idempotency/reconciliation semantics; it is not a distributed exactly-once delivery test. No real document extraction, identity-provider integration or policy certification is claimed.
+
+## Houston branding revision
+
+The revised masthead uses the actual city seal and public-site skyline, with locally bundled Fjalla One and Open Sans. Browser inspection confirmed rendering and staff navigation with no console errors observed. Existing demonstration records were preserved. The amended technical report compiled successfully. This revision changes presentation and documentation; it adds no authentication flow or provider integration.
