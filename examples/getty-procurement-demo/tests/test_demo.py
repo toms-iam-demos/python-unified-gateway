@@ -65,6 +65,8 @@ def test_invalid_quantities_and_reset_scope(client):
     cohort=client.get('/api/state').json()['cohort']
     with main.db() as c:
         c.execute("INSERT INTO records VALUES('FOREIGN','other','fabrication',1,100,100,0,'ready')")
+    assert client.post('/api/reset',json={'cohort':'other','confirmation':'RESET other'}).status_code==400
+    assert client.post('/api/seed',json={'count':3,'surprise':True}).status_code==422
     assert client.post('/api/reset',json={'cohort':cohort,'confirmation':'yes'}).status_code==400
     assert client.post('/api/reset',json={'cohort':cohort,'confirmation':'RESET '+cohort}).json()['removed']==3
     assert client.get('/api/state').json()['records'][0]['id']=='FOREIGN'

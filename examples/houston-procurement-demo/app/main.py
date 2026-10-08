@@ -1,4 +1,5 @@
 """Local demonstration with no outbound client, provider credentials, or production connector."""
+from app.security import RequestSizeLimit
 
 import json, os, secrets, sqlite3, uuid, hashlib
 from pathlib import Path
@@ -24,6 +25,7 @@ app = FastAPI(
 app.add_middleware(
     TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"]
 )
+app.add_middleware(RequestSizeLimit)
 app.mount("/static", StaticFiles(directory=ROOT / "app" / "static"), name="static")
 app.mount("/docs-assets", StaticFiles(directory=ROOT / "docs"), name="docs-assets")
 key_header = APIKeyHeader(name="X-Demo-Token", auto_error=False)

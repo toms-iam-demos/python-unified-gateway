@@ -1,13 +1,9 @@
-name: Houston procurement demo
+name: Portable demo collection
 on:
   push:
-    paths:
-      - 'examples/houston-procurement-demo/**'
-      - '.github/workflows/houston-demo.yml'
+    paths: ['examples/**', '.github/workflows/demo-collection.yml']
   pull_request:
-    paths:
-      - 'examples/houston-procurement-demo/**'
-      - '.github/workflows/houston-demo.yml'
+    paths: ['examples/**', '.github/workflows/demo-collection.yml']
 permissions:
   contents: read
 jobs:
@@ -16,9 +12,10 @@ jobs:
     strategy:
       matrix:
         python: ['3.11', '3.14']
+        demo: ['leadership-expense-demo', 'getty-procurement-demo', 'houston-procurement-demo']
     defaults:
       run:
-        working-directory: examples/houston-procurement-demo
+        working-directory: examples/${{ matrix.demo }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

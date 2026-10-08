@@ -1,4 +1,5 @@
 """Stateful, loopback-only procurement simulator. No network client exists here."""
+from app.security import RequestSizeLimit
 import json
 import os
 import secrets
@@ -10,7 +11,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 ROOT = Path(__file__).resolve().parent
@@ -18,6 +19,7 @@ DB = Path(os.environ.get('PUG_DEMO_DB', str(ROOT.parent / 'data' / 'demo.db')))
 TOKEN = secrets.token_urlsafe(32)
 app = FastAPI(title='PUG • Getty procurement simulator', version='1.0.0', description='Local synthetic records only. No docusign, Oracle, payment or email calls. Demo reviewer roles are walkthrough personas, not enterprise identity controls.')
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver'])
+app.add_middleware(RequestSizeLimit)
 app.mount('/static', StaticFiles(directory=ROOT / 'static'), name='static')
 
 @contextmanager
@@ -50,7 +52,7 @@ def row(c, table, key):
 async def local_boundary(request: Request, call_next):
     if request.url.path.startswith('/api/'):
         origin = request.headers.get('origin')
-        if origin and origin != str(request.base_url).rstrip('/'):
+        if (origin and origin != str(request.base_url).rstrip('/')) or request.headers.get('sec-fetch-site') == 'cross-site':
             return JSONResponse({'detail': 'Foreign origin rejected'}, status_code=403)
         if not secrets.compare_digest(request.headers.get('x-demo-token', ''), TOKEN):
             return JSONResponse({'detail': 'Open the local site to obtain the session token. Remote access is unsupported.'}, status_code=403)
@@ -67,7 +69,10 @@ def home():
 @app.get('/health')
 def health(): return {'status': 'ok', 'mode': 'local_simulation', 'external_calls': 0}
 
-class Seed(BaseModel):
+class StrictModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+class Seed(StrictModel):
     count: int = Field(default=3, ge=3, le=10000)
 
 @app.post('/api/seed')
@@ -90,7 +95,7 @@ def state():
         counts = dict(c.execute('SELECT state,count(*) FROM plans GROUP BY state').fetchall())
         return {'count':total,'committed_cents':sums[0], 'accepted_cents':sums[1], 'plan_counts':counts,'external_calls':0,'records':[dict(r) for r in c.execute('SELECT * FROM records ORDER BY id LIMIT 100')], 'audit':[dict(r) for r in c.execute('SELECT * FROM audit ORDER BY seq DESC LIMIT 25')], 'plans':[dict(r) for r in c.execute('SELECT * FROM plans ORDER BY rowid DESC LIMIT 100')], 'cohort':c.execute('SELECT cohort FROM records LIMIT 1').fetchone()[0] if total else None}
 
-class Plan(BaseModel):
+class Plan(StrictModel):
     record_id: str
     accepted_images: int = Field(default=9800, ge=0, le=10000)
     amendment_dollars: int = Field(default=6500, ge=1, le=30000)
@@ -119,7 +124,7 @@ def approve(pid: str):
         log(c,r['id'],'Demo reviewer approved '+pid+' (simulated persona, not authenticated segregation of duties)')
         return row(c,'plans',pid)
 
-class Execute(BaseModel):
+class Execute(StrictModel):
     fault: str = Field(default='none', pattern='^(none|lost_response|version_conflict)$')
 
 @app.post('/api/plans/{pid}/execute')
@@ -160,12 +165,14 @@ def recover(pid: str):
         log(c,r['id'],'Reconciled '+pid+' from existing receipt; no second write')
         return row(c,'plans',pid)
 
-class Reset(BaseModel):
+class Reset(StrictModel):
     cohort: str
     confirmation: str
 
 @app.post('/api/reset')
 def reset(body: Reset):
+    if not body.cohort.startswith('GETTY-DEMO-'):
+        raise HTTPException(400, 'Only owned GETTY-DEMO cohorts can be reset')
     if body.confirmation != 'RESET '+body.cohort: raise HTTPException(400,'Exact cohort confirmation required')
     with db() as c:
         ids = [r[0] for r in c.execute('SELECT id FROM records WHERE cohort=?',(body.cohort,))]
