@@ -1,0 +1,28 @@
+name: Houston procurement demo
+on:
+  push:
+    paths:
+      - 'examples/houston-procurement-demo/**'
+      - '.github/workflows/houston-demo.yml'
+  pull_request:
+    paths:
+      - 'examples/houston-procurement-demo/**'
+      - '.github/workflows/houston-demo.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.14']
+    defaults:
+      run:
+        working-directory: examples/houston-procurement-demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '${{ matrix.python }}'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -q
