@@ -11,7 +11,7 @@ A portable, Houston-informed procurement demonstration with a branded control ro
 Python 3.11–3.14 is the intended range; verification records the versions actually tested.
 
 ```sh
-git clone --branch examples/reviewed-demo-collection https://github.com/toms-iam-demos/python-unified-gateway.git
+git clone --branch main https://github.com/toms-iam-demos/python-unified-gateway.git
 cd python-unified-gateway/examples/houston-procurement-demo
 python -m venv .venv
 ```
@@ -33,7 +33,7 @@ Windows PowerShell (activation optional):
 
 Open **http://127.0.0.1:8089/**. Stop with **Ctrl+C**. Restart with the same command; local state survives. Use `python run.py --port 8090` if 8089 is occupied. No Java, database service, Node, API key or PUG deployment is required. Do not reuse another example's virtual environment on the work machine.
 
-If the repository is already cloned, save unrelated work before switching branches. Fetch the branch and inspect it rather than overwriting your checkout. Publishing an example branch does not merge it into `main` or deploy `api.tifirmo.io`.
+If the repository is already cloned, save unrelated work before switching branches. Fetch the branch and inspect it rather than overwriting your checkout. These examples run independently; starting one does not deploy `api.tifirmo.io`.
 
 ## Eight-minute demonstration
 

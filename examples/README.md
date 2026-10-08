@@ -8,7 +8,7 @@
 
 Each example runs in its own virtual environment and port. The Getty example defaults to 8088 so it can run alongside the Education Fund expense demo on 8087. Examples do not automatically become deployed gateway routes.
 
-All three packages are included together on this collection branch. Local experiments remain under Git-ignored `local-dev/`; runtime data and secrets must not be committed.
+All three packages are included together in this repository. Local experiments remain under Git-ignored `local-dev/`; runtime data and secrets must not be committed.
 
 See [security review](SECURITY-REVIEW.md) for tested boundaries and remaining limitations.
 
@@ -19,11 +19,11 @@ Use Python 3.11 or 3.14 (the versions exercised in CI). Install Git only if usin
 **Option A — Git:** use a new destination folder to preserve any existing checkout:
 
 ```sh
-git clone --single-branch --branch examples/reviewed-demo-collection https://github.com/toms-iam-demos/python-unified-gateway.git pug-demo-collection
+git clone --single-branch --branch main https://github.com/toms-iam-demos/python-unified-gateway.git pug-demo-collection
 cd pug-demo-collection/examples/houston-procurement-demo
 ```
 
-**Option B — no Git:** [download this branch as a ZIP](https://github.com/toms-iam-demos/python-unified-gateway/archive/refs/heads/examples/reviewed-demo-collection.zip), extract it fully, then open a terminal inside `examples/houston-procurement-demo` in the extracted folder. The default main-branch download does not yet contain this reviewed collection.
+**Option B — no Git:** [download this branch as a ZIP](https://github.com/toms-iam-demos/python-unified-gateway/archive/refs/heads/main.zip), extract it fully, then open a terminal inside `examples/houston-procurement-demo` in the extracted folder. The main-branch download includes all three examples.
 
 ### Windows PowerShell
 
