@@ -1,0 +1,26 @@
+@startjson
+<style>
+jsonDiagram {
+ node {
+ BackGroundColor #F1EEF8
+ LineColor #6143B7
+ FontColor #17213B
+ FontSize 14
+ }
+}
+</style>
+{
+  "schema_version": "1.0",
+  "cohort_id": "MUSEUM-DEMO-001",
+  "scenario": "archive_digitization",
+  "command_id": "CMD-DIG-001",
+  "purchase_order_id": "PO-DEMO-4201",
+  "batch_id": "BATCH-DEMO-01",
+  "submitted_images": 10000,
+  "accepted_images": 9800,
+  "unit_price_usd": "2.40",
+  "eligible_invoice_usd": "23520.00",
+  "held_amount_usd": "480.00",
+  "operation": "propose_service_receipt"
+}
+@endjson

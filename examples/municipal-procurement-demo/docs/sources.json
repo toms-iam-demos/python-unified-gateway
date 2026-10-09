@@ -1,0 +1,65 @@
+[
+  {
+    "id": "D1",
+    "title": "Price assurance",
+    "date": "Fixture version 1",
+    "classification": "Synthetic design assumption",
+    "url": "/docs-assets/report.html",
+    "finding": "Invented price-book coefficients produce a reproducible discrepancy.",
+    "implication": "Review calculations and retain their inputs."
+  },
+  {
+    "id": "D2",
+    "title": "Evidence and authority",
+    "date": "Fixture version 1",
+    "classification": "Synthetic design assumption",
+    "url": "/docs-assets/report.html",
+    "finding": "Evidence checklists and reviewer personas are synthetic.",
+    "implication": "Actual procurement authority is outside this demonstration."
+  },
+  {
+    "id": "D3",
+    "title": "Emergency timing",
+    "date": "Fixture version 1",
+    "classification": "Synthetic design assumption",
+    "url": "/docs-assets/report.html",
+    "finding": "Eight-hour contact and 24-hour documentation targets are fixture assumptions, not a jurisdiction policy.",
+    "implication": "Record lateness without rewriting the event history."
+  },
+  {
+    "id": "D4",
+    "title": "Renewal readiness",
+    "date": "Fixture version 1",
+    "classification": "Synthetic design assumption",
+    "url": "/docs-assets/report.html",
+    "finding": "The 90-day notice term and performance checklist are illustrative contract assumptions.",
+    "implication": "Read actual terms and owner-approved policy before integrating."
+  },
+  {
+    "id": "S9",
+    "title": "docusign May 2026 release notes",
+    "date": "2026-05",
+    "classification": "Primary \u2022 vendor",
+    "url": "https://community.docusign.com/product-updates/docusign-esignature-26-1-02-00-release-notes-may-2026-26875",
+    "finding": "The release notes describe Workflow Builder naming and capabilities including the HTTP web request extension and workflow variable features.",
+    "implication": "Propose a typed request from Workflow Builder to PUG; confirm the sandbox entitlement, security options and response mapping before connecting."
+  },
+  {
+    "id": "S10",
+    "title": "Agreement Manager API FAQ",
+    "date": "2026-05-21",
+    "classification": "Primary \u2022 vendor",
+    "url": "https://community.docusign.com/agreement-manager-api-139/docusign-agreement-manager-api-faq-27066",
+    "finding": "The vendor describes API access to agreement ingestion and querying, with developer testing and production plan considerations.",
+    "implication": "Use agreement metadata as reviewable evidence. Fixture math and checkboxes in this example do not prove extraction quality or a live IAM connection."
+  },
+  {
+    "id": "S11",
+    "title": "Configure agreement types and fields",
+    "date": "Checked 2026-10-07",
+    "classification": "Primary \u2022 vendor documentation",
+    "url": "https://developers.docusign.com/docusign-cli/configure-agreement-types-and-fields/upload-package/",
+    "finding": "Configuration packages support agreement types, fields and extraction configuration; changes can affect existing configuration and require reprocessing for existing agreements.",
+    "implication": "Version configuration, test on a dedicated synthetic corpus and review a dry run. Never bulk-overwrite a shared tenant as part of this demo."
+  }
+]

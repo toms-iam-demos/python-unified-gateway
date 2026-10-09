@@ -15,9 +15,9 @@ Historical instructions about strict docusign color matching, remote-only fonts 
 the generated PUG mascot are superseded.
 
 ## Platform and profile boundary
-This specification describes reusable presentation rules and the current Arkansas reference profile. PUG is independent of state, sector and organization. Identity assets, colors, terminology, strategy copy and enabled capability mascots are profile-owned choices. Shared components own layout and interaction contracts; profiles must not require organization-specific forks of those components.
+This specification describes reusable presentation rules and the current public-sector reference profile. PUG is independent of state, sector and organization. Identity assets, colors, terminology, strategy copy and enabled capability mascots are profile-owned choices. Shared components own layout and interaction contracts; profiles must not require organization-specific forks of those components.
 
-The existing hard-coded Arkansas implementation has not yet been converted to a configuration-driven profile. Keep its accepted appearance while extracting that boundary in follow-up implementation. See the [organization profile contract](organization-profile.md).
+The existing hard-coded public-sector implementation has not yet been converted to a configuration-driven profile. Keep its accepted appearance while extracting that boundary in follow-up implementation. See the [organization profile contract](organization-profile.md).
 
 ## Surface boundaries
 
@@ -26,7 +26,7 @@ replicas preserve their own source markup and styles and never inherit the conso
 base or theme. “Clone” fidelity applies to a named agency reference, not to the
 current hybrid console. See the [replica specification](replica-specification.md).
 
-## Arkansas reference profile: visual system
+## public-sector reference profile: visual system
 
 | Role | Value | Use |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Typography uses local DSIndigo Regular and Medium files, with Helvetica/Arial fa
 Indigo and developer-center spacing are the design reference, not a claim of current
 pixel parity. Source reference sizes include 96px desktop header, 64px developer hero,
 48px administration heading and 56px primary actions; responsive/component overrides
-are owned by the actual stylesheets. Keep sentences concise and leadership copy
+are owned by the actual stylesheets. Keep sentences concise and executive copy
 focused on services, efficiency and value. Always spell docusign lowercase in authored copy.
 
 ## Component ownership
@@ -59,7 +59,7 @@ focused on services, efficiency and value. Always spell docusign lowercase in au
 | --- | --- |
 | studio/templates/developer_base.html | Shared document, fonts/styles, header/footer |
 | studio/templates/components/developer_header.html | PUG/Python identity and global navigation |
-| studio/templates/components/arkansas_identity.html | Official flag and portfolio identity |
+| studio/templates/components/organization_identity.html (proposed generic path) | Official flag and portfolio identity |
 | studio/templates/components/department_identity.html | Normalized department marks and names |
 | studio/templates/components/mcp_chat.html | Embedded Sark prompt/results interface |
 | studio/static/developer-brand.css | Base semantic tokens and reusable controls |
@@ -73,7 +73,7 @@ adapter. The cascade still contains historical overrides; resolve those carefull
 when consolidating CSS and verify screenshots before/after. Do not introduce another
 independent theme. /brand is the component reference; it must track this specification.
 
-## Arkansas reference profile: asset standards
+## public-sector reference profile: asset standards
 
 | Identity | Current asset | Presentation |
 | --- | --- | --- |
@@ -81,36 +81,35 @@ independent theme. /brand is the component reference; it must track this specifi
 | Python | studio/static/python-purple.png | Supplied purple mark in shared technology badge |
 | MCP / Sark | studio/static/sark-mcp.png | MCP tab/console; caption “end of line” |
 | OpenClaw / Larry | studio/static/larry-openclaw.png | OpenClaw tab/page on white plate; supplied checkerboard remains in original asset |
-| Arkansas | studio/static/state/arkansas-flag.jpg | Complete original flag, native proportions and colors |
-| DF&A | studio/static/departments/dfa-supplied.jpg | Latest supplied green seal; multiply blend on pale-gray holder |
+| public-sector | studio/static/state/generic-identity.svg (proposed replacement) | Complete original flag, native proportions and colors |
+| Finance | studio/static/departments/dfa-supplied.jpg | Latest supplied green seal; multiply blend on pale-gray holder |
 | Military | studio/static/departments/military.png | Official source mark |
 | Veterans Affairs | studio/static/departments/veterans.png | Official source mark |
-| ADH | studio/static/departments/health.svg | Official source mark and optical-size reference |
+| Health | studio/static/departments/health.svg | Official source mark and optical-size reference |
 | Agriculture | studio/static/departments/agriculture.png | Official source mark |
 
 Department holders are 92px desktop / 72px mobile, with a 1px border and 5px padding.
 Target visible emblem diameters are 80px / 60px. Compensate source margins with CSS
-scales: DF&A 1.057, Military 1.333, Veterans 1.0508, ADH 1.0, Agriculture 1.1062.
+scales: Finance 1.057, Military 1.333, Veterans 1.0508, Health 1.0, Agriculture 1.1062.
 Use containment and preserve aspect ratio. Source files remain unchanged; inspect
 optical alignment after any replacement instead of assuming equal canvases imply equal marks.
 
 Department source URLs and hashes are in
 asset provenance (`pug-examples/studio/static/departments/sources.json`; external working example). PUG, Python and Sark
-were supplied from Desktop/Dev; Larry from the same folder; DF&A from Desktop/df&a.jpg.
-Do not reuse the older generated pug-mark-v1.png or superseded DF&A seals in new UI.
+were supplied from Desktop/Dev; Larry from the same folder; Finance from Desktop/df&a.jpg.
+Do not reuse the older generated pug-mark-v1.png or superseded Finance seals in new UI.
 
-Flag source: [Arkansas Secretary of State](https://www.sos.arkansas.gov/education/arkansas-history/history-of-the-flag/),
-[original image](https://ee-sos-site.ark.org/uploads/education/AR_Flag.jpg), retrieved September 6, 2026.
+Historical organization-specific asset references are omitted from the public edition.
 Font source: [developer-center font stylesheet](https://developers.docusign.com/fonts/dist/css/OliveFonts.css).
 Publicly accessible assets and user-supplied artwork require redistribution review
 before public publishing; source attribution alone does not grant a license.
 
 ## Product and validation rules
 
-The active organization owns homepage identity; Arkansas is the current profile. MCP, CLM and OpenClaw retain dedicated workspaces.
+The active organization owns homepage identity; public-sector is the current profile. MCP, CLM and OpenClaw retain dedicated workspaces.
 Keep Who / What / How on department examples and provenance/ownership in management
 views. The homepage subheading is editorially aligned with
-[Arkansas Forward](https://governor.arkansas.gov/wp-content/uploads/AR-Forward.pdf).
+generic public-service outcomes.
 Do not imply verified rollout outcomes from configured launches or captured file counts.
 
 The Sark interface is embedded, with sample API commands and no connected model/MCP
@@ -133,8 +132,12 @@ continues to define the boundary; this specification does not create another con
 
 1.0.0  -  September 6, 2026: consolidated visual baseline under ADR-0011.
 
-1.1.0  -  September 6, 2026: distinguish organization-independent platform rules from the Arkansas reference profile. No runtime rebranding or multi-tenancy claim.
+1.1.0  -  September 6, 2026: distinguish organization-independent platform rules from the public-sector reference profile. No runtime rebranding or multi-tenancy claim.
 
 1.2.0 - September 7, 2026: clarify approved branding, approval evidence and consistent application across console surfaces under ADR-0011.
 
 1.2.1 - September 20, 2026: reference the shared profile contract instead of duplicating it; no branding or architectural change.
+
+## Public identity revision — 2026-10-09
+
+Named organization references have been generalized for distribution. Historical source captures remain private; proposed generic paths are not claims of existing runtime files. Shared demos must use organization types and neutral artwork. No deployed service was rebranded by this documentation revision.

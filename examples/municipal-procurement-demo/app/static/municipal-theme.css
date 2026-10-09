@@ -1,0 +1,826 @@
+/* Municipal staff-portal concept. Visual references are documented in docs/BRANDING.md. */
+:root {
+    --navy: #233e58;
+    --blue: #34587f;
+    --cyan: #92b8d4;
+    --gold: #a68a31;
+    --ink: #24394b;
+    --muted: #617485;
+    --line: #d9e0e6;
+    --paper: #f3f4f6
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    background: #f3f4f6
+}
+
+.environment-bar {
+    padding: 7px 3vw;
+    background: #233e58;
+    color: #e8eff5;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 9px;
+    letter-spacing: 1px
+}
+
+.environment-bar>span:first-child {
+    font-weight: 700
+}
+
+.environment-bar i {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e8c66e;
+    margin-right: 6px
+}
+
+.city-masthead {
+    padding: 19px 3vw 21px;
+    min-height: 126px;
+    border: 0;
+    background: #fff;
+    gap: 20px
+}
+
+.city-identity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #34587f;
+    text-decoration: none
+}
+
+.city-identity img {
+    object-fit: contain;
+    flex-shrink: 0
+}
+
+.city-identity span {
+    display: flex;
+    flex-direction: column
+}
+
+.city-identity small {
+    font-size: 11px;
+    letter-spacing: 2.8px;
+    font-weight: 700;
+    margin-bottom: 5px
+}
+
+.city-identity strong {
+    font-family: 'Fjalla One', 'Arial Narrow', sans-serif;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.3
+}
+
+.city-identity em {
+    font-size: 11px;
+    font-style: normal;
+    color: #647788;
+    margin-top: 6px
+}
+
+.reviewer {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    border-left: 1px solid var(--line);
+    padding-left: 25px
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #edf1f5;
+    color: #34587f;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: bold
+}
+
+.reviewer strong,
+.reviewer small {
+    display: block
+}
+
+.reviewer strong {
+    font-size: 12px
+}
+
+.reviewer small {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 3px
+}
+
+.department-bar {
+    background: #34587f;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 3vw;
+    font-size: 9px;
+    letter-spacing: 1.3px
+}
+
+.department-bar b {
+    padding: 0 12px;
+    color: #b7cbdc
+}
+
+.department-bar a {
+    color: white;
+    font-size: 10px;
+    letter-spacing: 0;
+    text-decoration: none
+}
+
+.portal-layout {
+    display: grid;
+    grid-template-columns: 218px minmax(0, 1fr);
+    max-width: 1700px;
+    margin: auto;
+    min-height: 75vh
+}
+
+.portal-sidebar {
+    background: white;
+    border-right: 1px solid var(--line);
+    padding: 30px 16px;
+    min-width: 0
+}
+
+.nav-label {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+    color: #788791;
+    font-weight: bold;
+    margin: 0 12px 12px
+}
+
+.portal-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.portal-sidebar nav button {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 13px 12px;
+    color: #576b7d
+}
+
+.portal-sidebar nav button span {
+    font-size: 17px;
+    width: 18px;
+    font-weight: 400;
+    color: #738ba2
+}
+
+.portal-sidebar nav button.active {
+    background: #eaf0f6;
+    color: #34587f;
+    box-shadow: inset 3px 0 #34587f
+}
+
+.sidebar-section {
+    border-top: 1px solid #e8edf1;
+    margin-top: 27px;
+    padding-top: 24px
+}
+
+.sidebar-section>a {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    padding: 9px 12px;
+    text-decoration: none;
+    color: #4c6377
+}
+
+.sidebar-section>a:hover {
+    background: #f1f5f8
+}
+
+.connection-card {
+    margin: 30px 8px 0;
+    padding: 16px 12px;
+    border: 1px solid #dfe7ed;
+    border-top: 3px solid #9c873b;
+    background: #f8fafb
+}
+
+.connection-status {
+    font-size: 8px;
+    letter-spacing: .7px;
+    color: #47755e
+}
+
+.connection-card h3 {
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 14px
+}
+
+.connection-card p {
+    font-size: 11px
+}
+
+.connection-card small {
+    font-size: 9px;
+    color: #718391
+}
+
+.portal-layout main {
+    max-width: none;
+    width: 100%;
+    padding: 25px 28px 35px
+}
+
+.breadcrumb {
+    font-size: 10px;
+    color: #73808d;
+    margin-bottom: 18px
+}
+
+.breadcrumb span {
+    padding: 0 10px
+}
+
+.hero {
+    border-radius: 3px;
+    padding: 27px 30px;
+    min-height: 235px;
+    background: linear-gradient(90deg, rgba(22, 49, 73, .96) 0%, rgba(29, 59, 85, .86) 48%, rgba(24, 51, 72, .15) 100%), linear-gradient(135deg, #34587f, #132b42)
+}
+
+.hero-copy {
+    max-width: 600px
+}
+
+.hero .eyebrow {
+    font-size: 9px;
+    color: #e3d299;
+    letter-spacing: 1.6px;
+    margin-bottom: 12px
+}
+
+.hero h1 {
+    font-family: 'Fjalla One', 'Arial Narrow', sans-serif;
+    font-size: 35px;
+    line-height: 1.22;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-bottom: 12px
+}
+
+.hero h1 em {
+    color: white
+}
+
+.hero p:not(.eyebrow) {
+    font-size: 11px;
+    max-width: 430px;
+    line-height: 1.7;
+    color: #e0e9f0
+}
+
+.hero-tags {
+    margin-top: 16px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    align-items: center
+}
+
+.hero-tags span:first-child {
+    border: 1px solid #ffffff50;
+    padding: 4px 6px
+}
+
+.hero-photo-label {
+    position: absolute;
+    right: 15px;
+    bottom: 13px;
+    font-size: 7px;
+    letter-spacing: 1.5px;
+    color: white
+}
+
+.disclosure {
+    font-size: 9px;
+    padding: 12px 0;
+    line-height: 1.6
+}
+
+.stats {
+    border-radius: 4px;
+    margin-bottom: 25px
+}
+
+.stats article {
+    padding: 16px 18px
+}
+
+.stats small {
+    font-size: 8px;
+    letter-spacing: 1px
+}
+
+.stats b {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 29px;
+    margin: 3px 0
+}
+
+.stats span {
+    font-size: 9px
+}
+
+.section-title {
+    margin: 25px 0 15px
+}
+
+.section-title h2 {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0
+}
+
+.section-title .eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.3px
+}
+
+.cards {
+    gap: 10px;
+    margin-bottom: 20px
+}
+
+.scenario {
+    border-radius: 4px;
+    min-height: 143px;
+    padding: 15px;
+    border-top: 3px solid #9daeba
+}
+
+.scenario .idx {
+    margin-bottom: 8px;
+    font-size: 9px;
+    color: #7d8c97
+}
+
+.scenario strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: #34587f
+}
+
+.scenario small {
+    font-size: 10px;
+    line-height: 1.6;
+    margin-top: 8px
+}
+
+.scenario:nth-child(3) {
+    border-top-color: #b38844
+}
+
+.scenario.selected {
+    box-shadow: none;
+    border-top-color: #34587f;
+    background: #f2f6fa
+}
+
+.work-grid {
+    grid-template-columns: 245px minmax(0, 1fr);
+    gap: 16px
+}
+
+.panel {
+    border-radius: 4px;
+    padding: 20px
+}
+
+.panel h3 {
+    font-size: 14px
+}
+
+.record-list {
+    max-height: 505px;
+    overflow: auto
+}
+
+.record {
+    border-radius: 3px;
+    padding: 10px
+}
+
+.record strong {
+    font-size: 11px
+}
+
+.record small {
+    font-size: 8px
+}
+
+.record em {
+    font-size: 9px
+}
+
+.case-header h2 {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+    letter-spacing: 0
+}
+
+.metrics {
+    gap: 6px
+}
+
+.metric {
+    padding: 12px 10px;
+    border-radius: 3px
+}
+
+.metric b {
+    font-size: 17px;
+    letter-spacing: -.3px
+}
+
+.metric small {
+    font-size: 9px
+}
+
+.edit-grid {
+    grid-template-columns: 1fr 1fr
+}
+
+.checks {
+    grid-template-columns: 1fr
+}
+
+.check {
+    font-size: 11px
+}
+
+.corpus {
+    border-top: 3px solid #34587f;
+    background: #edf2f6
+}
+
+.audit-panel {
+    margin-top: 20px
+}
+
+.brand-rationale {
+    border-top: 3px solid #a68a31;
+    margin-bottom: 20px
+}
+
+.brand-rationale>p:not(.eyebrow) {
+    font-size: 12px;
+    line-height: 1.8;
+    max-width: 900px
+}
+
+.brand-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    font-size: 11px
+}
+
+.research-intro {
+    gap: 12px
+}
+
+.research-intro .panel {
+    padding: 18px
+}
+
+.research-intro p {
+    font-size: 11px
+}
+
+.architecture-flow {
+    gap: 10px
+}
+
+.architecture-flow article {
+    padding: 16px
+}
+
+.architecture-flow p {
+    font-size: 10px
+}
+
+.architecture-flow h3 {
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: 400;
+    font-size: 18px
+}
+
+.architecture-flow small {
+    font-size: 7px
+}
+
+footer {
+    background: white;
+    font-size: 9px;
+    padding: 20px 3vw
+}
+
+.button-row button,
+.button {
+    font-size: 11px
+}
+
+.pill {
+    font-size: 8px
+}
+
+.search-label {
+    font-size: 10px
+}
+
+input {
+    font-size: 12px
+}
+
+.warning,
+.blockers {
+    font-size: 10px
+}
+
+.source h3 {
+    line-height: 1.5
+}
+
+@media(min-width:1450px) {
+    .portal-layout {
+        grid-template-columns: 240px minmax(0, 1fr)
+    }
+
+    .portal-layout main {
+        padding: 30px 40px
+    }
+
+    .hero {
+        min-height: 260px
+    }
+
+    .hero h1 {
+        font-size: 41px
+    }
+
+    .work-grid {
+        grid-template-columns: 300px minmax(0, 1fr)
+    }
+
+    .checks {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .metric b {
+        font-size: 23px
+    }
+}
+
+@media(max-width:1100px) {
+    .city-identity strong {
+        font-size: 24px
+    }
+
+    .reviewer {
+        padding-left: 15px
+    }
+
+    .portal-layout {
+        grid-template-columns: 185px minmax(0, 1fr)
+    }
+
+    .portal-sidebar {
+        padding: 25px 10px
+    }
+
+    .portal-sidebar nav button {
+        font-size: 10px
+    }
+
+    .portal-layout main {
+        padding: 20px
+    }
+
+    .work-grid {
+        grid-template-columns: 1fr
+    }
+
+    .record-list {
+        max-height: 210px
+    }
+
+    .cards {
+        grid-template-columns: repeat(4, 1fr)
+    }
+
+    .scenario {
+        padding: 12px;
+        min-height: 158px
+    }
+
+    .scenario strong {
+        font-size: 12px
+    }
+
+    .stats article {
+        padding: 13px
+    }
+
+    .stats span {
+        font-size: 8px
+    }
+}
+
+@media(max-width:760px) {
+    .environment-bar {
+        font-size: 8px;
+        letter-spacing: .3px
+    }
+
+    .environment-bar>span:last-child {
+        display: none
+    }
+
+    .city-masthead {
+        padding: 16px 18px;
+        min-height: 100px
+    }
+
+    .city-identity {
+        gap: 12px
+    }
+
+    .city-identity img {
+        width: 65px;
+        height: 65px
+    }
+
+    .city-identity small {
+        font-size: 8px;
+        letter-spacing: 1.5px
+    }
+
+    .city-identity strong {
+        font-size: 20px
+    }
+
+    .city-identity em {
+        font-size: 8px
+    }
+
+    .reviewer {
+        display: none
+    }
+
+    .department-bar {
+        font-size: 8px;
+        padding: 9px 18px;
+        letter-spacing: .4px
+    }
+
+    .department-bar a {
+        font-size: 8px
+    }
+
+    .department-bar b {
+        padding: 0 4px
+    }
+
+    .portal-layout {
+        display: block
+    }
+
+    .portal-sidebar {
+        padding: 8px 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+    }
+
+    .portal-sidebar>.nav-label,
+    .sidebar-section,
+    .connection-card {
+        display: none
+    }
+
+    .portal-sidebar nav {
+        flex-direction: row;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        width: 100%
+    }
+
+    .portal-sidebar nav button {
+        flex-direction: column;
+        gap: 3px;
+        font-size: 9px;
+        padding: 9px 3px;
+        line-height: 1.5;
+        text-align: center;
+        justify-content: center
+    }
+
+    .portal-sidebar nav button.active {
+        box-shadow: inset 0 -2px #34587f
+    }
+
+    .portal-sidebar nav button span {
+        font-size: 17px
+    }
+
+    .portal-layout main {
+        padding: 16px
+    }
+
+    .breadcrumb {
+        font-size: 9px;
+        margin-bottom: 12px
+    }
+
+    .hero {
+        padding: 24px 20px;
+        min-height: 255px;
+        background-position: 60% center
+    }
+
+    .hero h1 {
+        font-size: 30px
+    }
+
+    .hero p:not(.eyebrow) {
+        font-size: 10px;
+        max-width: 330px
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .scenario {
+        min-height: 135px
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .stats span {
+        font-size: 9px
+    }
+
+    .metric b {
+        font-size: 20px
+    }
+
+    .metrics {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .checks {
+        grid-template-columns: 1fr
+    }
+
+    .diagram-grid,
+    .sources,
+    .research-intro {
+        grid-template-columns: 1fr
+    }
+
+    .architecture-flow {
+        flex-direction: column
+    }
+
+    .case-header h2 {
+        font-size: 22px
+    }
+}

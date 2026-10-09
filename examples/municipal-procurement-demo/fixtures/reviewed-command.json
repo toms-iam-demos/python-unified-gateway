@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "command_id": "CMD-illustrative",
+  "source_record_id": "MUN-00001",
+  "cohort": "MUN-DEMO-example",
+  "expected_version": 2,
+  "operation": "register_reviewed_work_order",
+  "destination": "local_procurement_inbox",
+  "synthetic": true,
+  "evidence": {
+    "catalog_basis": true,
+    "funding_review": true,
+    "conflict_review": true
+  },
+  "inputs": {
+    "base_cents": 12000000,
+    "coefficient": "1.04",
+    "approved_index": "1.08",
+    "submitted_index": "1.08"
+  },
+  "evaluation": {
+    "ready": true,
+    "blockers": [],
+    "metrics": {
+      "expected_cents": 13478400,
+      "submitted_cents": 13478400,
+      "variance_cents": 0
+    },
+    "warnings": [
+      "Illustrative pricing formula; verify actual contract basis."
+    ]
+  }
+}

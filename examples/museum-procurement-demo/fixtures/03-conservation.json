@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "cohort_id": "MUSEUM-DEMO-001",
+  "scenario": "equipment_service_amendment",
+  "command_id": "CMD-CON-001",
+  "purchase_order_id": "PO-DEMO-4301",
+  "expected_po_version": 3,
+  "annual_service_usd": "48000.00",
+  "amendment_usd": "6500.00",
+  "proposed_total_usd": "54500.00",
+  "change_status": "pending_approval",
+  "operation": "propose_po_change",
+  "destination": "oracle_simulator"
+}
