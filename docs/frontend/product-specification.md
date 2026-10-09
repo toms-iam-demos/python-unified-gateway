@@ -1,9 +1,9 @@
 ---
 title: Frontend product specification
-version: 1.1.0
+version: 1.1.1
 status: accepted
 owner: PUG project maintainer
-updated: 2026-09-06
+updated: 2026-10-09
 governing_adr: ADR-0011
 ---
 
@@ -12,11 +12,11 @@ governing_adr: ADR-0011
 ## Organization-independent product model
 The default entry is the active organization's portfolio, with units and use cases described using its terminology. A unit may be a department, division, business line, campus or other grouping. Discovery, management, operator workspaces and evidence views are reusable capabilities. Enable workspaces through profile configuration; no organization must adopt every integration.
 
-public-sector remains the current reference deployment. The routes below describe implemented behavior, not a required public URL vocabulary for every organization. A future generic routing layer must preserve existing links or document migration. A single configured instance does not establish secure multi-tenancy.
+The routes below document a historical local prototype, not a required public URL vocabulary for every organization. A future generic routing layer must preserve existing links or document migration. A single configured instance does not establish secure multi-tenancy.
 
-## Current public-sector navigation contract
+## Historical prototype navigation contract
 
-| Route | Purpose and current state |
+| Route | Purpose and recorded prototype state |
 | --- | --- |
 | / and /admin/departments | public-sector-led portfolio, overview counts, searchable department examples |
 | /admin/departments/{id} | Owner/notes, provenance and next steps |
@@ -32,7 +32,7 @@ Each unit/use-case card presents Who / What / How and opens its replica. Search 
 
 MCP interaction stays inline; no pop-outs. Sark's caption is “end of line.” Current commands read sample APIs, show expandable results and explicit errors, and support clearing the transcript. Keep the model/connection disclosure visible. CLM scope belongs in its own workspace rather than repeated exclusion text.
 
-Finance's configured Maestro launch occurs only through the explicit launch action. Launch counts are not completion metrics. Do not present captures, configured examples or sample records as verified organization-wide deployment progress.
+Any configured workflow launch must occur only through an explicit launch action. Launch counts are not completion metrics. Do not present captures, configured examples or sample records as verified organization-wide deployment progress.
 
 ## Outstanding acceptance work
 Matched responsive screenshots, complete keyboard review, durable browser interaction tests and registry-derived overview counts remain follow-up work. Live integrations need separately specified behavior and access controls.
@@ -46,3 +46,5 @@ Matched responsive screenshots, complete keyboard review, durable browser intera
 ## Public identity revision — 2026-10-09
 
 Named organization references have been generalized for distribution. Historical source captures remain private; proposed generic paths are not claims of existing runtime files. Shared demos must use organization types and neutral artwork. No deployed service was rebranded by this documentation revision.
+
+1.1.1 — 2026-10-09: remove residual identifying asset/agency references and separate historical private prototypes from public generic examples.

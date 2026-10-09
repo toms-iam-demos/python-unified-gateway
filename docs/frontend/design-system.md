@@ -1,9 +1,9 @@
 ---
 title: PUG frontend design specification
-version: 1.2.1
+version: 1.2.2
 status: accepted
 owner: PUG project maintainer
-updated: 2026-09-20
+updated: 2026-10-09
 governing_adr: ADR-0011
 ---
 
@@ -15,9 +15,9 @@ Historical instructions about strict docusign color matching, remote-only fonts 
 the generated PUG mascot are superseded.
 
 ## Platform and profile boundary
-This specification describes reusable presentation rules and the current public-sector reference profile. PUG is independent of state, sector and organization. Identity assets, colors, terminology, strategy copy and enabled capability mascots are profile-owned choices. Shared components own layout and interaction contracts; profiles must not require organization-specific forks of those components.
+This specification describes reusable presentation rules and the generic public-sector presentation contract. PUG is independent of state, sector and organization. Identity assets, colors, terminology, strategy copy and enabled capability mascots are profile-owned choices. Shared components own layout and interaction contracts; profiles must not require organization-specific forks of those components.
 
-The existing hard-coded public-sector implementation has not yet been converted to a configuration-driven profile. Keep its accepted appearance while extracting that boundary in follow-up implementation. See the [organization profile contract](organization-profile.md).
+The existing hard-coded public-sector implementation has not yet been converted to a configuration-driven profile. Private baseline fidelity and public generic presentation are separate contracts. See the [organization profile contract](organization-profile.md).
 
 ## Surface boundaries
 
@@ -26,7 +26,7 @@ replicas preserve their own source markup and styles and never inherit the conso
 base or theme. “Clone” fidelity applies to a named agency reference, not to the
 current hybrid console. See the [replica specification](replica-specification.md).
 
-## public-sector reference profile: visual system
+## Generic visual system
 
 | Role | Value | Use |
 | --- | --- | --- |
@@ -42,8 +42,7 @@ current hybrid console. See the [replica specification](replica-specification.md
 | Charcoal | #343940 | Light-surface text |
 | Muted gray | #626965 | Secondary text on light surfaces |
 
-Use red deliberately, not as the default body-text color. Preserve original flag
-and department-mark colors; grayscale treatment applies to surrounding surfaces.
+Use red deliberately, not as the default body-text color. Public demos use neutral original artwork; keep semantic colors consistent.
 Keep contrast, focus and keyboard use reviewable; no accessibility certification is claimed.
 
 Typography uses local DSIndigo Regular and Medium files, with Helvetica/Arial fallbacks.
@@ -59,7 +58,7 @@ focused on services, efficiency and value. Always spell docusign lowercase in au
 | --- | --- |
 | studio/templates/developer_base.html | Shared document, fonts/styles, header/footer |
 | studio/templates/components/developer_header.html | PUG/Python identity and global navigation |
-| studio/templates/components/organization_identity.html (proposed generic path) | Official flag and portfolio identity |
+| studio/templates/components/organization_identity.html (proposed generic path) | Generic portfolio identity |
 | studio/templates/components/department_identity.html | Normalized department marks and names |
 | studio/templates/components/mcp_chat.html | Embedded Sark prompt/results interface |
 | studio/static/developer-brand.css | Base semantic tokens and reusable controls |
@@ -73,40 +72,17 @@ adapter. The cascade still contains historical overrides; resolve those carefull
 when consolidating CSS and verify screenshots before/after. Do not introduce another
 independent theme. /brand is the component reference; it must track this specification.
 
-## public-sector reference profile: asset standards
+## Public asset standards
 
-| Identity | Current asset | Presentation |
-| --- | --- | --- |
-| PUG | studio/static/pug-logo.png | User-supplied pixel mark; 64px desktop / 56px mobile; lighten blend on isolated navy header |
-| Python | studio/static/python-purple.png | Supplied purple mark in shared technology badge |
-| MCP / Sark | studio/static/sark-mcp.png | MCP tab/console; caption “end of line” |
-| OpenClaw / Larry | studio/static/larry-openclaw.png | OpenClaw tab/page on white plate; supplied checkerboard remains in original asset |
-| public-sector | studio/static/state/generic-identity.svg (proposed replacement) | Complete original flag, native proportions and colors |
-| Finance | studio/static/departments/dfa-supplied.jpg | Latest supplied green seal; multiply blend on pale-gray holder |
-| Military | studio/static/departments/military.png | Official source mark |
-| Veterans Affairs | studio/static/departments/veterans.png | Official source mark |
-| Health | studio/static/departments/health.svg | Official source mark and optical-size reference |
-| Agriculture | studio/static/departments/agriculture.png | Official source mark |
+Use original neutral artwork for organization types: NFP, Museum, Municipal and EDU. Do not distribute institutional seals, flags, recognizable landmarks, copied wordmarks or source-site screenshots as generic branding. Retain private source evidence separately; publish a separately reviewed derivative.
 
-Department holders are 92px desktop / 72px mobile, with a 1px border and 5px padding.
-Target visible emblem diameters are 80px / 60px. Compensate source margins with CSS
-scales: Finance 1.057, Military 1.333, Veterans 1.0508, Health 1.0, Agriculture 1.1062.
-Use containment and preserve aspect ratio. Source files remain unchanged; inspect
-optical alignment after any replacement instead of assuming equal canvases imply equal marks.
+Preserve aspect ratios, readable labels and keyboard focus. Asset sizing is evaluated against the actual generic artwork, not optical calibration inherited from an identifiable source mark. Retain licenses for distributable third-party fonts and technical product references. Public accessibility and attribution alone do not grant redistribution rights.
 
-Department source URLs and hashes are in
-asset provenance (`pug-examples/studio/static/departments/sources.json`; external working example). PUG, Python and Sark
-were supplied from Desktop/Dev; Larry from the same folder; Finance from Desktop/df&a.jpg.
-Do not reuse the older generated pug-mark-v1.png or superseded Finance seals in new UI.
-
-Historical organization-specific asset references are omitted from the public edition.
-Font source: [developer-center font stylesheet](https://developers.docusign.com/fonts/dist/css/OliveFonts.css).
-Publicly accessible assets and user-supplied artwork require redistribution review
-before public publishing; source attribution alone does not grant a license.
+The portable examples provide the current generic artwork. Historical studio file paths above identify component responsibilities, not installed packages or an approved source-asset inventory. No private desktop paths or institutional asset filenames belong in the public specification.
 
 ## Product and validation rules
 
-The active organization owns homepage identity; public-sector is the current profile. MCP, CLM and OpenClaw retain dedicated workspaces.
+The active organization owns homepage identity; the shared public profile uses generic organization types. MCP, CLM and OpenClaw retain dedicated workspaces.
 Keep Who / What / How on department examples and provenance/ownership in management
 views. The homepage subheading is editorially aligned with
 generic public-service outcomes.
@@ -141,3 +117,5 @@ continues to define the boundary; this specification does not create another con
 ## Public identity revision — 2026-10-09
 
 Named organization references have been generalized for distribution. Historical source captures remain private; proposed generic paths are not claims of existing runtime files. Shared demos must use organization types and neutral artwork. No deployed service was rebranded by this documentation revision.
+
+1.2.2 — 2026-10-09: remove residual identifying asset/agency references and separate historical private prototypes from public generic examples.

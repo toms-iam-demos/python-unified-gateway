@@ -8,15 +8,15 @@
 
 | Artifact | Version | Responsibility |
 | --- | --- | --- |
-| [Design principles](design-principles.md) | 1.2.1 | Audience, hybrid identity and tone |
-| [Product specification](product-specification.md) | 1.1.0 | Navigation, journeys and capability states |
-| [Design system specification](design-system.md) | 1.2.1 | Typography, colors, logos and components |
-| [Replica specification](replica-specification.md) | 1.1.0 | Source fidelity, deviations and acceptance |
+| [Design principles](design-principles.md) | 1.2.2 | Audience, hybrid identity and tone |
+| [Product specification](product-specification.md) | 1.1.1 | Navigation, journeys and capability states |
+| [Design system specification](design-system.md) | 1.2.2 | Typography, colors, logos and components |
+| [Replica specification](replica-specification.md) | 1.1.1 | Source fidelity, deviations and acceptance |
 | [Organization profile contract](organization-profile.md) | 1.1.0 | Configuration boundary; implementation pending |
 
 All specifications follow ADR-0011. Changes record version, owner, date, rationale and evidence. No lower-level version may override architecture. Archive the previous specification when publishing a replacement; this table always identifies the current version.
 
-Approved branding governs all console surfaces consistently through the active organization profile. Named organizations appear only as scoped reference examples, not platform requirements. Prior versions remain available in repository history and the examples documentation history.
+Approved branding governs all console surfaces consistently through the active organization profile. Shared examples use generic organization types; identifying source evidence remains outside the public package. Prior versions remain available in repository history and the examples documentation history.
 
 ## Canonical ownership
 
@@ -36,3 +36,7 @@ editable authorities.
 - Superseded ADR-FE history (`pug-examples/docs/adr/index.md`; external working history)
 
 Selected screenshots and ad hoc interaction checks exist from development. A complete approved visual baseline and accessibility audit are still outstanding; documentation acceptance does not imply validation completion.
+
+## Publication identity checks
+
+See [public identity policy](public-identity-policy.md) for the current-tree scope, artifact review and automated checks.

@@ -21,7 +21,7 @@ This record consolidates and supersedes the initial ADR-FE-0001–0004 records. 
 ## Context
 The first reference implementation combines an administration portfolio, organizational source-page replicas and operator workspaces. Its console combines PUG identity, developer-oriented presentation and approved organization branding. That work exposed two distinct needs: a consistent product experience and accurate demonstrations of another organization's experience.
 
-No reference organization defines the platform. The same architecture must accommodate a business, university, nonprofit, government or other organization without duplicating the shared frontend. Design intent needs a durable home, while colors, components, journeys and source examples need room to evolve.
+No reference organization defines the platform. The same architecture must accommodate a business, university, not-for-profit, government or other organization without duplicating the shared frontend. Design intent needs a durable home, while colors, components, journeys and source examples need room to evolve.
 
 ## Decision
 Adopt one organization-independent frontend architecture with three explicit design boundaries, governed by this ADR and implemented through versioned specifications.

@@ -1,9 +1,9 @@
 ---
 title: Frontend design principles
-version: 1.2.1
+version: 1.2.2
 status: accepted
 owner: PUG project maintainer
-updated: 2026-09-20
+updated: 2026-10-09
 governing_adr: ADR-0011
 ---
 
@@ -16,10 +16,10 @@ The reusable identity combines developer-oriented clarity with an approved organ
 
 Source-based replicas follow the originating organization's reference, even when its styling differs from the console. Preserve source identity, document intentional adaptations and avoid unsupported claims of ownership or deployed results. Keep implementation details where they help the audience make decisions. Write docusign lowercase when referring to that integration.
 
-Keep visible logo sizes consistent within each profile; Health is the optical reference for the current public-sector profile only. Capability mascots and captions are profile presentation choices, not architectural dependencies. Private source snapshots remain preserved; shared editions use generic identities.
+Keep visible logo sizes consistent within each profile; Assess optical balance using the approved generic assets. Capability mascots and captions are profile presentation choices, not architectural dependencies. Private source snapshots remain preserved; shared editions use generic identities.
 
 ## public-sector reference profile
-Public-service goals informs that profile's public-service, efficiency and taxpayer-value language. Other profiles use their own approved strategy and audience vocabulary. No organization's strategy should be baked into the reusable shell.
+Public-service goals inform that profile's public-service, efficiency and taxpayer-value language. Other profiles use their own approved strategy and audience vocabulary. No organization's strategy should be baked into the reusable shell.
 
 ## References
 - [Current design specification](design-system.md)
@@ -45,3 +45,5 @@ continues to define the boundary; this specification does not create another con
 ## Public identity revision — 2026-10-09
 
 Named organization references have been generalized for distribution. Historical source captures remain private; proposed generic paths are not claims of existing runtime files. Shared demos must use organization types and neutral artwork. No deployed service was rebranded by this documentation revision.
+
+1.2.2 — 2026-10-09: remove residual identifying asset/agency references and separate historical private prototypes from public generic examples.
