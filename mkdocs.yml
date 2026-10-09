@@ -42,6 +42,7 @@ nav:
       - Connect HMAC Verification: 006_runbooks/12_connect_hmac.md
       - Architecture Explorer: 006_runbooks/13_architecture_explorer.md
       - Release Scope: 006_runbooks/14_release_scope.md
+      - Workflow Builder API: 006_runbooks/15_workflow_api.md
   - Architecture Decisions:
       - ADR Index: 007_adr/index.md
       - ADR Template: 007_adr/0000_template.md

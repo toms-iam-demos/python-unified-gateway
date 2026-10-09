@@ -12,6 +12,7 @@ from gateway.routers import (
     explorer,
     health,
     webhooks,
+    workflows,
 )
 
 
@@ -27,6 +28,9 @@ def create_app() -> FastAPI:
     app.include_router(events.router)
     app.include_router(docusign.router)
     app.include_router(docusign_jwt_test.router, prefix="/docusign")
+
+    if os.getenv("GATEWAY_WORKFLOWS_ENABLED", "0").strip() == "1":
+        app.include_router(workflows.router)
 
     # Operator access remains an edge responsibility. Enable only after the
     # existing ingress policy protects /explorer/* (or on a loopback-only host).
