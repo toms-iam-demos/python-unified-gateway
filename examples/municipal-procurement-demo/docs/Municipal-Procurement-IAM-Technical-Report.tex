@@ -1,0 +1,531 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{xcolor,graphicx,tikz}
+\usepackage{enumitem,fancyhdr,titlesec}
+\usepackage[breaklinks=true]{hyperref}
+\definecolor{navy}{HTML}{09283E}
+\definecolor{blue}{HTML}{075CA3}
+\definecolor{gold}{HTML}{DCA849}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,pdftitle={Municipal Procurement Intelligence: IAM Demonstration and Technical Design},pdfauthor={PUG}}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlist{nosep,leftmargin=*}
+\titleformat{\section}{\Large\bfseries\color{navy}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{blue}}{\thesubsection}{0.7em}{}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small PUG / MUNICIPAL PROCUREMENT INTELLIGENCE}\fancyhead[R]{\small RESEARCH + ENGINEERING}\fancyfoot[L]{\scriptsize Independent concept • Synthetic data • 07 October 2026}\fancyfoot[R]{\thepage}
+\setlength{\headheight}{15pt}
+\newcommand{\src}[1]{\hyperref[src:#1]{[#1]}}
+\newcommand{\code}[1]{\texttt{\small #1}}
+\begin{document}
+\begin{titlepage}
+\color{navy}
+{\small\bfseries PUG \hfill ENTERPRISE DEMONSTRATION / 04}\par
+\vspace{1.15in}
+{\fontsize{43}{47}\selectfont MUNICIPAL\\Procurement\\intelligence.}\par
+\vspace{0.3in}
+{\Large From agreement to accountability.}\par
+\vspace{0.3in}
+{\color{gold}\rule{0.7\linewidth}{3pt}}\par
+\vspace{0.3in}
+{\large A researched docusign IAM demonstration, a portable FastAPI example, and a controlled path toward enterprise integration.}\par
+\vfill
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+Prepared & 07 October 2026\\
+Context & fictional municipality procurement; General Services, Procurement and contract administration\\
+Implementation & Local synthetic simulator, four scenarios, 10,000-record corpus\\
+Distribution & PUG repository, \code{examples/municipal-procurement-demo}\\
+Boundary & No connection to city systems, SAP or a docusign tenant\\
+\end{tabularx}
+\vspace{0.3in}
+\small Independent concept. No endorsement by the fictional municipality, SAP or docusign is implied. Public evidence informs the design; fictional transactions illustrate it. This is not a legal determination, certified connector or production control assessment.
+\end{titlepage}
+\tableofcontents\newpage
+\section{Executive recommendation}
+Demonstrate a procurement officer resolving one consequential exception, not merely watching an agreement get signed. A fictional facilities work order arrives with an index-driven price variance. The officer sees the source inputs, corrects the discrepancy, records supporting evidence, reviews a frozen command and hands the packet to a simulated downstream inbox. A deliberately lost response then proves that the system can reconcile an uncertain outcome without creating another transaction.
+
+This story makes the IAM proposition tangible: agreement information becomes an accountable decision, with a traceable handoff. It also creates a useful division of labor. docusign would handle agreement intake, execution and agreement information; PUG would supply explicit calculations, validation and integration controls; the purchasing or finance platform would remain authoritative for its transactions. The current package implements the PUG-side local demonstration only.
+
+This fictional example separates sourcing, agreement evidence and downstream purchasing. A future adapter requires discovery of the actual destination contract and owner-approved access.
+
+The recommended demonstration has four chapters: price assurance, invoice evidence, emergency justification and renewal readiness. They share a reusable state machine and canonical command. Each provides an observable success condition and a negative test. The UI uses original generic civic artwork and bundled fonts. Its employee workspace is a fictional local demonstration.
+
+\subsection{What the audience should leave believing}
+\begin{enumerate}
+\item A completed agreement can carry structured, reviewed evidence into an operational process.
+\item A modest Python service can add deterministic mathematics and integration safeguards to an agreement workflow.
+\item Human authority remains explicit: a price calculation does not approve a contract, and a complete invoice packet does not release payment.
+\item A useful proof of concept can be reproducible on another laptop without city credentials, paid provider traffic or a production deployment.
+\end{enumerate}
+
+\section{Design assumptions and evidence boundaries}
+This anonymized edition specifies fictional municipal procurement scenarios. It does not assert any real organization's policies, audits, software estate, deficiencies or IAM entitlement. Organization-specific research and assets are excluded from this public edition. Vendor references remain separately attributed.
+
+The arithmetic, eight-hour contact target, 24-hour documentation target, review checklists and 90-day notice term are explicit fixture assumptions. They are not legal rules. Actual thresholds, deadlines, authority and evidence requirements require owner-approved discovery. No supplier personal records, real invoices or production credentials are included.
+
+\section{Stakeholders, systems and authority}
+\begin{longtable}{p{0.22\linewidth}p{0.34\linewidth}p{0.36\linewidth}}
+\toprule Role / boundary & Proposed responsibility & Must remain outside automated discretion\\\midrule
+Department requester & Provide scope, incident facts or service need & Self-approval of procurement authority\\
+Project manager & Check commercial basis and acceptance evidence & Treating extracted text as verified pricing\\
+Contract administrator & Assemble packet, track versions and obligations & Certifying completeness without source evidence\\
+Procurement / CPO & Determine procurement path and authorized review & Emergency qualification by a software score\\
+Finance / receiving & Validate payable and receipt prerequisites & Payment release by this demonstration\\
+compliance owner / legal owner & Determine current applicability and approved exceptions & Inferring eligibility or legal rules from stale pages\\
+Integration operator & Monitor delivery, retries and reconciliation & Retrying an uncertain write blindly\\
+\bottomrule
+\end{longtable}
+These are proposed demonstration personas aligned to the process narrative, not a verified city organization chart or authorization matrix. All local personas are operated by the same user. Production segregation of duties must be enforced by identity and policy, not by changing a label in the UI.
+
+Any future compliance integration must use owner-approved requirements and minimize sensitive employee data.
+
+\section{Scenario one: facilities work-order price assurance}
+\subsection{Business story}
+A fictional General Services project manager receives a cooling-repair work-order proposal from Civic Demo Services. The scope references a catalog-based estimate. A candidate value has been extracted or entered, but the proposed index does not match the reviewed basis. The procurement analyst needs to see both the difference and why it exists before assembling the approval packet.
+
+The local fixture uses an invented base price of \$120,000, a coefficient of 1.04 and an approved illustrative index of 1.08. The submitted index is 1.13. These values and their multiplicative relationship are an instructional calculation, not a verified Municipal contract formula or an authentic catalog.
+\begin{align*}
+\text{Reviewed value} &= 120{,}000\times1.04\times1.08=\$134{,}784\\
+\text{Submitted value} &= 120{,}000\times1.04\times1.13=\$141{,}024\\
+\text{Variance} &= \$6{,}240.
+\end{align*}
+
+\subsection{Walkthrough and evidence}
+The analyst opens the record and sees a blocked preparation action. The reviewer checks the catalog/index basis, funding review and conflict-disclosure review. Correcting the index to 1.08 removes the arithmetic blocker after the change is saved. The service produces a frozen packet with its record version, reviewed inputs and decision warnings. Approval then permits one local delivery.
+
+In a real implementation, the candidate values would include document ID, page or anchor, extraction run, confidence where available, effective index quarter and reviewer identity. The software would compare an approved pricing schedule to the proposal line items. A contract-specific rounding policy would define whether rounding occurs per line, subtotal or final amount. This fixture rounds the final result to the nearest cent using decimal half-up arithmetic; that is a declared demo convention.
+
+\subsection{What this proves and what it does not}
+The example proves repeatable arithmetic, evidence gating and invalidation of stale approvals. It does not prove AI extraction accuracy, authorized access to a price book, contract interpretation or actual savings. The \$6,240 is a synthetic discrepancy, never a realized savings claim.
+
+The local operation \code{register\_reviewed\_work\_order} records a review packet in an inbox. Its name does not confer purchase-order or work-order issuance authority. An actual destination mapping would need an approved business object and API contract.
+
+\section{Scenario two: invoice evidence and service acceptance}
+A fictional roof-maintenance payment application seeks \$48,000 against a \$120,000 contract. The accepted cumulative value is \$84,000 and prior paid value is \$36,000. The outstanding accepted amount is therefore \$48,000. A request of \$48,000.01 must fail the amount gate.
+\[
+\text{Accepted but unpaid}=\text{Accepted cumulative}-\text{Prior paid}.
+\]
+
+The reviewer must record references to the signed work order, service acceptance, invoice support and applicable compliance review. A real evidence model should distinguish a document's existence, validity, period and reviewer decision. A checked box here is a simulated attestation; the application does not inspect uploaded PDFs or authenticate a city employee.
+
+A future acceptance mapping should preserve invoice identifier, supplier identifier, contract reference, accepted quantities, unit of measure, tax treatment, retention, prior-payment reconciliation and the destination's duplicate-invoice key. This minimal example excludes tax, retainage, partial reversals and credit notes so that the demonstrated arithmetic remains inspectable. Those exclusions are extension requirements, not assumptions that the city never uses them.
+
+The handoff is \code{register\_invoice\_review\_packet}. Finance remains responsible for payable posting and payment release. Duplicate command protection is demonstrated at the transport layer; real duplicate-invoice protection also requires the destination's business key. Two distinct commands carrying the same real invoice would need additional business-level detection.
+
+\section{Scenario three: emergency justification and escalation}
+A fictional stormwater pump incident requires an urgent \$185,000 estimated response. The demonstration clock begins at a synthetic incident, not at the current wall clock. The reviewer records elapsed hours, the actual contact hour and the actual completed-form hour. The eight- and 24-hour intervals are explicit synthetic fixture targets, not a policy claim.
+
+An absent contact at hour 26 appears overdue. Recording contact at hour 9 marks it late; it does not rewrite history as timely. A completed form at hour 25 is likewise late. The evidence includes incident facts, the cost ceiling, a simulated CPO determination and review of the council approval path. A future timestamp cannot satisfy the gate.
+
+Lateness is retained as a warning while a completed packet can still be sent for review. Preventing submission forever after a missed deadline would discourage transparent remediation. This is a deliberate design choice: the application facilitates escalation and records the discrepancy, while the authorized officer decides the operational and legal response.
+
+The packet must never auto-issue an EPO or infer that a public emergency exists. Production discovery must establish the incident-time definition, time zone, stabilization context, contact evidence, escalation channel, alternate personnel and applicable approval authority. The numeric estimate is a fixture; it does not select a legal threshold or procurement method.
+
+A useful future Workflow Builder notification would include the record reference, department, incident time, deadline, elapsed time, cost ceiling, missing evidence and a secure task link. Send only necessary information. The current package previews state in the browser and sends no email, invitation, SMS or Telegram notification.
+
+\section{Scenario four: renewal and performance readiness}
+A fictional facility-inspection agreement ends on January 15, 2027. The contract's invented 90-calendar-day notice term yields October 17, 2026. The fixed demo date is October 7, 2026, leaving ten days. The 90-day interval is not represented as a citywide requirement.
+
+The contract manager verifies the extracted clause, performance review, budget review and competition/renewal authority. Performance evidence is a synthetic checklist requirement; it does not establish renewal rights.
+
+A real agreement record should distinguish end date, renewal option, automatic renewal, notice recipient, delivery method, business-day conventions and the clause that supports each value. An AI-generated date should remain proposed until a reviewer confirms the actual contract text. The demo operation creates a renewal review task, not an executed renewal or a notice to a supplier.
+
+Negative tests include an overdue notice date, a missing performance evaluation and an altered interval after approval. Changing saved evidence increments the record version and marks prepared or approved commands stale. The user must prepare and review a new command against the updated record.
+
+\section{IAM demonstration design}
+\begin{longtable}{p{0.23\linewidth}p{0.34\linewidth}p{0.35\linewidth}}
+\toprule Capability & Proposed live sandbox demonstration & Current local implementation\\\midrule
+Workflow Builder & Structured intake and HTTP extension calling a narrowly scoped decision service & Form controls call local FastAPI endpoints\\
+eSignature & Execute approved synthetic work-order documentation; capture completion event & Simulated signed-reference checklist only\\
+Agreement Manager & Ingest synthetic agreement; inspect fields, terms and source evidence & Typed fixtures and inspectable JSON, no extraction engine\\
+PUG decision service & Deterministic math, candidate validation, review task and controlled handoff & Implemented with FastAPI and SQLite\\
+Procurement destination & Owner-approved SAP interface, receipt and read-back & Local inbox with unique command ID and digest\\
+\bottomrule
+\end{longtable}
+
+Vendor release notes describe Workflow Builder and its HTTP web request capability; actual entitlement and available configuration must be checked in the selected sandbox.\src{S9} Agreement Manager's API documentation supports a future ingestion/query story, but this package neither exercises those endpoints nor verifies a tenant license.\src{S10}
+
+Custom field configuration should be versioned and trialed on a dedicated synthetic corpus. Configuration changes can affect existing mappings and processing. Review a dry run and establish rollback/reprocessing expectations before applying a package to a shared tenant.\src{S11}
+
+\subsection{Proposed Workflow Builder request contract}
+The enterprise extension should accept a small business payload: tenant-scoped agreement reference, scenario, source event ID, verified commercial inputs, evidence references and an expected record version. It should return a stable decision code, calculated metrics, blockers, warnings and a correlation ID. A timeout is an unknown outcome until reconciled; it is not evidence that the destination rejected the transaction.
+
+The local browser API is a demonstration interface, not that production contract. In particular, its process token is not a Workflow Builder service credential. A real endpoint needs supported server-to-server authentication, authorization, bounded request size, rate limits and an audited identity. Connect events require signature verification over the correct raw request bytes before persistence or state transition, plus replay/deduplication controls. Actual validation must use the provider's current documentation and a test tenant.
+
+\newpage\section{Architecture and canonical data}
+\begin{figure}[htbp]
+\centering
+\resizebox{0.96\linewidth}{!}{%
+% generated by Plantuml 1.2026.8
+\definecolor{plantucolor0000}{RGB}{0,0,0}%
+\definecolor{plantucolor0001}{RGB}{243,245,247}%
+\definecolor{plantucolor0002}{RGB}{9,40,62}%
+\definecolor{plantucolor0003}{RGB}{234,243,251}%
+\definecolor{plantucolor0004}{RGB}{237,247,241}%
+\definecolor{plantucolor0005}{RGB}{255,255,255}%
+\definecolor{plantucolor0006}{RGB}{7,92,163}%
+\begin{tikzpicture}[yscale=-1
+,pstyle3/.style={color=black,fill=white,line width=1.0pt}
+,pstyle4/.style={color=black,line width=1.0pt}
+,pstyle5/.style={color=plantucolor0006,line width=1.0pt}
+,pstyle6/.style={color=plantucolor0006,fill=plantucolor0006,line width=1.0pt}
+,pstyle7/.style={color=plantucolor0006,line width=1.0pt,dash pattern=on 7.0pt off 7.0pt}
+]
+\node at (189.2119pt,15pt)[below right,color=black,inner sep=0]{\textbf{Municipal procurement - explicit system boundaries}};
+\draw[color=plantucolor0002,fill=plantucolor0001,line width=1.0pt] (398pt,486pt) arc (180:270:5pt) -- (403pt,481pt) -- (726pt,481pt) arc (270:360:5pt) -- (731pt,486pt) -- (731pt,587pt) arc (0:90:5pt) -- (726pt,592pt) -- (403pt,592pt) arc (90:180:5pt) -- (398pt,587pt) -- cycle;
+\node at (460.3312pt,483pt)[below right,color=black,inner sep=0]{\textbf{Illustrative procurement ecosystem}};
+\node at (517.8625pt,497pt)[below right,color=black,inner sep=0]{\textbf{(not connected)}};
+\draw[color=plantucolor0002,fill=plantucolor0003,line width=1.0pt] (439pt,60pt) arc (180:270:5pt) -- (444pt,55pt) -- (672pt,55pt) arc (270:360:5pt) -- (677pt,60pt) -- (677pt,411.5pt) arc (0:90:5pt) -- (672pt,416.5pt) -- (444pt,416.5pt) arc (90:180:5pt) -- (439pt,411.5pt) -- cycle;
+\node at (482.925pt,57pt)[below right,color=black,inner sep=0]{\textbf{Proposed IAM integration}};
+\node at (460.7438pt,71pt)[below right,color=black,inner sep=0]{\textbf{(not implemented in this package)}};
+\draw[color=plantucolor0002,fill=plantucolor0004,line width=1.0pt] (12pt,81pt) arc (180:270:5pt) -- (17pt,76pt) -- (410pt,76pt) arc (270:360:5pt) -- (415pt,81pt) -- (415pt,416pt) arc (0:90:5pt) -- (410pt,421pt) -- (17pt,421pt) arc (90:180:5pt) -- (12pt,416pt) -- cycle;
+\node at (141.1375pt,78pt)[below right,color=black,inner sep=0]{\textbf{Implemented local demo}};
+\draw[pstyle3] (604.85pt,533pt) arc (180:270:5pt) -- (609.85pt,528pt) -- (710.15pt,528pt) arc (270:360:5pt) -- (715.15pt,533pt) -- (715.15pt,571pt) arc (0:90:5pt) -- (710.15pt,576pt) -- (609.85pt,576pt) arc (90:180:5pt) -- (604.85pt,571pt) -- cycle;
+\node at (614.85pt,538pt)[below right,color=black,inner sep=0]{Sourcing portal};
+\node at (614.85pt,552pt)[below right,color=black,inner sep=0]{Solicitations};
+\draw[pstyle3] (413.84pt,533pt) arc (180:270:5pt) -- (418.84pt,528pt) -- (565.165pt,528pt) arc (270:360:5pt) -- (570.165pt,533pt) -- (570.165pt,571pt) arc (0:90:5pt) -- (565.165pt,576pt) -- (418.84pt,576pt) arc (90:180:5pt) -- (413.84pt,571pt) -- cycle;
+\node at (423.84pt,538pt)[below right,color=black,inner sep=0]{SAP Business Network};
+\node at (423.84pt,552pt)[below right,color=black,inner sep=0]{Supplier transactions};
+\draw[pstyle3] (497.03pt,107pt) arc (180:270:5pt) -- (502.03pt,102pt) -- (613.9675pt,102pt) arc (270:360:5pt) -- (618.9675pt,107pt) -- (618.9675pt,145pt) arc (0:90:5pt) -- (613.9675pt,150pt) -- (502.03pt,150pt) arc (90:180:5pt) -- (497.03pt,145pt) -- cycle;
+\node at (507.03pt,112pt)[below right,color=black,inner sep=0]{Workflow Builder};
+\node at (507.03pt,126pt)[below right,color=black,inner sep=0]{Intake and review};
+\draw[pstyle3] (489.2pt,230pt) arc (180:270:5pt) -- (494.2pt,225pt) -- (621.8pt,225pt) arc (270:360:5pt) -- (626.8pt,230pt) -- (626.8pt,268pt) arc (0:90:5pt) -- (621.8pt,273pt) -- (494.2pt,273pt) arc (90:180:5pt) -- (489.2pt,268pt) -- cycle;
+\node at (499.2pt,235pt)[below right,color=black,inner sep=0]{eSignature};
+\node at (499.2pt,249pt)[below right,color=black,inner sep=0]{Execution evidence};
+\draw[pstyle3] (454.64pt,357.5pt) arc (180:270:5pt) -- (459.64pt,352.5pt) -- (656.365pt,352.5pt) arc (270:360:5pt) -- (661.365pt,357.5pt) -- (661.365pt,395.5pt) arc (0:90:5pt) -- (656.365pt,400.5pt) -- (459.64pt,400.5pt) arc (90:180:5pt) -- (454.64pt,395.5pt) -- cycle;
+\node at (464.64pt,362.5pt)[below right,color=black,inner sep=0]{Agreement Manager};
+\node at (464.64pt,376.5pt)[below right,color=black,inner sep=0]{Reviewed agreement metadata};
+\draw[pstyle3] (238.74pt,114pt) arc (180:270:5pt) -- (243.74pt,109pt) -- (364.2525pt,109pt) arc (270:360:5pt) -- (369.2525pt,114pt) -- (369.2525pt,138pt) arc (0:90:5pt) -- (364.2525pt,143pt) -- (243.74pt,143pt) arc (90:180:5pt) -- (238.74pt,138pt) -- cycle;
+\node at (248.74pt,119pt)[below right,color=black,inner sep=0]{Browser / Swagger};
+\draw[pstyle3] (209.87pt,230pt) arc (180:270:5pt) -- (214.87pt,225pt) -- (393.1325pt,225pt) arc (270:360:5pt) -- (398.1325pt,230pt) -- (398.1325pt,268pt) arc (0:90:5pt) -- (393.1325pt,273pt) -- (214.87pt,273pt) arc (90:180:5pt) -- (209.87pt,268pt) -- cycle;
+\node at (219.87pt,235pt)[below right,color=black,inner sep=0]{PUG FastAPI};
+\node at (219.87pt,249pt)[below right,color=black,inner sep=0]{Evidence + arithmetic + plans};
+\draw[pstyle3] (28.32pt,358pt) ..controls (28.32pt,348pt) and (99.0013pt,348pt) .. (99.0013pt,348pt) ..controls (99.0013pt,348pt) and (169.6825pt,348pt) .. (169.6825pt,358pt) -- (169.6825pt,395pt) ..controls (169.6825pt,405pt) and (99.0013pt,405pt) .. (99.0013pt,405pt) ..controls (99.0013pt,405pt) and (28.32pt,405pt) .. (28.32pt,395pt) -- (28.32pt,358pt);
+\draw[pstyle4] (28.32pt,358pt) ..controls (28.32pt,368pt) and (99.0013pt,368pt) .. (99.0013pt,368pt) ..controls (99.0013pt,368pt) and (169.6825pt,368pt) .. (169.6825pt,358pt);
+\node at (38.32pt,372pt)[below right,color=black,inner sep=0]{SQLite};
+\node at (38.32pt,386pt)[below right,color=black,inner sep=0]{Fixtures / audit / plans};
+\draw[pstyle3] (204.85pt,357.5pt) arc (180:270:5pt) -- (209.85pt,352.5pt) -- (394.15pt,352.5pt) arc (270:360:5pt) -- (399.15pt,357.5pt) -- (399.15pt,395.5pt) arc (0:90:5pt) -- (394.15pt,400.5pt) -- (209.85pt,400.5pt) arc (90:180:5pt) -- (204.85pt,395.5pt) -- cycle;
+\node at (214.85pt,362.5pt)[below right,color=black,inner sep=0]{Simulated procurement inbox};
+\node at (214.85pt,376.5pt)[below right,color=black,inner sep=0]{Unique command receipt};
+\draw[pstyle5] (558pt,150.33pt) ..controls (558pt,171.76pt) and (558pt,198.34pt) .. (558pt,219.74pt);
+\draw[pstyle6] (558pt,224.74pt) -- (562pt,215.74pt) -- (558pt,219.74pt) -- (554pt,215.74pt) -- (558pt,224.74pt) -- cycle;
+\draw[pstyle5] (558pt,273.31pt) ..controls (558pt,295.85pt) and (558pt,324.81pt) .. (558pt,347.31pt);
+\draw[pstyle6] (558pt,352.31pt) -- (562pt,343.31pt) -- (558pt,347.31pt) -- (554pt,343.31pt) -- (558pt,352.31pt) -- cycle;
+\draw[pstyle5] (304pt,143.32pt) ..controls (304pt,164.35pt) and (304pt,196.04pt) .. (304pt,219.92pt);
+\draw[pstyle6] (304pt,224.92pt) -- (308pt,215.92pt) -- (304pt,219.92pt) -- (300pt,215.92pt) -- (304pt,224.92pt) -- cycle;
+\draw[pstyle5] (265.92pt,273.31pt) ..controls (231.53pt,294.36pt) and (185.1345pt,322.7696pt) .. (148.6545pt,345.0996pt);
+\draw[pstyle6] (144.39pt,347.71pt) -- (154.1544pt,346.4229pt) -- (148.6545pt,345.0996pt) -- (149.9778pt,339.5997pt) -- (144.39pt,347.71pt) -- cycle;
+\draw[pstyle5] (303.63pt,273.31pt) ..controls (303.27pt,295.85pt) and (302.81pt,324.8106pt) .. (302.45pt,347.3106pt);
+\draw[pstyle6] (302.37pt,352.31pt) -- (306.5135pt,343.3751pt) -- (302.45pt,347.3106pt) -- (298.5145pt,343.2472pt) -- (302.37pt,352.31pt) -- cycle;
+\draw[pstyle7] (495.44pt,352.1pt) ..controls (470.93pt,342.35pt) and (442.79pt,330.4pt) .. (418pt,318pt) ..controls (391.21pt,304.6pt) and (366.467pt,289.9248pt) .. (344.427pt,276.1148pt);
+\draw[pstyle6] (340.19pt,273.46pt) -- (345.6927pt,281.6283pt) -- (344.427pt,276.1148pt) -- (349.9404pt,274.8491pt) -- (340.19pt,273.46pt) -- cycle;
+\node at (419pt,304pt)[below right,color=black,inner sep=0]{proposed typed adapter};
+\draw[pstyle7] (496.58pt,144.27pt) ..controls (468.03pt,153.29pt) and (434.05pt,165.5pt) .. (405pt,180pt) ..controls (379.85pt,192.56pt) and (357.6014pt,207.4623pt) .. (338.1514pt,221.7323pt);
+\draw[pstyle6] (334.12pt,224.69pt) -- (343.7426pt,222.5912pt) -- (338.1514pt,221.7323pt) -- (339.0103pt,216.141pt) -- (334.12pt,224.69pt) -- cycle;
+\node at (406pt,181pt)[below right,color=black,inner sep=0]{proposed HTTP extension};
+\draw[pstyle7] (327.62pt,400.9pt) ..controls (363.99pt,434.11pt) and (426.4779pt,491.1682pt) .. (462.7879pt,524.3282pt);
+\draw[pstyle6] (466.48pt,527.7pt) -- (462.5317pt,518.6772pt) -- (462.7879pt,524.3282pt) -- (457.1369pt,524.5845pt) -- (466.48pt,527.7pt) -- cycle;
+\node at (405.2719pt,438pt)[below right,color=black,inner sep=0]{future adapter discovery};
+\node at (398pt,451pt)[below right,color=black,inner sep=0]{not a certified SAP interface};
+\draw[pstyle7] (664.72pt,527.74pt) ..controls (669.42pt,503.28pt) and (676.32pt,463.62pt) .. (679pt,429pt) ..controls (686.1pt,337.28pt) and (688pt,305.79pt) .. (644pt,225pt) ..controls (628.41pt,196.37pt) and (606.7405pt,172.4297pt) .. (587.6205pt,153.8997pt);
+\draw[pstyle6] (584.03pt,150.42pt) -- (587.7091pt,159.5559pt) -- (587.6205pt,153.8997pt) -- (593.2767pt,153.8111pt) -- (584.03pt,150.42pt) -- cycle;
+\node at (680.83pt,304pt)[below right,color=black,inner sep=0]{conceptual award reference};
+\draw[pstyle4] (192.5431pt,620pt) arc (180:270:15pt) -- (207.5431pt,605pt) -- (640.4431pt,605pt) arc (270:360:15pt) -- (655.4431pt,620pt) -- (655.4431pt,628pt) arc (0:90:15pt) -- (640.4431pt,643pt) -- (207.5431pt,643pt) arc (90:180:15pt) -- (192.5431pt,628pt) -- cycle;
+\node at (197.5431pt,610pt)[below right,color=black,inner sep=0]{Solid = local implementation or proposed IAM relationship inside its labeled box.};
+\node at (197.5431pt,624pt)[below right,color=black,inner sep=0]{Dotted = future integration boundary; no outbound requests implemented.};
+\end{tikzpicture}%
+
+}
+\caption{Illustrative system boundaries; only the local demonstration is implemented.}
+\end{figure}
+
+\subsection{Canonical envelope and field provenance}
+The implemented envelope carries schema version, command ID, source record ID, cohort, expected version, operation, destination, evidence, inputs and evaluation. Monetary values use integer cents; decimal multipliers remain strings. The serialized payload is stored with a SHA-256 digest. The cohort is a cleanup ownership label, not a security tenant boundary.
+
+An enterprise extension should add tenant ID, agreement/envelope IDs, source event ID, source-document hashes, field-level provenance, policy version, authenticated reviewer IDs, approval timestamps, destination business keys and retention labels. Avoid overloading a display name as a supplier identifier. Map fund, department and cost center to owner-approved reference data instead of guessing IDs from public PDFs.
+
+The JSON diagram below is an illustrative flattened overview. The real local export contains typed nested evidence, inputs and evaluation objects. The source files can be edited and regenerated with PlantUML; the application ships pre-rendered SVG so its runtime requires no Java.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.96\linewidth}{!}{%
+% generated by Plantuml 1.2026.8
+\definecolor{plantucolor0000}{RGB}{241,241,241}%
+\definecolor{plantucolor0001}{RGB}{0,0,0}%
+\begin{tikzpicture}[yscale=-1
+,pstyle1/.style={color=black,line width=1.0pt}
+]
+\draw[color=plantucolor0000,fill=plantucolor0000,line width=1.5pt] (10pt,20pt) arc (180:270:10pt) -- (20pt,10pt) -- (371.6625pt,10pt) arc (270:360:10pt) -- (381.6625pt,20pt) -- (381.6625pt,198pt) arc (0:90:10pt) -- (371.6625pt,208pt) -- (20pt,208pt) arc (90:180:10pt) -- (10pt,198pt) -- cycle;
+\node at (15pt,12pt)[below right,color=black,inner sep=0]{\textbf{schema\_version}};
+\node at (134.725pt,12pt)[below right,color=black,inner sep=0]{1.0};
+\draw[pstyle1] (129.725pt,10pt) -- (129.725pt,28pt);
+\draw[pstyle1] (10pt,28pt) -- (381.6625pt,28pt);
+\node at (15pt,30pt)[below right,color=black,inner sep=0]{\textbf{command\_id}};
+\node at (134.725pt,30pt)[below right,color=black,inner sep=0]{CMD-illustrative};
+\draw[pstyle1] (129.725pt,28pt) -- (129.725pt,46pt);
+\draw[pstyle1] (10pt,46pt) -- (381.6625pt,46pt);
+\node at (15pt,48pt)[below right,color=black,inner sep=0]{\textbf{source\_record\_id}};
+\node at (134.725pt,48pt)[below right,color=black,inner sep=0]{MUN-00001};
+\draw[pstyle1] (129.725pt,46pt) -- (129.725pt,64pt);
+\draw[pstyle1] (10pt,64pt) -- (381.6625pt,64pt);
+\node at (15pt,66pt)[below right,color=black,inner sep=0]{\textbf{cohort}};
+\node at (134.725pt,66pt)[below right,color=black,inner sep=0]{MUN-DEMO-example};
+\draw[pstyle1] (129.725pt,64pt) -- (129.725pt,82pt);
+\draw[pstyle1] (10pt,82pt) -- (381.6625pt,82pt);
+\node at (15pt,84pt)[below right,color=black,inner sep=0]{\textbf{expected\_version}};
+\node at (134.725pt,84pt)[below right,color=black,inner sep=0]{2};
+\draw[pstyle1] (129.725pt,82pt) -- (129.725pt,100pt);
+\draw[pstyle1] (10pt,100pt) -- (381.6625pt,100pt);
+\node at (15pt,102pt)[below right,color=black,inner sep=0]{\textbf{operation}};
+\node at (134.725pt,102pt)[below right,color=black,inner sep=0]{register\_reviewed\_work\_order};
+\draw[pstyle1] (129.725pt,100pt) -- (129.725pt,118pt);
+\draw[pstyle1] (10pt,118pt) -- (381.6625pt,118pt);
+\node at (15pt,120pt)[below right,color=black,inner sep=0]{\textbf{destination}};
+\node at (134.725pt,120pt)[below right,color=black,inner sep=0]{local\_procurement\_inbox};
+\draw[pstyle1] (129.725pt,118pt) -- (129.725pt,136pt);
+\draw[pstyle1] (10pt,136pt) -- (381.6625pt,136pt);
+\node at (15pt,138pt)[below right,color=black,inner sep=0]{\textbf{synthetic}};
+\node at (134.725pt,138pt)[below right,color=black,inner sep=0]{☑ true};
+\draw[pstyle1] (129.725pt,136pt) -- (129.725pt,154pt);
+\draw[pstyle1] (10pt,154pt) -- (381.6625pt,154pt);
+\node at (15pt,156pt)[below right,color=black,inner sep=0]{\textbf{evidence}};
+\node at (134.725pt,156pt)[below right,color=black,inner sep=0]{Typed checklist object; see API export};
+\draw[pstyle1] (129.725pt,154pt) -- (129.725pt,172pt);
+\draw[pstyle1] (10pt,172pt) -- (381.6625pt,172pt);
+\node at (15pt,174pt)[below right,color=black,inner sep=0]{\textbf{inputs}};
+\node at (134.725pt,174pt)[below right,color=black,inner sep=0]{Decimal strings and integer cents};
+\draw[pstyle1] (129.725pt,172pt) -- (129.725pt,190pt);
+\draw[pstyle1] (10pt,190pt) -- (381.6625pt,190pt);
+\node at (15pt,192pt)[below right,color=black,inner sep=0]{\textbf{evaluation}};
+\node at (134.725pt,192pt)[below right,color=black,inner sep=0]{Metrics, blockers, warnings and ready flag};
+\draw[pstyle1] (129.725pt,190pt) -- (129.725pt,208pt);
+\draw[color=black,line width=1.5pt] (10pt,20pt) arc (180:270:10pt) -- (20pt,10pt) -- (371.6625pt,10pt) arc (270:360:10pt) -- (381.6625pt,20pt) -- (381.6625pt,198pt) arc (0:90:10pt) -- (371.6625pt,208pt) -- (20pt,208pt) arc (90:180:10pt) -- (10pt,198pt) -- cycle;
+\end{tikzpicture}%
+
+}
+\caption{Synthetic command structure.}
+\end{figure}
+
+\section{State, delivery and failure semantics}
+A record starts in review. Every saved evidence update increments its version. Preparation is refused until the evaluator has no blockers. Preparation freezes the payload and records the source version. Approval is allowed only for that current prepared version. Evidence changes invalidate prior prepared and approved plans.
+
+Execution inserts one inbox entry keyed by command ID. Replaying that same ID returns a duplicate-suppressed result. The response-loss switch stores the entry but leaves the plan outcome unknown. Reconciliation looks up the existing receipt and checks its digest before marking delivery complete. It never inserts a second entry to resolve uncertainty.
+
+All these tables share one SQLite transaction boundary. This is intentionally simpler than a remote system. It demonstrates the semantics but does not establish distributed exactly-once delivery. A real integration needs an outbox committed with the source decision, a durable worker, bounded exponential retry with jitter, a dead-letter or intervention path, destination idempotency where supported, and a queryable receipt or business-key reconciliation procedure.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.96\linewidth}{!}{%
+% generated by Plantuml 1.2026.8
+\definecolor{plantucolor0000}{RGB}{0,0,0}%
+\definecolor{plantucolor0001}{RGB}{255,255,255}%
+\definecolor{plantucolor0002}{RGB}{255,255,255}%
+\definecolor{plantucolor0003}{RGB}{7,92,163}%
+\begin{tikzpicture}[yscale=-1
+,pstyle1/.style={color=black,line width=1.0pt}
+,pstyle2/.style={color=plantucolor0002,line width=0.0pt}
+,pstyle3/.style={color=black,line width=1.0pt,dash pattern=on 5.0pt off 5.0pt}
+,pstyle4/.style={color=black,fill=white,line width=1.0pt}
+,pstyle5/.style={color=plantucolor0003,fill=plantucolor0003,line width=1.0pt}
+,pstyle6/.style={color=plantucolor0003,line width=1.0pt}
+,pstyle7/.style={color=plantucolor0003,line width=1.0pt,dash pattern=on 2.0pt off 2.0pt}
+]
+\node at (71.4pt,15pt)[below right,color=black,inner sep=0]{\textbf{Reviewed delivery and response-loss recovery}};
+\draw[color=white,fill=white,line width=1.0pt] (42.15pt,423pt) rectangle (543.9375pt,681pt);
+\draw[pstyle1] (42.15pt,423pt) rectangle (543.9375pt,681pt);
+\draw[pstyle2] (54.65pt,128pt) rectangle (62.65pt,764pt);
+\draw[pstyle3] (58.15pt,128pt) -- (58.15pt,764pt);
+\draw[pstyle2] (262.6813pt,128pt) rectangle (270.6813pt,764pt);
+\draw[pstyle3] (266.1813pt,128pt) -- (266.1813pt,764pt);
+\draw[pstyle2] (457.3813pt,128pt) rectangle (465.3813pt,764pt);
+\draw[pstyle3] (460.8813pt,128pt) -- (460.8813pt,764pt);
+\draw[pstyle2] (524.4375pt,128pt) rectangle (532.4375pt,764pt);
+\draw[pstyle3] (527.9375pt,128pt) -- (527.9375pt,764pt);
+\node at (10pt,114pt)[below right,color=black,inner sep=0]{Demo reviewer};
+\draw[pstyle4] (58.15pt,62pt) ellipse (8pt and 8pt);
+\draw[pstyle1] (58.15pt,70pt) -- (58.15pt,97pt)(45.15pt,78pt) -- (71.15pt,78pt)(58.15pt,97pt) -- (45.15pt,112pt)(58.15pt,97pt) -- (71.15pt,112pt);
+\draw[pstyle4] (234.7125pt,103pt) arc (180:270:5pt) -- (239.7125pt,98pt) -- (292.65pt,98pt) arc (270:360:5pt) -- (297.65pt,103pt) -- (297.65pt,117pt) arc (0:90:5pt) -- (292.65pt,122pt) -- (239.7125pt,122pt) arc (90:180:5pt) -- (234.7125pt,117pt) -- cycle;
+\node at (239.7125pt,103pt)[below right,color=black,inner sep=0]{PUG API};
+\node at (440.3375pt,114pt)[below right,color=black,inner sep=0]{Plans};
+\draw[pstyle4] (442.8813pt,78pt) ..controls (442.8813pt,68pt) and (460.8813pt,68pt) .. (460.8813pt,68pt) ..controls (460.8813pt,68pt) and (478.8813pt,68pt) .. (478.8813pt,78pt) -- (478.8813pt,104pt) ..controls (478.8813pt,114pt) and (460.8813pt,114pt) .. (460.8813pt,114pt) ..controls (460.8813pt,114pt) and (442.8813pt,114pt) .. (442.8813pt,104pt) -- (442.8813pt,78pt);
+\draw[pstyle1] (442.8813pt,78pt) ..controls (442.8813pt,88pt) and (460.8813pt,88pt) .. (460.8813pt,88pt) ..controls (460.8813pt,88pt) and (478.8813pt,88pt) .. (478.8813pt,78pt);
+\node at (491.425pt,114pt)[below right,color=black,inner sep=0]{Local inbox};
+\draw[pstyle4] (509.9375pt,78pt) ..controls (509.9375pt,68pt) and (527.9375pt,68pt) .. (527.9375pt,68pt) ..controls (527.9375pt,68pt) and (545.9375pt,68pt) .. (545.9375pt,78pt) -- (545.9375pt,104pt) ..controls (545.9375pt,114pt) and (527.9375pt,114pt) .. (527.9375pt,114pt) ..controls (527.9375pt,114pt) and (509.9375pt,114pt) .. (509.9375pt,104pt) -- (509.9375pt,78pt);
+\draw[pstyle1] (509.9375pt,78pt) ..controls (509.9375pt,88pt) and (527.9375pt,88pt) .. (527.9375pt,88pt) ..controls (527.9375pt,88pt) and (545.9375pt,88pt) .. (545.9375pt,78pt);
+\node at (10pt,764pt)[below right,color=black,inner sep=0]{Demo reviewer};
+\draw[pstyle4] (58.15pt,787pt) ellipse (8pt and 8pt);
+\draw[pstyle1] (58.15pt,795pt) -- (58.15pt,822pt)(45.15pt,803pt) -- (71.15pt,803pt)(58.15pt,822pt) -- (45.15pt,837pt)(58.15pt,822pt) -- (71.15pt,837pt);
+\draw[pstyle4] (234.7125pt,774pt) arc (180:270:5pt) -- (239.7125pt,769pt) -- (292.65pt,769pt) arc (270:360:5pt) -- (297.65pt,774pt) -- (297.65pt,788pt) arc (0:90:5pt) -- (292.65pt,793pt) -- (239.7125pt,793pt) arc (90:180:5pt) -- (234.7125pt,788pt) -- cycle;
+\node at (239.7125pt,774pt)[below right,color=black,inner sep=0]{PUG API};
+\node at (440.3375pt,764pt)[below right,color=black,inner sep=0]{Plans};
+\draw[pstyle4] (442.8813pt,788pt) ..controls (442.8813pt,778pt) and (460.8813pt,778pt) .. (460.8813pt,778pt) ..controls (460.8813pt,778pt) and (478.8813pt,778pt) .. (478.8813pt,788pt) -- (478.8813pt,814pt) ..controls (478.8813pt,824pt) and (460.8813pt,824pt) .. (460.8813pt,824pt) ..controls (460.8813pt,824pt) and (442.8813pt,824pt) .. (442.8813pt,814pt) -- (442.8813pt,788pt);
+\draw[pstyle1] (442.8813pt,788pt) ..controls (442.8813pt,798pt) and (460.8813pt,798pt) .. (460.8813pt,798pt) ..controls (460.8813pt,798pt) and (478.8813pt,798pt) .. (478.8813pt,788pt);
+\node at (491.425pt,764pt)[below right,color=black,inner sep=0]{Local inbox};
+\draw[pstyle4] (509.9375pt,788pt) ..controls (509.9375pt,778pt) and (527.9375pt,778pt) .. (527.9375pt,778pt) ..controls (527.9375pt,778pt) and (545.9375pt,778pt) .. (545.9375pt,788pt) -- (545.9375pt,814pt) ..controls (545.9375pt,824pt) and (527.9375pt,824pt) .. (527.9375pt,824pt) ..controls (527.9375pt,824pt) and (509.9375pt,824pt) .. (509.9375pt,814pt) -- (509.9375pt,788pt);
+\draw[pstyle1] (509.9375pt,788pt) ..controls (509.9375pt,798pt) and (527.9375pt,798pt) .. (527.9375pt,798pt) ..controls (527.9375pt,798pt) and (545.9375pt,798pt) .. (545.9375pt,788pt);
+\draw[pstyle5] (254.1813pt,151pt) -- (264.1813pt,155pt) -- (254.1813pt,159pt) -- (258.1813pt,155pt) -- cycle;
+\draw[pstyle6] (58.15pt,155pt) -- (260.1813pt,155pt);
+\node at (65.15pt,140pt)[below right,color=black,inner sep=0]{Save evidence + expected version};
+\draw[pstyle5] (448.8813pt,178pt) -- (458.8813pt,182pt) -- (448.8813pt,186pt) -- (452.8813pt,182pt) -- cycle;
+\draw[pstyle6] (266.1813pt,182pt) -- (454.8813pt,182pt);
+\node at (273.1813pt,167pt)[below right,color=black,inner sep=0]{Invalidate earlier approvals};
+\draw[pstyle5] (254.1813pt,205pt) -- (264.1813pt,209pt) -- (254.1813pt,213pt) -- (258.1813pt,209pt) -- cycle;
+\draw[pstyle6] (58.15pt,209pt) -- (260.1813pt,209pt);
+\node at (65.15pt,194pt)[below right,color=black,inner sep=0]{Prepare};
+\draw[pstyle6] (266.1813pt,236pt) -- (308.1813pt,236pt);
+\draw[pstyle6] (308.1813pt,236pt) -- (308.1813pt,249pt);
+\draw[pstyle6] (267.1813pt,249pt) -- (308.1813pt,249pt);
+\draw[pstyle5] (277.1813pt,245pt) -- (267.1813pt,249pt) -- (277.1813pt,253pt) -- (273.1813pt,249pt) -- cycle;
+\node at (273.1813pt,221pt)[below right,color=black,inner sep=0]{Evaluate evidence and arithmetic};
+\draw[pstyle5] (448.8813pt,272pt) -- (458.8813pt,276pt) -- (448.8813pt,280pt) -- (452.8813pt,276pt) -- cycle;
+\draw[pstyle6] (266.1813pt,276pt) -- (454.8813pt,276pt);
+\node at (273.1813pt,261pt)[below right,color=black,inner sep=0]{Immutable payload + digest};
+\draw[pstyle5] (254.1813pt,299pt) -- (264.1813pt,303pt) -- (254.1813pt,307pt) -- (258.1813pt,303pt) -- cycle;
+\draw[pstyle6] (58.15pt,303pt) -- (260.1813pt,303pt);
+\node at (65.15pt,288pt)[below right,color=black,inner sep=0]{Approve current plan};
+\draw[pstyle5] (448.8813pt,326pt) -- (458.8813pt,330pt) -- (448.8813pt,334pt) -- (452.8813pt,330pt) -- cycle;
+\draw[pstyle6] (266.1813pt,330pt) -- (454.8813pt,330pt);
+\node at (273.1813pt,315pt)[below right,color=black,inner sep=0]{Record simulated approval};
+\draw[pstyle5] (254.1813pt,353pt) -- (264.1813pt,357pt) -- (254.1813pt,361pt) -- (258.1813pt,357pt) -- cycle;
+\draw[pstyle6] (58.15pt,357pt) -- (260.1813pt,357pt);
+\node at (65.15pt,342pt)[below right,color=black,inner sep=0]{Execute command};
+\draw[pstyle5] (515.9375pt,380pt) -- (525.9375pt,384pt) -- (515.9375pt,388pt) -- (519.9375pt,384pt) -- cycle;
+\draw[pstyle6] (266.1813pt,384pt) -- (521.9375pt,384pt);
+\node at (273.1813pt,369pt)[below right,color=black,inner sep=0]{Insert unique command ID + digest};
+\draw[pstyle5] (277.1813pt,407pt) -- (267.1813pt,411pt) -- (277.1813pt,415pt) -- (273.1813pt,411pt) -- cycle;
+\draw[pstyle7] (271.1813pt,411pt) -- (526.9375pt,411pt);
+\node at (283.1813pt,396pt)[below right,color=black,inner sep=0]{Receipt};
+\draw[pstyle4] (42.15pt,423pt) -- (100.8813pt,423pt) -- (100.8813pt,428pt) -- (90.8813pt,438pt) -- (42.15pt,438pt) -- (42.15pt,423pt);
+\draw[pstyle1] (42.15pt,423pt) rectangle (543.9375pt,681pt);
+\node at (57.15pt,424pt)[below right,color=black,inner sep=0]{\textbf{alt}};
+\node at (115.8813pt,425pt)[below right,color=black,inner sep=0]{\textbf{[normal response]}};
+\draw[pstyle5] (69.15pt,463pt) -- (59.15pt,467pt) -- (69.15pt,471pt) -- (65.15pt,467pt) -- cycle;
+\draw[pstyle7] (63.15pt,467pt) -- (265.1813pt,467pt);
+\node at (75.15pt,452pt)[below right,color=black,inner sep=0]{Delivered};
+\draw[color=black,line width=1.0pt,dash pattern=on 2.0pt off 2.0pt] (42.15pt,476pt) -- (543.9375pt,476pt);
+\node at (47.15pt,478pt)[below right,color=black,inner sep=0]{\textbf{[injected response loss]}};
+\draw[pstyle5] (69.15pt,507pt) -- (59.15pt,511pt) -- (69.15pt,515pt) -- (65.15pt,511pt) -- cycle;
+\draw[pstyle7] (63.15pt,511pt) -- (265.1813pt,511pt);
+\node at (75.15pt,496pt)[below right,color=black,inner sep=0]{Unknown - reconcile required};
+\draw[pstyle5] (254.1813pt,534pt) -- (264.1813pt,538pt) -- (254.1813pt,542pt) -- (258.1813pt,538pt) -- cycle;
+\draw[pstyle6] (58.15pt,538pt) -- (260.1813pt,538pt);
+\node at (65.15pt,523pt)[below right,color=black,inner sep=0]{Replay same command};
+\draw[pstyle5] (515.9375pt,561pt) -- (525.9375pt,565pt) -- (515.9375pt,569pt) -- (519.9375pt,565pt) -- cycle;
+\draw[pstyle6] (266.1813pt,565pt) -- (521.9375pt,565pt);
+\node at (273.1813pt,550pt)[below right,color=black,inner sep=0]{Look up existing command};
+\draw[pstyle5] (69.15pt,588pt) -- (59.15pt,592pt) -- (69.15pt,596pt) -- (65.15pt,592pt) -- cycle;
+\draw[pstyle7] (63.15pt,592pt) -- (265.1813pt,592pt);
+\node at (75.15pt,577pt)[below right,color=black,inner sep=0]{Duplicate suppressed};
+\draw[pstyle5] (254.1813pt,615pt) -- (264.1813pt,619pt) -- (254.1813pt,623pt) -- (258.1813pt,619pt) -- cycle;
+\draw[pstyle6] (58.15pt,619pt) -- (260.1813pt,619pt);
+\node at (65.15pt,604pt)[below right,color=black,inner sep=0]{Reconcile};
+\draw[pstyle5] (515.9375pt,642pt) -- (525.9375pt,646pt) -- (515.9375pt,650pt) -- (519.9375pt,646pt) -- cycle;
+\draw[pstyle6] (266.1813pt,646pt) -- (521.9375pt,646pt);
+\node at (273.1813pt,631pt)[below right,color=black,inner sep=0]{Compare stored digest};
+\draw[pstyle5] (69.15pt,669pt) -- (59.15pt,673pt) -- (69.15pt,677pt) -- (65.15pt,673pt) -- cycle;
+\draw[pstyle7] (63.15pt,673pt) -- (265.1813pt,673pt);
+\node at (75.15pt,658pt)[below right,color=black,inner sep=0]{Delivered; no second insertion};
+\draw[pstyle4] (232.1906pt,700pt) -- (232.1906pt,749pt) -- (561.1906pt,749pt) -- (561.1906pt,710pt) -- (551.1906pt,700pt) -- (232.1906pt,700pt);
+\draw[pstyle4] (551.1906pt,700pt) -- (551.1906pt,710pt) -- (561.1906pt,710pt) -- (551.1906pt,700pt);
+\node at (277.7125pt,705pt)[below right,color=black,inner sep=0]{Both stores share SQLite here.};
+\node at (277.7125pt,718pt)[below right,color=black,inner sep=0]{Real remote systems need durable outbox,};
+\node at (277.7125pt,731pt)[below right,color=black,inner sep=0]{receipt/read-back and fault testing.};
+\end{tikzpicture}%
+
+}
+\caption{Local delivery and recovery sequence.}
+\end{figure}
+
+\subsection{Operational failure matrix}
+\begin{longtable}{p{0.25\linewidth}p{0.32\linewidth}p{0.35\linewidth}}
+\toprule Condition & Demonstrated behavior & Production requirement\\\midrule
+Missing evidence / variance & Refuse preparation with specific blockers & Persist evidence provenance and reviewer decision\\
+Concurrent evidence edit & Version conflict or stale approval & Enforce destination concurrency if relevant\\
+Execution before approval & Reject request & Authenticated approval policy and separation of duties\\
+Duplicate delivery & Same command ID suppressed & Business-key and provider idempotency rules\\
+Response lost after accept & Unknown state, receipt reconciliation & Durable remote status query; no blind rewrite\\
+Invalid payload / digest & Reject or stop reconciliation & Alert operator, preserve evidence and correlation\\
+Late emergency packet & Preserve late warning and actual times & Human escalation; no backdating\\
+Reset requested & Typed cohort and manifest required & Retention and ownership policy; no tenant-wide wipe\\
+\bottomrule
+\end{longtable}
+
+\section{Security and data-handling design}
+\subsection{Implemented local controls}
+The supplied launcher binds to loopback only. The app rejects unexpected hosts and foreign-origin API requests. A random per-process token is required by API operations and supplied to the local page. The main UI uses same-origin assets and a restrictive content security policy. Swagger loads its standard externally hosted UI assets and has a separate CSP; provider data is still not sent by this demo. For a fully offline environment, vendor those Swagger assets or disable the docs UI.
+
+Inputs are explicitly modeled and scenario-scoped. Arbitrary extra fields are rejected. SQL values are parameterized; dynamic table identifiers are internal constants. The package provides no arbitrary URL runner, external connector or provider credential input. The browser's checkboxes do not bypass the server's evaluation, version and state checks.
+
+These controls are suitable to the local demonstration boundary. They are not proof of production hardening. Anyone with access to the local session can operate all demo personas. A local administrator can modify the SQLite file, so its audit records are not tamper-evident. Binding the app to a network interface would invalidate the intended security model.
+
+\subsection{Required controls before an enterprise pilot}
+\begin{enumerate}
+\item Corporate identity with MFA and role-based, tenant-scoped authorization. Enforce reviewer independence on the server.
+\item Separate read, prepare, approve, execute and reset permissions. Default to read-only and deny unlisted operations.
+\item Dedicated synthetic sandbox account, least-privilege OAuth scopes, secure token storage and explicit production isolation.
+\item Signed webhook verification, event deduplication, event-to-tenant binding and resource-ownership validation.
+\item Document malware scanning, size/type restrictions, encrypted storage, retention schedules and records-request handling.
+\item Structured audit events to a protected destination, redacted telemetry and alerts for unauthorized attempts, retry storms and unresolved unknown outcomes.
+\item Approved destination adapter with request/response contracts, concurrency controls and a kill switch that stops new writes while allowing reconciliation reads.
+\end{enumerate}
+
+No attachment upload is included in version one. That avoids falsely presenting a basic file picker as safe document handling. The next implementation should reference approved test documents, then add ingestion only after defining scanning, storage and retention controls.
+
+\section{Corpus generation, dashboarding and cleanup}
+The generator supports 4--10,000 records, cycling evenly through four versioned fixture types and fictional suppliers. Contents are deterministic for the fixture revision; the cohort ID is unique per run. The 10,000-record option is a local scalability and navigation demonstration, not a statistically representative model of Municipal procurement or a provider load test.
+
+The queue supports search and pagination across the full corpus. Aggregate counters distinguish records from unique local deliveries. No generated record calls docusign, so changing the corpus slider does not consume IAM API credits. Dependency installation and source research are network activities outside the simulator's provider-request count.
+
+Export captures records, plans, receipts and audit entries in JSON. Cleanup first returns a manifest with owned record IDs, count, cohort and hash. The UI asks the operator to type the exact cohort confirmation. Reset removes only that cohort's synthetic records and associated local plans/receipts; it retains the audit history. This is intentionally not a design for deleting real agreements in bulk.
+
+For a future real synthetic-corpus exercise, maintain a creation manifest containing provider IDs and a strong ownership tag, preview proposed deletions, enforce an age/retention policy, cap batch size, support dry run, use a separate destructive permission and verify each result. Do not infer that an agreement is disposable because its title contains ``demo.''
+
+\section{Verification and acceptance criteria}
+The automated suite exercises authentication/origin handling, decimal rounding, price blockers, approval-before-execution, stale versions, replay, lost-response reconciliation, emergency deadline boundaries, invoice overage, renewal dates, input scope, manifest checks, all four end-to-end flows and a 10,000-record corpus. The release verification file records the actual environment and result, while browser verification checks the rendered walkthrough.
+
+Success means the reviewer can explain the \$6,240 discrepancy from visible inputs, cannot prepare while blockers remain, can see an old approval invalidated by an edit, and can resolve an unknown outcome with exactly one local inbox receipt. It also means a reset cannot target an unrelated cohort and the example starts from a fresh environment using only its documented dependencies.
+
+No automated result here certifies real IAM extraction, a SAP interface, city policy compliance, a production security assessment or remote recovery behavior. Windows startup instructions are supplied for portability; the recorded test environment must distinguish actual testing from intended support.
+
+\section{Enterprise pilot plan and discovery questions}
+\begin{longtable}{p{0.15\linewidth}p{0.40\linewidth}p{0.37\linewidth}}
+\toprule Phase & Deliverable & Exit evidence\\\midrule
+0: research review & Validate source register with procurement, GSD, legal and compliance owner owners & Approved applicability, current dates, no unresolved policy assumptions encoded\\
+1: local walkthrough & Run four synthetic cases and failure injections & User can explain every gate and destination boundary\\
+2: real IAM sandbox & Ingest a small synthetic document set and verify candidate fields & Tenant entitlement, source provenance, reviewed extraction results\\
+3: read-only destination & Discover actual procurement API and reference data & Owner-approved endpoint/version, permissions, schemas and business keys\\
+4: controlled handoff & Send allowlisted synthetic review packets with outbox and audit & Receipt/read-back, duplicate and timeout tests, independent approvals\\
+5: measured pilot & Bounded users, dataset and operations & Signed operating runbook, kill switch, retention plan, measured outcomes\\
+\bottomrule
+\end{longtable}
+
+Key discovery questions are concrete: Which system owns work orders and invoice status? Which contract families use catalog pricing, and what is the actual formula? Which evidence is mandatory at each stage? Where are index effective dates stored? Who can approve a discrepancy? What constitutes valid service acceptance? How is emergency contact recorded? Which notice clauses recur? Which IAM capabilities are licensed in the chosen sandbox? What event/receipt facilities does the destination expose? Who signs off current legal applicability?
+
+Measure review-cycle elapsed time, missing-evidence rate at first submission, variance cases found before approval, duplicate writes prevented, unresolved-delivery age, extraction corrections and operator effort. Establish a baseline before claiming improvement. Do not turn synthetic dashboard counts into a savings or efficiency claim.
+
+\section{Generic visual identity and staff workspace}
+The fictional municipal profile uses original vector artwork, CSS gradients and locally bundled fonts. No institutional seal, identifying photograph or official brand asset is included. The neutral masthead and navigation organize the four task flows around a demo reviewer persona. This persona is not an authenticated employee. The interface requests no credentials and visibly labels local simulation.
+
+Font licenses and upstream attribution are retained in the branding document. Organization-specific research and earlier identifying exports are not part of this edition.
+
+\section{Portable example and maintenance}
+The example belongs under \code{examples/municipal-procurement-demo} in PUG, on a dedicated publication branch. It runs independently in a virtual environment on port 8089. It does not add live gateway routes, change the reverse proxy, merge itself into the default branch or replace the Museum/expense examples. Runtime databases, virtual environments and environment files are ignored by Git.
+
+The canonical sources are the Python modules, static UI, source registry, tests, PlantUML files and this self-contained LaTeX document. Generated SVGs support the local UI. Embedded TikZ diagrams make this report compile without external figure files. A test-only repository workflow checks the example; deployment remains a separate decision.
+
+Prioritize the next change by its proof value: real synthetic agreement ingestion and provenance, authenticated review, and an outbox-backed destination adapter. Avoid adding a broad API blaster until the narrow business commands, ownership boundaries and destructive-operation controls have been established.
+
+\newpage\section{Vendor references}
+These references concern integration capabilities, not the fictional municipality. Validate current entitlement and contracts before connecting.
+\subsection*{S9 --- docusign May 2026 release notes}\label{src:S9}
+\url{https://community.docusign.com/product-updates/docusign-esignature-26-1-02-00-release-notes-may-2026-26875}
+\subsection*{S10 --- Agreement Manager API FAQ}\label{src:S10}
+\url{https://community.docusign.com/agreement-manager-api-139/docusign-agreement-manager-api-faq-27066}
+\subsection*{S11 --- Configure agreement types and fields}\label{src:S11}
+\url{https://developers.docusign.com/docusign-cli/configure-agreement-types-and-fields/upload-package/}
+\end{document}

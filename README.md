@@ -18,7 +18,7 @@ docusign is the first implemented connection. The architecture is intended for i
 
 ## Run a local demo
 
-The [portable examples](examples/README.md) include Leadership expense reconciliation, Getty procurement and Houston procurement. Each runs with Python in its own virtual environment, with bundled synthetic data and a browser interface. No gateway deployment or provider credentials are required. Download and Windows/macOS setup instructions are in the example catalog.
+The [portable examples](examples/README.md) include NFP expense reconciliation, Museum procurement and Municipal procurement. Each runs with Python in its own virtual environment, with bundled synthetic data and a browser interface. No gateway deployment or provider credentials are required. Download and Windows/macOS setup instructions are in the example catalog.
 
 ## Direction
 
