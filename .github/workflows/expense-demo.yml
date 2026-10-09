@@ -1,0 +1,28 @@
+name: Expense demo tests
+on:
+  push:
+    paths:
+      - 'examples/leadership-expense-demo/**'
+      - '.github/workflows/expense-demo.yml'
+  pull_request:
+    paths:
+      - 'examples/leadership-expense-demo/**'
+      - '.github/workflows/expense-demo.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12']
+    defaults:
+      run:
+        working-directory: examples/leadership-expense-demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m unittest discover -s tests -v

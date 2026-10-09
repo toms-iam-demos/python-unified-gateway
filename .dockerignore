@@ -17,3 +17,6 @@
 **/*.key
 **/*.bak
 **/.DS_Store
+
+# Standalone demos are not part of the gateway image.
+examples/
