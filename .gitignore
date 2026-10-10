@@ -55,3 +55,7 @@ logs/
 
 # ---- Internal / exploratory docs (not canonical) ----
 docs/000_genesis/
+
+# Local experiments and generated documentation
+/local-dev/
+/.site/

@@ -27,3 +27,7 @@ Consistent event contracts, downstream adapters, reliable delivery and controlle
 PUG is under active development. See the [runbooks](docs/006_runbooks/10_local-dev.md) for setup and operational limits, and the [architecture decisions](docs/007_adr/index.md) for the thinking behind it.
 
 **Small enough to understand. Built to connect.**
+
+## Working agreement
+
+See [contributing](CONTRIBUTING.md) for ownership, local experiments, review and logging, and the [repository hygiene runbook](docs/006_runbooks/15_repository-hygiene.md) for refresh and recovery.
