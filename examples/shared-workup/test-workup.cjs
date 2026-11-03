@@ -1,0 +1,13 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const W=require('./workup-renderer.js');
+const step={title:'Review',description:'Inspect the current package.',tone:'design',label:'Designed'};
+const sample={title:'A documented process',summary:'Trace the decisions.',status:'Design preview',basis:'Example specification',workflows:[{title:'Request to decision',description:'A proposed path.',label:'Designed',tone:'design',steps:[step,{...step,title:'Retain'}],outcome:'Keep the decision.'}],evidence:[1,2].map(n=>({title:'Evidence '+n,description:'A retained definition.',source:'Specification',tone:'retained',label:'Defined'})),systems:[1,2].map(n=>({title:'System '+n,description:'A responsibility.',boundary:'Not connected.'})),acceptance:[1,2].map(n=>({title:'Gate '+n,description:'Retain a test receipt.'}))};
+test('every catalog entry must have a valid workup',()=>{assert.equal(W.assertCoverage([{id:'one'}],{one:sample}),1);assert.throws(()=>W.assertCoverage(['one','two'],{one:sample}),/Missing workup: two/);});
+test('duplicate entries cannot mask missing workups',()=>assert.throws(()=>W.assertCoverage(['one','one'],{one:sample}),/Duplicate/));
+test('evidence must identify a source and explicit state',()=>{const bad=structuredClone(sample);delete bad.evidence[0].source;assert.throws(()=>W.validate(bad),/Evidence/);});
+test('workflow steps require descriptions and explicit states',()=>{const bad=structuredClone(sample);bad.workflows[0].steps[0].tone='verified-in-production';assert.throws(()=>W.validate(bad),/Every workflow step/);});
+test('unaccepted work cannot silently lose its acceptance section',()=>{const bad=structuredClone(sample);bad.acceptance=[];assert.throws(()=>W.validate(bad),/acceptance/);});
+test('untrusted labels and descriptions are escaped',()=>{const bad=structuredClone(sample);bad.title='<img src=x onerror=alert(1)>';bad.workflows[0].steps[0].description='<script>alert(1)</script>';const html=W.render(bad);assert.ok(!html.includes('<img'));assert.ok(!html.includes('<script>'));assert.ok(html.includes('&lt;script&gt;'));});
+test('custom anchors cannot inject markup',()=>assert.throws(()=>W.render(sample,{id:'x" onclick="bad'}),/anchor/));
+test('full and embedded views preserve ordered descriptions and evidence states',()=>{const full=W.render(sample);assert.ok(full.includes('id="workup-evidence"'));assert.ok(full.includes('id="workup-acceptance"'));const embedded=W.render(sample,{id:'workflow-proof',workflowOnly:true});assert.ok(embedded.includes('<ol class="wu-flow'));assert.ok(embedded.includes('Inspect the current package.'));assert.ok(embedded.includes('Designed'));assert.ok(!embedded.includes('id="workup-evidence"'));});
