@@ -116,3 +116,11 @@ The server's existing external Traefik network and `/app/secrets` mount must be
 retained. Direct host access on port 8001 must bind to loopback, with public operator
 traffic going through Traefik authentication. Do not copy local Compose mount paths
 over the server configuration.
+
+## HSTS
+
+The live HTTPS routers use `api-hsts@file` as their first middleware, before authentication. Preserve that ordering when changing routes so both successful and rejected responses carry `Strict-Transport-Security: max-age=31536000`.
+
+The reusable definition is [`deploy/traefik/api-hsts.yml`](https://github.com/toms-iam-demos/python-unified-gateway/blob/main/deploy/traefik/api-hsts.yml). It applies to the approved host only. Do not add `includeSubDomains` or `preload` without verifying the broader domain's HTTPS coverage. Keep the plain-HTTP redirect and ACME challenge handling intact.
+
+Verify normal pages, authentication failures and error responses after a route update. Removing the middleware does not immediately undo cached browser policy. To withdraw HSTS, serve `max-age=0` over valid HTTPS first and retain working TLS.
