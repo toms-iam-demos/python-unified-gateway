@@ -1,0 +1,7 @@
+PUG website source ownership
+
+Adds the maintained www Python package for the platform homepage, shared navigation, searchable catalog and example landing pages. Moves reusable website responsibilities into the PUG repository. Organization-specific deployment content remains in external profiles, following ADR-0011 and the public identity policy.
+
+Includes a validated content schema, default generic profile, server-rendered templates, responsive menu/filter interactions, operator authentication that fails closed, allowlisted local branding assets, package data, a container build and website CI checks. Existing connected demo services are not replaced or given broader permissions. Data Studio, recordings, professional-services workflows and artifact delivery are explicitly not presented as implemented capabilities.
+
+Validation: nine website tests passed on Python 3.12 and 3.14 (installed package), five publication-checker tests passed, identity scan reported zero failures, and browser verification confirmed the repository-backed homepage. Templates/static assets were included in the built wheel. A private deployment profile with current entries and owner-selected marks was prepared only under ignored local-dev. No hosted deployment is implied by source changes.

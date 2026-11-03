@@ -1,0 +1,13 @@
+.venv
+__pycache__
+*.pyc
+.DS_Store
+._*
+build
+dist
+src/*.egg-info
+profiles.local
+.env*
+*.sqlite*
+*.db*
+tests

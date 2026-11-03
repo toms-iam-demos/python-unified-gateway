@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="catalog-shell">
+  <div class="catalog-eyebrow">PUG / ENTERPRISE EXAMPLES</div>
+  <h1>Business processes.<br>Demonstrated with evidence.</h1>
+  <p class="catalog-lead">Find an enterprise scenario, choose its branded experience and inspect what has been verified.</p>
+  <div class="taxonomy-filters">
+    <label class="taxonomy-search">Search<input id="catalog-search" type="search" placeholder="Process, scenario, organization or example ID…"></label>
+    {% for key, choices in facets.items() %}
+    <label>{{ {'process':'Business process','industry':'Industry','capability':'Capability','organization':'Organization'}[key] }}
+      <select data-facet="{{ key }}"><option value="">All</option>{% for choice in choices %}<option>{{ choice }}</option>{% endfor %}</select>
+    </label>
+    {% endfor %}
+    <button id="clear-facets" class="outline-button">Clear</button>
+  </div>
+  <p id="catalog-count" class="catalog-count" aria-live="polite">{{ entries|length }} examples</p>
+  {% for process, process_entries in groups.items() %}
+  <section class="process-group" data-process-group>
+    <h2>{{ process }} <span class="process-count">{{ process_entries|length }}</span></h2>
+    <div class="solution-grid">{% for entry in process_entries %}{% include 'card.html' %}{% endfor %}</div>
+  </section>
+  {% endfor %}
+  <p id="empty-results" hidden>No examples match. Clear a filter or try a different search.</p>
+</div>
+{% endblock %}

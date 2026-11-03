@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "identity": "An immutable UUID joins releases, profiles, runs and evidence. An EX code is the registered human alias. Brand names, industries, environments and presentation formats do not form an example's identity.",
+  "business_processes": [
+    "Provider agreement management",
+    "Procurement operations",
+    "Sales operations",
+    "Agreement operations",
+    "Property and access management",
+    "Subscription management",
+    "Integration operations",
+    "Public service administration"
+  ],
+  "industries": [
+    "Healthcare",
+    "Public sector",
+    "Transportation",
+    "Education",
+    "Culture",
+    "Cross-industry"
+  ],
+  "capabilities": [
+    "Agreement Manager",
+    "Iris",
+    "Agreement relationships",
+    "Maestro",
+    "eSignature",
+    "CRM integration",
+    "Document generation",
+    "Classification",
+    "Web Forms",
+    "Connect",
+    "Worksheets",
+    "Agreement Desk",
+    "Procurement integration",
+    "Stripe"
+  ],
+  "experience_formats": [
+    "presentation",
+    "workspace",
+    "clickthrough",
+    "video"
+  ],
+  "material_types": [
+    "guide",
+    "design",
+    "artifact",
+    "recording",
+    "evidence",
+    "implementation"
+  ],
+  "content_kinds": [
+    "enterprise-example",
+    "integration-pattern"
+  ]
+}

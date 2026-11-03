@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="catalog-shell">
+  <nav class="catalog-breadcrumb"><a href="/demos">Enterprise examples</a><span>/</span><a href="/demos/{{ entry.id }}/">{{ entry.scenario }}</a><span>/</span>{{ title }}</nav>
+  <div class="catalog-eyebrow">{{ entry.example_code or entry.id }} / {{ entry.business_process }}</div>
+  <h1>{{ title }}</h1>
+  <p class="catalog-lead">{{ entry.scenario }}</p>
+  {% if title == 'Runs' %}
+    {% if references %}<p>Preserved reference executions. Opening evidence does not start a new provider operation.</p><ul>{% for ref in references %}<li><a href="/demos/{{ entry.id }}/presentation/?session={{ ref }}#proof">Run {{ ref }} ↗</a></li>{% endfor %}</ul>{% else %}<p>No run references have been imported for this example.</p>{% endif %}
+  {% else %}
+    {% for material in materials %}<article class="material-row"><div><span class="catalog-eyebrow">{{ material.kind }}</span><h2>{{ material.title }}</h2></div>{% if material.href %}<a class="outline-button" href="{{ material.href }}">Open ↗</a>{% else %}<span>Not yet linked</span>{% endif %}</article>{% else %}<p>No {{ title|lower }} have been linked for this example.</p>{% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

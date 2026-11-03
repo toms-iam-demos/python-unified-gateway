@@ -1,0 +1,164 @@
+{
+  "schema_version": 2,
+  "name": "Python Unified Gateway",
+  "tagline": "Every agreement. Every connection.",
+  "organizations": {
+    "provider": {
+      "name": "NFP"
+    },
+    "municipal": {
+      "name": "Municipal"
+    }
+  },
+  "entries": [
+    {
+      "uid": "ff1e215e-57cf-5734-8ddb-b604b73725aa",
+      "id": "ex-000042",
+      "example_code": "EX-000042",
+      "business_process": "Provider agreement management",
+      "scenario": "Reimbursement amendment review",
+      "summary": "Determine which reimbursement terms apply to each location and verify the controlling source.",
+      "industries": [
+        "Healthcare"
+      ],
+      "capabilities": [
+        "Agreement Manager",
+        "Iris",
+        "Agreement relationships"
+      ],
+      "organization_profile": "provider",
+      "status": "preview",
+      "availability": "planned",
+      "updated": "2026-11-02",
+      "aliases": [
+        "provider-agreement-hierarchy"
+      ],
+      "sections": [
+        {
+          "title": "Business outcome",
+          "paragraphs": [
+            "Determine which reimbursement terms apply to each location and verify the controlling source.",
+            "Organization branding, environment, run identity and presentation format remain separate from this example identity."
+          ]
+        }
+      ]
+    },
+    {
+      "uid": "4b710608-c109-417e-a5eb-2a665702b2e9",
+      "id": "agreement-classification",
+      "business_process": "Agreement operations",
+      "scenario": "Agreement classification",
+      "summary": "Preview classifications, apply approved changes and verify a reviewed rollback.",
+      "industries": [
+        "Public sector"
+      ],
+      "capabilities": [
+        "Agreement Manager",
+        "Classification"
+      ],
+      "organization_profile": "municipal",
+      "status": "preview",
+      "availability": "planned",
+      "updated": "2026-11-02",
+      "aliases": [
+        "municipal-classification"
+      ]
+    },
+    {
+      "uid": "15e6b74c-8af3-4990-9041-cf492ad29833",
+      "id": "ex-000043",
+      "example_code": "EX-000043",
+      "business_process": "Procurement operations",
+      "scenario": "Service agreement review and signature",
+      "summary": "Route a service agreement through approval, correction and signature with verified results.",
+      "industries": [
+        "Cross-industry"
+      ],
+      "capabilities": [
+        "Maestro",
+        "eSignature",
+        "Document generation"
+      ],
+      "status": "preview",
+      "availability": "planned",
+      "updated": "2026-11-02",
+      "aliases": [
+        "service-agreement"
+      ],
+      "sections": [
+        {
+          "title": "Business outcome",
+          "paragraphs": [
+            "Route a service agreement through approval, correction and signature with verified results.",
+            "Organization branding, environment, run identity and presentation format remain separate from this example identity."
+          ]
+        }
+      ]
+    },
+    {
+      "uid": "56cc1737-3eff-4b30-a82f-086e6d904446",
+      "id": "ex-000044",
+      "example_code": "EX-000044",
+      "business_process": "Sales operations",
+      "scenario": "CRM agreement lifecycle",
+      "summary": "Connect a customer deal to agreement review, signature and verified CRM writeback.",
+      "industries": [
+        "Cross-industry"
+      ],
+      "capabilities": [
+        "CRM integration",
+        "Maestro",
+        "eSignature",
+        "Agreement Manager"
+      ],
+      "status": "preview",
+      "availability": "planned",
+      "updated": "2026-11-02",
+      "aliases": [
+        "crm-agreement-lifecycle"
+      ],
+      "sections": [
+        {
+          "title": "Business outcome",
+          "paragraphs": [
+            "Connect a customer deal to agreement review, signature and verified CRM writeback.",
+            "Organization branding, environment, run identity and presentation format remain separate from this example identity."
+          ]
+        }
+      ]
+    },
+    {
+      "uid": "9b1d11c5-152a-52bb-a96c-b895b03b17b7",
+      "id": "stripe-consulting-deposit",
+      "kind": "integration-pattern",
+      "platforms": [
+        "Docusign",
+        "Stripe"
+      ],
+      "business_process": "Sales operations",
+      "scenario": "Stripe payments",
+      "summary": "Sign an agreement, collect a deposit, recover a decline and release a kickoff task after verified payment.",
+      "industries": [
+        "Cross-industry"
+      ],
+      "capabilities": [
+        "Maestro",
+        "eSignature",
+        "Stripe"
+      ],
+      "status": "preview",
+      "availability": "planned",
+      "updated": "2026-11-02",
+      "sections": [
+        {
+          "title": "Demo sequence",
+          "paragraphs": [
+            "Sign a nonbinding consulting agreement. Create the customer, draft invoice and deposit line item, then send the test invoice.",
+            "Decline the first payment. Keep kickoff on hold. Retry the same invoice with a successful test card.",
+            "Verify the signed Stripe event, paid status, fee and net amounts, and exactly one kickoff task. Provider connections and evidence are configured separately in the deployment profile."
+          ]
+        }
+      ]
+    }
+  ]
+}
