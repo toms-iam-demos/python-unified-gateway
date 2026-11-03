@@ -43,6 +43,9 @@ nav:
       - Architecture Explorer: 006_runbooks/13_architecture_explorer.md
       - Release Scope: 006_runbooks/14_release_scope.md
       - Repository Hygiene: 006_runbooks/15_repository-hygiene.md
+      - Workflow Builder API: 006_runbooks/15_workflow_api.md
+      - Full Docusign API: 006_runbooks/16_full_docusign_api.md
+      - Operator Security: 006_runbooks/17_operator_security.md
   - Change Records:
       - Template: changes/TEMPLATE.md
       - Repository Working Agreement: changes/2026-10-09-repository-hygiene.md

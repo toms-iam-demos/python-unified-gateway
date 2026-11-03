@@ -9,6 +9,9 @@ runbooks live here, and frontend specifications remain in `docs/frontend/`.
 - The deployed persisted-event monitor, summary polling and bounded detail previews.
 - Connect HMAC verification before persistence and broadcast, with verification metadata.
 - Worker-thread ledger writes and optional, bounded operator telemetry/explorer.
+- Operator-authenticated sandbox Workflow Builder reads.
+- Pinned eSignature and Agreement Manager reference operations with six reviewed reads and all other operations server-locked.
+- Persistent metadata-only operator auditing with fail-closed recording.
 - Relevant tests and corrected canonical documentation.
 
 ## Kept outside the release

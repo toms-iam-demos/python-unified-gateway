@@ -1,0 +1,20 @@
+name: Gateway release checks
+on:
+  push:
+    paths: ['gateway/**', 'tests/**', 'requirements*.txt', 'Dockerfile', '.github/workflows/gateway.yml']
+  pull_request:
+    paths: ['gateway/**', 'tests/**', 'requirements*.txt', 'Dockerfile', '.github/workflows/gateway.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-test.txt
+      - run: python -m pytest tests -q
+      - run: python tools/check_public_identity.py
+      - run: docker build -t pug-gateway-check .

@@ -1,0 +1,16 @@
+[
+  {
+    "product": "esignature",
+    "source": "https://raw.githubusercontent.com/docusign/OpenAPI-Specifications/master/esignature.rest.swagger-v2.1.json",
+    "retrieved_date": "2026-09-20",
+    "sha256": "77f1998c313d69701eca52cb80e860c2a4b7e97bdceea11fd0427f9405f06c2e",
+    "operations": 414
+  },
+  {
+    "product": "agreement-manager",
+    "source": "https://raw.githubusercontent.com/docusign/OpenAPI-Specifications/master/agreementmanager.rest.swagger-1.0.0.json",
+    "retrieved_date": "2026-09-20",
+    "sha256": "4bb9a26dc1aa1304c9e4cbcaaac33e83668aa47711cdf59c0f938a871dd16bec",
+    "operations": 10
+  }
+]
