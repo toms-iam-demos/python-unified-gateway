@@ -6,7 +6,7 @@ import platform
 from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
 from fastapi import APIRouter, Depends, Request, Response
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.routing import APIRoute
 from gateway.observability import snapshot
 
@@ -178,6 +178,11 @@ async def metadata(request: Request):
             },
         ],
     }
+
+
+@router.get("", include_in_schema=False)
+async def explorer_entry():
+    return RedirectResponse("/explorer/ui", status_code=307, headers={"Cache-Control": "no-store"})
 
 
 @router.get("/traces")
