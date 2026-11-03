@@ -16,10 +16,10 @@
  document.addEventListener('keydown',event=>{
    if(event.key!=='Escape')return;
    const menu=event.target.closest?.('.catalog-header details.resources-menu[open]');
-   if(menu){menu.open=false;menu.querySelector('summary')?.focus();event.preventDefault();return;}
+   if(menu){menu.open=false;menu.querySelector('summary')?.focus();event.preventDefault();event.stopPropagation();return;}
    const header=event.target.closest?.('.catalog-header.nav-open');
-   if(header){header.classList.remove('nav-open');const toggle=header.querySelector('.nav-toggle');toggle?.setAttribute('aria-expanded','false');toggle?.focus();event.preventDefault();}
- });
+   if(header){header.classList.remove('nav-open');const toggle=header.querySelector('.nav-toggle');toggle?.setAttribute('aria-expanded','false');toggle?.focus();event.preventDefault();event.stopPropagation();}
+ },true);
  document.addEventListener('click',event=>{
    if(!event.target.closest?.('.catalog-header details.resources-menu'))closeMenus();
    const anchor=event.target.closest?.('a[href^="#"]');
