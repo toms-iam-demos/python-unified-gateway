@@ -7,6 +7,7 @@ body :is(button,select,input:not([type=checkbox]):not([type=radio]):not([type=ra
 body :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--pug-focus);outline-offset:3px;box-shadow:0 0 0 3px var(--pug-focus-ring)}
 body :is(button,.button,.outline-button,.visitor-button){white-space:normal;line-height:1.4}
 body :is(input,select,textarea){font-size:1rem}
+body :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){border-color:#80728d}
 body summary{cursor:pointer;line-height:1.5;padding-block:.625rem}
 body :is(main,.pug-workup) :is(p,li){overflow-wrap:break-word}
 body :is(main,.pug-workup) :is(pre,code){overflow-wrap:anywhere}
@@ -40,7 +41,7 @@ body .solution-content p{font-size:1rem;line-height:1.65}
 body .solution-content .catalog-eyebrow,body .solution-content .industry{font-size:.8125rem}
 body :is(.landing-section,.evidence-box) :is(p,li){font-size:1rem;line-height:1.7}
 body :is(.landing-visual .tiny,.document-tile span:last-child){font-size:.8125rem;line-height:1.5}
-body .landing-cta p{color:#e4daef}
+body .landing-cta p,body .landing-visual p{color:#e4daef}
 body :is(.drawing-caption,.gateway-sequence,.gateway-number){font-size:.75rem;line-height:1.6}
 body .gateway-core>.gateway-number{font-size:.75rem;color:#d7c9e9}
 body .gateway-core>p,body .gateway-principle{font-size:.875rem;line-height:1.6;color:#e2d8ed}
@@ -72,7 +73,7 @@ body .native-canvas-toolbar{flex-wrap:wrap}
 /* Legible labels in calculation and routing workspaces. */
 body .forest-example th,body .rules-workspace .route-flow span,body .rules-workspace td:last-child{font-size:.8125rem;color:#62516e}
 body .rules-workspace .route-flow i{color:#715780}
-body .rules-workspace td{color:#62516e}
+body .rules-workspace td,body .forest-example td{color:#62516e}
 body .rules-workspace .code-toolbar #copy,body .rules-workspace pre{font-size:.875rem}
 body main h1 .coral{color:#d44841}
 body input:is([type=checkbox],[type=radio]){inline-size:1.25rem;block-size:1.25rem;accent-color:#4c00ff;flex-shrink:0}
