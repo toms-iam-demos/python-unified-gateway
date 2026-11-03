@@ -1,0 +1,111 @@
+/* Shared interaction baseline. Brand and organization profiles retain their identity. */
+:root{--pug-focus:#4c00ff;--pug-focus-ring:#fff;--pug-anchor-offset:1.5rem}
+html{scroll-padding-block-start:var(--pug-anchor-offset);text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{line-height:1.6}
+body :is(button,input,select,textarea,summary){font:inherit}
+body :is(button,select,input:not([type=checkbox]):not([type=radio]):not([type=range]),summary){min-block-size:2.75rem}
+body :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--pug-focus);outline-offset:3px;box-shadow:0 0 0 3px var(--pug-focus-ring)}
+body :is(button,.button,.outline-button,.visitor-button){white-space:normal;line-height:1.4}
+body :is(input,select,textarea){font-size:1rem}
+body summary{cursor:pointer;line-height:1.5;padding-block:.625rem}
+body :is(main,.pug-workup) :is(p,li){overflow-wrap:break-word}
+body :is(main,.pug-workup) :is(pre,code){overflow-wrap:anywhere}
+body :is(main,.pug-workup) pre{white-space:pre-wrap}
+body :is(main,.pug-workup) table{max-inline-size:100%}
+body :is(.skip,.skip-link){position:fixed;inset-block-start:.75rem;inset-inline-start:.75rem;z-index:10000;transform:translateY(-200%);padding:.75rem 1rem;background:#fff;color:#19072d;border:2px solid #4c00ff;border-radius:.25rem;text-decoration:underline}
+body :is(.skip,.skip-link):focus{transform:translateY(0)}
+body .pug-workup :target,body .workup-chapter,body .wu-chapter,body .wu-story{scroll-margin-block-start:0}
+body .pug-workup .wu-story-head{position:static;color:var(--wu-ink,#25382e)}
+
+/* Familiar developer shell, with comfortably readable navigation and disclosures. */
+body :is(.catalog-primary,.section-navigation,.pug-menu) :is(a,summary){min-block-size:2.75rem;font-size:.875rem;line-height:1.5}
+body .catalog-body #catalog-context.section-navigation>.nav-parent-link,
+body.catalog-body #catalog-context.section-navigation>.nav-parent-link{font-size:.875rem;letter-spacing:.03em;text-transform:none}
+body :is(.announcement,.pug-announcement){font-size:.75rem;line-height:1.5;min-height:2.75rem;align-items:center}
+body .announcement>a{display:inline-flex;align-items:center;min-height:2.75rem}
+body :is(.announcement-right,.brand-subtitle,.pug-identity small){font-size:.75rem;line-height:1.5}
+body .pug-menu [aria-disabled]{color:#cfc5dc;opacity:1}
+body .visitor-signout{font-size:.875rem;min-width:5.5rem}
+body .catalog-header .resources-menu>div{max-width:min(24rem,calc(100vw - 2rem));max-height:70vh;overflow:auto}
+body :is(.catalog-breadcrumb,.breadcrumb){align-items:center;flex-wrap:wrap;font-size:.875rem}
+body :is(.catalog-breadcrumb,.breadcrumb)>a{display:inline-flex;align-items:center;min-height:2.75rem}
+body :is(.catalog-footer,.guest-footer,main>footer){font-size:.8125rem;line-height:1.6}
+body .catalog-footer{background:#14052b;color:#d4c9e0}
+
+/* Business stories and evidence are reading surfaces, not miniature annotations. */
+body :is(.catalog-shell,.invited-home,.visitor-login){font-size:1rem;line-height:1.65}
+body :is(.catalog-shell,.invited-home,.visitor-login) :is(label,.fine,.landing-note,.agent-small){font-size:.875rem!important;line-height:1.65}
+body :is(.catalog-eyebrow,.eyebrow,.solution-content .industry,.solution-art .art-label,.solution-status,.solution-foot,.facet-count,.verification-strip span){font-size:.8125rem;line-height:1.5}
+body .solution-content p{font-size:1rem;line-height:1.65}
+body .solution-content .catalog-eyebrow,body .solution-content .industry{font-size:.8125rem}
+body :is(.landing-section,.evidence-box) :is(p,li){font-size:1rem;line-height:1.7}
+body :is(.landing-visual .tiny,.document-tile span:last-child){font-size:.8125rem;line-height:1.5}
+body .landing-cta p{color:#e4daef}
+body :is(.drawing-caption,.gateway-sequence,.gateway-number){font-size:.75rem;line-height:1.6}
+body .gateway-core>.gateway-number{font-size:.75rem;color:#d7c9e9}
+body .gateway-core>p,body .gateway-principle{font-size:.875rem;line-height:1.6;color:#e2d8ed}
+body .gateway-services small{font-size:.875rem;line-height:1.5;color:#665774}
+body .gateway-services strong{font-size:1rem;line-height:1.4}
+body .drawing-caption,body .gateway-sequence{color:#665774}
+body .gateway-sequence b{color:#665774}
+body .integration-notes>span{font-size:.8125rem;color:#624577}
+body .gateway-drawing{min-width:0}
+body .gateway-core,body .gateway-services{min-width:0}
+body :is(.gateway-services>button,.gateway-service-link){min-height:4.5rem}
+body :is(.agent-small,.agent-record pre,.agent-notes pre){font-size:.875rem!important;line-height:1.7}
+body .agent-record dl{font-size:.9375rem}
+body :is(.chat-eyebrow,.chat-agent-select span,.chat-policy,.chat-message strong){font-size:.8125rem;line-height:1.6}
+body :is(.chat-header p,.chat-agent-select small){font-size:.9375rem;line-height:1.6}
+body .chat-header button{font-size:.875rem}
+body .rules-workspace :is(.eyebrow,.art-tag,.art-footer,.statusline,.badge,.number span,small,th){font-size:.8125rem;line-height:1.6}
+body .rules-workspace .branches>div{font-size:.875rem}
+body :is(.pac-kicker,.pac-environment,.pac-count,.pac-state,.pac-type,.pac-filters label){font-size:.8125rem;line-height:1.5}
+body .pac-sidebar nav h2{font-size:.875rem}
+body .county-band small,body .demo-disclosure,body .login-footer{font-size:.8125rem;line-height:1.6}
+body .demo-disclosure a,body .native-proof-next a{display:inline-flex;align-items:center;min-height:2.75rem;font-size:.875rem}
+body .card-copy p{font-size:1rem;line-height:1.65}
+body .card-copy>strong{font-size:.9375rem}
+body .invitation{flex-wrap:wrap}
+body .invited-card,body .solution-card{min-width:0}
+body .native-canvas-toolbar{flex-wrap:wrap}
+
+/* Legible labels in calculation and routing workspaces. */
+body .forest-example th,body .rules-workspace .route-flow span,body .rules-workspace td:last-child{font-size:.8125rem;color:#62516e}
+body .rules-workspace .route-flow i{color:#715780}
+body .rules-workspace td{color:#62516e}
+body .rules-workspace .code-toolbar #copy,body .rules-workspace pre{font-size:.875rem}
+body main h1 .coral{color:#d44841}
+body input:is([type=checkbox],[type=radio]){inline-size:1.25rem;block-size:1.25rem;accent-color:#4c00ff;flex-shrink:0}
+body label:has(input:is([type=checkbox],[type=radio])){min-height:2.75rem;align-items:center}
+
+@media(max-width:1050px){
+ :root body .catalog-header{flex-wrap:wrap}
+ :root body .catalog-header .nav-toggle{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;min-width:5rem;min-height:44px}
+ :root body .catalog-header #primary-navigation{display:none;position:static;flex-basis:100%;width:100%;max-height:none;overflow:visible;flex-wrap:wrap;padding:1rem 0;box-shadow:none}
+ :root body .catalog-header.nav-open #primary-navigation{display:flex;flex-direction:column;align-items:stretch;gap:.25rem}
+ :root body .catalog-header #primary-navigation>*{width:100%;flex:none;min-width:0}
+ :root body .catalog-header #primary-navigation>details>div{position:static;width:100%;max-width:100%;margin:.5rem 0;box-shadow:none}
+ :root body .catalog-header #primary-navigation>details>summary{padding:.75rem .5rem}
+}
+
+@media(max-width:650px){
+ body :is(.announcement,.pug-announcement){padding-inline:1rem}
+ body .pug-menu{flex-wrap:wrap;gap:.25rem 1.25rem;overflow:visible}
+ body :is(.catalog-shell,.invited-home){padding-inline:1rem}
+ body .gateway-drawing{grid-template-columns:1fr;gap:1.5rem}
+ body .gateway-core{min-height:0;padding:1.5rem}
+ body .gateway-services{gap:1rem}
+ body .gateway-services :is(button,a){padding:1rem}
+ body .gateway-sequence{flex-wrap:wrap;gap:.5rem}
+ body .catalog-header .resources-menu>div{max-height:none;max-width:100%}
+ body .catalog-breadcrumb{gap:.5rem}
+ body .catalog-controls input{min-width:0;flex-basis:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ body *,body *::before,body *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+@media(forced-colors:active){
+ body :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid Highlight;box-shadow:none}
+ body :is(button,.button,.outline-button,.visitor-button,.wu-badge){border:1px solid ButtonText}
+}
