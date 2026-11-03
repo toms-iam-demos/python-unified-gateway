@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.pyc
+profiles.local
+*.egg-info
+build
+dist

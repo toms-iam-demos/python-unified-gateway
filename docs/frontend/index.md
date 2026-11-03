@@ -40,3 +40,7 @@ Selected screenshots and ad hoc interaction checks exist from development. A com
 ## Publication identity checks
 
 See [public identity policy](public-identity-policy.md) for the current-tree scope, artifact review and automated checks.
+
+## Maintained website implementation
+
+[`www/`](www.md) now provides the reusable website package and deployment-profile boundary. Earlier standalone workbench artifacts remain separate until individually migrated; their presence is not a claim of deployed parity.

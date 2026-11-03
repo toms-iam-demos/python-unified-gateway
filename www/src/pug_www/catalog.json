@@ -1,0 +1,9 @@
+{
+  "name": "Python Unified Gateway",
+  "tagline": "Every agreement. Every connection.",
+  "entries": [
+    {"id":"municipal-classification","title":"The right type. Every agreement.","organization":"Municipal","summary":"Review agreement classifications, approve a precise plan and inspect verified results.","category":"Public sector","capability":"Agreement Manager","status":"preview","updated":"2026-11-02","sections":[{"title":"Review before changing","paragraphs":["Inspect current and proposed types before an operator approves a run.","This public profile describes the scenario. Supply an external profile to connect an approved demonstration."]}]},
+    {"id":"museum-procurement","title":"Procurement with provenance.","organization":"Museum","summary":"Follow supplier evidence and the approval decision through an agreement family.","category":"Culture","capability":"Procurement","status":"preview","updated":"2026-11-02"},
+    {"id":"nfp-operations","title":"From request to ready.","organization":"NFP","summary":"Explore a documented request, review and agreement handoff.","category":"Operations","capability":"Workflow","status":"preview","updated":"2026-11-02"}
+  ]
+}

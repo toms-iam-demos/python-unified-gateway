@@ -31,3 +31,7 @@ PUG is under active development. See the [runbooks](docs/006_runbooks/10_local-d
 ## Working agreement
 
 See [contributing](CONTRIBUTING.md) for ownership, local experiments, review and logging, and the [repository hygiene runbook](docs/006_runbooks/15_repository-hygiene.md) for refresh and recovery.
+
+## Website source
+
+The maintained PUG website lives in [`www/`](www/README.md). It includes the homepage, catalog, shared navigation and external deployment-profile boundary. See the [website ownership note](docs/frontend/www.md) for scope and deployment status.
