@@ -1,1 +1,14 @@
-<a class="solution-card {% if entry.status == 'verified' %}featured{% endif %}" href="/catalog/{{ entry.id }}" data-entry data-category="{{ entry.category }}" data-search="{{ entry.title }} {{ entry.organization }} {{ entry.summary }} {{ entry.capability }}"><div class="solution-art">{% if entry.logo %}<img class="organization-logo" src="/brand/{{ entry.logo }}" alt="{{ entry.organization }}">{% else %}<span class="art-label">{{ entry.capability }}</span><span class="glyph" aria-hidden="true">↗</span>{% endif %}</div><div class="solution-content"><span class="solution-status {% if entry.status != 'verified' %}preview{% endif %}">{{ entry.status|replace('_',' ')|title }}</span><p class="catalog-eyebrow">{{ entry.organization }}</p><h2>{{ entry.title }}</h2><p>{{ entry.summary }}</p>{% if entry.formats %}<p>{{ entry.formats|join(" · ")|title }}</p>{% endif %}<p class="entry-date">Updated <time datetime="{{ entry.updated }}">{{ entry.updated }}</time>{% if entry.verified %}<br>Last verified <time datetime="{{ entry.verified }}">{{ entry.verified }}</time>{% endif %}</p><div class="solution-foot"><span>{{ entry.capability }}</span><span>Explore example ↗</span></div></div></a>
+{% set org = organization(entry) %}
+<a class="solution-card {% if entry.status == 'verified' %}featured{% endif %}" href="/demos/{{ entry.id }}/" data-entry data-process="{{ entry.business_process }}" data-industry="{{ entry.industries|join('|') }}" data-capability="{{ entry.capabilities|join('|') }}" data-organization="{{ org.name if org else '' }}" data-search="{{ entry.scenario }} {{ entry.business_process }} {{ org.name if org else '' }} {{ entry.summary }} {{ entry.capabilities|join(' ') }} {{ entry.example_code or '' }}">
+  <div class="solution-art">
+    {% if org and org.logo %}<img class="organization-logo" src="/brand/{{ org.logo }}" alt="{{ org.name }}">{% else %}<span class="art-label">{{ entry.business_process }}</span><span class="glyph" aria-hidden="true">↗</span>{% endif %}
+  </div>
+  <div class="solution-content">
+    <div class="identity-line"><span class="example-code">{{ entry.example_code or ('Integration pattern' if entry.kind == 'integration-pattern' else 'Unregistered example') }}</span><span class="solution-status {% if entry.status != 'verified' %}preview{% endif %}">{{ entry.availability|title }}</span></div>
+    <h2>{{ entry.scenario }}</h2>
+    {% if org %}<p class="organization-name">{{ org.name }}</p>{% endif %}
+    <p>{{ entry.summary }}</p>
+    {% if entry.platforms %}<p class="entry-date">Systems: {{ entry.platforms|join(" · ") }}</p>{% endif %}<p class="entry-date">{{ entry.industries|join(' · ') }}<br>Updated <time datetime="{{ entry.updated }}">{{ entry.updated }}</time>{% if entry.verified %}<br>Last verified <time datetime="{{ entry.verified }}">{{ entry.verified }}</time>{% endif %}</p>
+    <div class="solution-foot"><span>{{ entry.capabilities|join(' · ') }}</span><span>Open example ↗</span></div>
+  </div>
+</a>

@@ -1,1 +1,36 @@
-{% extends 'base.html' %}{% block content %}<div class="catalog-shell"><nav class="catalog-breadcrumb" aria-label="Breadcrumb"><a href="/catalog">Demo catalog</a><span>/</span><span>{{ entry.category }}</span></nav><section class="landing-hero"><div><div class="catalog-eyebrow">{{ entry.organization }} / {{ entry.capability }}</div><h1>{{ entry.title }}</h1><p>{{ entry.summary }}</p><div class="landing-buttons">{% if entry.launch_url %}<a class="button coral-button" href="{{ entry.launch_url }}">Launch demo ↗</a>{% endif %}<a class="outline-button" href="/catalog">All examples ←</a></div><p class="landing-note">{{ entry.status|title }} · Updated {{ entry.updated }}{% if entry.verified %} · Last verified {{ entry.verified }}{% endif %}</p></div><div class="landing-visual"><div class="tiny">{{ entry.capability|upper }}</div>{% if entry.logo %}<img class="organization-logo" src="/brand/{{ entry.logo }}" alt="{{ entry.organization }}">{% endif %}<h2>{{ entry.title }}</h2><p>Review the workflow.<br>Inspect its evidence.<br>Keep the outcome clear.</p></div></section>{% for section in entry.sections %}<section class="landing-section"><h2>{{ section.title }}</h2>{% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}</section>{% endfor %}</div>{% endblock %}
+{% extends 'base.html' %}
+{% block content %}
+{% set org = organization(entry) %}
+<div class="catalog-shell">
+  <nav class="catalog-breadcrumb" aria-label="Breadcrumb"><a href="/demos">Enterprise examples</a><span>/</span><span>{{ entry.business_process }}</span></nav>
+  <section class="landing-hero">
+    <div>
+      <div class="catalog-eyebrow">{{ entry.example_code or 'UNREGISTERED EXAMPLE' }} / {{ entry.business_process }}</div>
+      <h1>{{ entry.scenario }}</h1>
+      <p>{{ entry.summary }}</p>
+      {% if org %}<p class="organization-name">Organization profile: {{ org.name }}</p>{% endif %}
+      <div class="landing-buttons">
+        {% if presentation %}<a class="button coral-button" href="/demos/{{ entry.id }}/presentation/">Open presentation ↗</a>{% endif %}
+        {% for format, href in entry.experiences.items() %}{% if format != 'presentation' or not presentation %}<a class="button coral-button" href="{{ href }}">Open {{ format }} ↗</a>{% endif %}{% endfor %}
+        <a class="outline-button" href="/demos">All examples ←</a>
+      </div>
+      <p class="landing-note">{{ entry.status|title }} · {{ entry.availability|title }} · Updated {{ entry.updated }}{% if entry.verified %} · Last verified {{ entry.verified }}{% endif %}</p>
+    </div>
+    <div class="landing-visual">
+      {% if org and org.logo %}<img class="presentation-organization-logo" src="/brand/{{ org.logo }}" alt="{{ org.name }}">{% endif %}
+      <div class="tiny">{{ entry.capabilities|join(' / ')|upper }}</div>
+      <h2>{{ entry.scenario }}</h2>
+      <p>{{ entry.business_process }}</p>
+    </div>
+  </section>
+  <nav class="example-tabs" aria-label="Example sections">
+    <a href="/demos/{{ entry.id }}/" aria-current="page">Overview</a>
+    {% if presentation %}<a href="/demos/{{ entry.id }}/presentation/">Presentation</a>{% endif %}
+    <a href="/demos/{{ entry.id }}/runs/">Runs</a>
+    <a href="/demos/{{ entry.id }}/materials/">Materials</a>
+    <a href="/demos/{{ entry.id }}/implementation/">Implementation</a>
+  </nav>
+  {% if entry.platforms %}<p>Systems: {{ entry.platforms|join(" · ") }}</p>{% endif %}<section class="taxonomy-summary"><div><strong>Business process</strong>{{ entry.business_process }}</div><div><strong>Industry</strong>{{ entry.industries|join(' · ') }}</div><div><strong>Capabilities</strong>{{ entry.capabilities|join(' · ') }}</div><div><strong>Stable identity</strong>{{ entry.example_code or entry.id }}<small>{{ entry.uid }}</small></div></section>
+  {% for section in entry.sections %}<section class="landing-section"><h2>{{ section.title }}</h2>{% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}</section>{% endfor %}
+</div>
+{% endblock %}

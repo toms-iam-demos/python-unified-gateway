@@ -20,7 +20,10 @@ On Windows, use `.venv\Scripts\python` and set environment variables with your s
 | --- | --- |
 | `/` | Platform homepage |
 | `/catalog` | Searchable collection with data-derived categories |
-| `/catalog/{id}` | Canonical example landing page |
+| `/catalog/{id}` | Legacy alias redirect to the canonical example |
+| `/demos/{id}/` | Canonical example landing page |
+| `/catalog?area=extensions` | App Center, nested under the catalog |
+| `/catalog?area=workups` | Single-example invitation drafts |
 | `/demos` | Demonstration collection |
 | `/demos/data-studio` | Explicitly proposed capability page, not a generator |
 | `/build` | Developer capability entry point |
@@ -30,11 +33,11 @@ On Windows, use `.venv\Scripts\python` and set environment variables with your s
 | `/static/www/*` | Versioned website CSS and JavaScript |
 | `/brand/{name}` | Authenticated, profile-allowlisted assets |
 
-This component has no provider write operations, run recorder, video storage, artifact upload service, or role-based authorization system. Existing connected demo services remain separate and are linked from approved profiles. Implementing those capabilities requires their own tested work.
+This component has no provider write operations, run recorder, video storage, artifact upload service, or scoped visitor authorization system. Invitations prepare a browser-local message draft and never grant access or send email. The read-only presentation migration bridge preserves separately configured evidence while denying commands. Existing connected demo services remain separate and are linked from approved profiles. Implementing those capabilities requires their own tested work.
 
 ## Deployment profile
 
-Public source contains only generic Municipal, Museum and NFP examples. Organization-specific names, logos, media and operational links are supplied through an external JSON profile, following `docs/frontend/public-identity-policy.md`. The profile schema is in `src/pug_www/models.py`; `catalog.json` is a complete minimal example.
+Public source contains only generic Municipal, Museum and NFP examples. Organization-specific names, logos, media and operational links are supplied through an external JSON profile, following `docs/frontend/public-identity-policy.md`. The profile schema is in `src/pug_www/models.py`; `catalog.json` is a complete schema-v2 example. `taxonomy.json` validates process, industry and capability names. Registered EX codes and UUIDs remain stable across profile changes. Organization-specific legacy aliases belong in the external profile.
 
 | Variable | Purpose |
 | --- | --- |
@@ -58,3 +61,13 @@ python tools/check_public_identity.py
 ```
 
 The website workflow runs the package tests on Python 3.12 and 3.14. The existing publication identity workflow reviews tracked content. `src/` layout and package data include templates, CSS, JavaScript and the generic catalog in installed wheels. Do not use this directory as a place for deployment copies or credentials.
+
+## Prepare a release
+
+After publishing and checking the source commit:
+
+```sh
+python tools/prepare_www_release.py --ref HEAD --output /tmp/pug-www-release
+```
+
+The archive contains Git-tracked `www/` source only and a SHA-256 manifest. Extract it into an isolated staging directory and build using `www/` as the Docker context. Do not switch ingress solely because an image builds. The existing visitor service owns root access and scoped guest sessions, and legacy catalog query areas still host connected workspaces. Keep those boundaries and targets intact. See `docs/changes/2026-11-02-www-release-preparation.md` for the migration gate.

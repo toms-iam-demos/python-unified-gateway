@@ -1,7 +1,13 @@
 .venv
 __pycache__
 *.pyc
-profiles.local
-*.egg-info
+.DS_Store
+._*
 build
 dist
+src/*.egg-info
+profiles.local
+.env*
+*.sqlite*
+*.db*
+tests

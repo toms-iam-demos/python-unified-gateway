@@ -1,0 +1,834 @@
+[
+  {
+    "name": "Stripe",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Sign an agreement, recover a declined deposit and release kickoff automatically.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Zendesk",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Support tickets and agreement-driven service workflows.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "HubSpot",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Customer records, agreement handoffs and CRM workflows.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "ACH Transfer",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Address Change with HubSpot",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Address Change with nCino Integration Gateway",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Address Change with Salesforce",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Airtable",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Asana",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Ashby",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Attio",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "BambooHR",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Bank Account Opening (Brasil)",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Bank Account Opening Application",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "BILL",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Blockstamp",
+    "kind": "Extension app",
+    "provider": "Simple Proof",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Bonterms",
+    "kind": "Extension app",
+    "provider": "Bonterms",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Box",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "ChatGPT",
+    "kind": "AI connector",
+    "provider": "Docusign",
+    "summary": "Agreement capabilities from your AI workspace.",
+    "ready": false,
+    "works": "AI workspace"
+  },
+  {
+    "name": "Claude ",
+    "kind": "AI connector",
+    "provider": "Docusign",
+    "summary": "Agreement capabilities from your AI workspace.",
+    "ready": false,
+    "works": "AI workspace"
+  },
+  {
+    "name": "Constant Contact",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Coupa",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Coupa (IAM)",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Create Stripe Customer and Invoice",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Docusign CLM",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Docusign eSignature",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Dropbox",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Email Verification",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Emailable",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "eSignature for Google Workspace",
+    "kind": "eSignature integration",
+    "provider": "Docusign",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "eSignature for HubSpot",
+    "kind": "eSignature integration",
+    "provider": "Hubspot",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "eSignature for Salesforce",
+    "kind": "eSignature integration",
+    "provider": "Docusign",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "eSignature for ServiceNow",
+    "kind": "eSignature integration",
+    "provider": "ServiceNow",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "eSignature for Workday",
+    "kind": "eSignature integration",
+    "provider": "Workday",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "Google Docs",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Google Drive",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Google Gemini",
+    "kind": "AI connector",
+    "provider": "Docusign",
+    "summary": "Agreement capabilities from your AI workspace.",
+    "ready": false,
+    "works": "AI workspace"
+  },
+  {
+    "name": "Greenhouse",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "ID Verification with CLEAR",
+    "kind": "eSignature integration",
+    "provider": "CLEAR",
+    "summary": "Signing workflows within your business applications.",
+    "ready": false,
+    "works": "eSignature"
+  },
+  {
+    "name": "InfoTrack",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Integration Gateway",
+    "kind": "Extension app",
+    "provider": "nCino",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Jira",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Know Your Customer with ID Evidence",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Lever",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "LSEG",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Mailchimp",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Mailchimp Transactional",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "MeridianLink",
+    "kind": "Extension app",
+    "provider": "MeridianLink",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Middesk",
+    "kind": "Extension app",
+    "provider": "Middesk",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "monday.com",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "MuleSoft Accelerator",
+    "kind": "Extension app",
+    "provider": "NeuraFlash",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "NDA with Box",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "NDA with Dropbox",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "NDA with Google Drive",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "NetSuite",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Odoo",
+    "kind": "Extension app",
+    "provider": "ePillars Sytsems LLC",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Offer Letter with Box",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Offer Letter with Dropbox",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Offer Letter with Google Drive",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Oracle CX Orchestrator",
+    "kind": "Extension app",
+    "provider": "4i Apps",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Oracle Fusion",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Patient Record Release Authorization",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Pipedrive",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Prisidio",
+    "kind": "Extension app",
+    "provider": "Prisidio",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Procore",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "QuickBooks",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Quik! Forms for Wealth Management",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Quik! FormXtract Submit Doc",
+    "kind": "Extension app",
+    "provider": "Quik!",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Request for Information (RFI) with HubSpot",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Request for Information (RFI) with Salesforce",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Right to Work (UK)",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Ringi Approval Workflow (JP)",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Salesforce",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Async Requests Management",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Contract State Change",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Contract Workspaces",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Document Management",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Event Management",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Sourcing Master Data",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Sourcing Project Management",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Supplier Details",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP Ariba Task Automation",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SAP SuccessFactors",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Send and Store W-4 using Box",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Send and Store W-4 using Dropbox",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Send and Store W-4 using Google Drive",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "ServiceNow",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Slack",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Smartsheet",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Smarty",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "SSN and FEIN Verification",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "TrustCloud Vault",
+    "kind": "Extension app",
+    "provider": "TrustCloud",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Twilio",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Twilio for SMS",
+    "kind": "Extension app",
+    "provider": "This Dot Labs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Vonage",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Wealthbox",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Wire Transfer",
+    "kind": "Workflow template",
+    "provider": "docusign",
+    "summary": "Workflow template demo reserved for a future PUG example.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Workato",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Workday Financials",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Workday HR",
+    "kind": "Extension app",
+    "provider": "Docusign",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Xero",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Zoho CRM",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  },
+  {
+    "name": "Zoho Recruit",
+    "kind": "Extension app",
+    "provider": "Fluidlabs",
+    "summary": "Agreement workflows and connected business records.",
+    "ready": false,
+    "works": "Workflow Builder"
+  }
+]

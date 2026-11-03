@@ -1,8 +1,8 @@
-"""Shared navigation registry; content and menus have stable canonical URLs."""
+"""Shared navigation with canonical root and catalog-owned collections."""
 GROUPS = [
-    {"title": "Catalog", "items": [("Demo catalog", "/catalog")]},
-    {"title": "Build", "items": [("API reference", "/build")]},
-    {"title": "Demos", "items": [("Demo space", "/demos"), ("Data Studio", "/demos/data-studio")]},
+    {"title": "Home", "items": [("Home", "/")]},
+    {"title": "Demo catalog", "items": [("Demo catalog", "/catalog"), ("Invitations", "/catalog?area=workups")]},
+    {"title": "Build", "items": [("API reference", "/build"), ("App Center", "/catalog?area=extensions")]},
     {"title": "Workspaces", "items": [("Agents", "/workspaces/agents"), ("MCP", "/workspaces/mcp"), ("HAM", "/workspaces/ham")]},
     {"title": "Resources", "items": [("Guides", "/resources")]},
 ]
