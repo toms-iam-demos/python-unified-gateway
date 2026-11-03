@@ -8,4 +8,4 @@ Navigation and catalog entries derive from Python registries and validated profi
 
 The current hosted prototype predates this package. Adding repository source is not a declaration that the live image has been rebuilt from it. Replacing that prototype requires a reviewed profile migration and explicit deployment, with the existing routes and evidence preserved.
 
-See [website implementation and deployment instructions](../../www/README.md).
+See [website implementation and deployment instructions](https://github.com/toms-iam-demos/python-unified-gateway/blob/main/www/README.md).

@@ -107,6 +107,8 @@ class ExplorerTests(unittest.TestCase):
         self.assertTrue(route["dependencies"])
 
     def test_oauth_spans_without_network(self):
+        from gateway.routers.workflows import operator
+        self.app.dependency_overrides[operator] = lambda: None
         from gateway.routers import docusign_jwt_test as ds
         from unittest.mock import Mock
 
