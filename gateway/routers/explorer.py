@@ -51,13 +51,34 @@ def dependencies(dep, seen=None):
     ]
 
 
+def registered_api_routes(routes):
+    """Include effective prefixes and dependencies of lazily included routers."""
+    for route in routes:
+        if isinstance(route, APIRoute):
+            yield route
+        else:
+            contexts = getattr(route, "effective_route_contexts", None)
+            if callable(contexts):
+                for context in contexts():
+                    if isinstance(context.original_route, APIRoute):
+                        yield context
+
+
+def field_type(field):
+    return getattr(field, "type_", getattr(getattr(field, "field_info", None), "annotation", None))
+
+
+def field_required(field):
+    if hasattr(field, "required"):
+        return field.required
+    return field.field_info.is_required()
+
+
 @router.get("/metadata")
 async def metadata(request: Request):
     routes = []
     recent = snapshot()
-    for route in request.app.routes:
-        if not isinstance(route, APIRoute):
-            continue
+    for route in registered_api_routes(request.app.routes):
         item = {
             "path": route.path,
             "methods": sorted(route.methods),
@@ -70,12 +91,12 @@ async def metadata(request: Request):
         try:
             item.update(
                 response_model=describe_type(route.response_model),
-                request_model=describe_type(getattr(route.body_field, "type_", None)),
+                request_model=describe_type(field_type(route.body_field)),
                 parameters=[
                     {
                         "name": p.name,
-                        "required": p.required,
-                        "type": describe_type(p.type_),
+                        "required": field_required(p),
+                        "type": describe_type(field_type(p)),
                     }
                     for p in route.dependant.path_params
                     + route.dependant.query_params
