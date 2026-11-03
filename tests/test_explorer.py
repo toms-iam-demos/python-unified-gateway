@@ -81,6 +81,13 @@ class ExplorerTests(unittest.TestCase):
         self.client.post("/webhooks/docusign", content=b"no signature")
         self.assertEqual(traces[-1]["spans"][0]["status"], "failed")
 
+    def test_menu_entry_redirects_to_the_protected_ui(self):
+        response = self.client.get("/explorer", follow_redirects=False)
+        self.assertEqual(response.status_code, 307)
+        self.assertEqual(response.headers["location"], "/explorer/ui")
+        self.assertEqual(response.headers["cache-control"], "no-store")
+        self.assertEqual(self.client.get(response.headers["location"]).status_code, 200)
+
     def test_degraded_ledger(self):
         with patch.dict(os.environ, {"GATEWAY_DB_ENABLED": "0"}):
             result = self.client.get("/events/latest").json()
@@ -160,7 +167,7 @@ class ExplorerTests(unittest.TestCase):
 
     def test_explorer_disabled_by_default_without_affecting_monitor(self):
         with patch.dict(os.environ, {}, clear=True), TestClient(create_app()) as client:
-            for path in ("/explorer/ui", "/explorer/metadata", "/explorer/traces"):
+            for path in ("/explorer", "/explorer/ui", "/explorer/metadata", "/explorer/traces"):
                 self.assertEqual(client.get(path).status_code, 404)
             self.assertEqual(client.get("/webhooks/monitor/ui").status_code, 200)
             self.assertEqual(client.get("/static/monitor.js").status_code, 200)
@@ -191,7 +198,7 @@ class ExplorerTests(unittest.TestCase):
                     self.sources.append(attributes["href"])
                 self.inline_style |= tag == "style" or "style" in attributes
 
-        for path in ("/explorer/ui", "/explorer/metadata", "/explorer/traces"):
+        for path in ("/explorer", "/explorer/ui", "/explorer/metadata", "/explorer/traces"):
             response = self.client.get(path)
             self.assertEqual(response.headers["cache-control"], "no-store")
         ui = self.client.get("/explorer/ui")
