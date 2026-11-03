@@ -10,6 +10,8 @@ governing_adr: ADR-0011
 # Frontend design principles
 
 ## Audience and intent
+
+The maintainer's 2026-11-03 direction applies throughout: follow the docusign developer identity where it serves the interface, and design for human reading, decisions and interaction everywhere. The [human experience contract](human-experience.md) makes this direction testable across the shared site and all examples.
 PUG serves organizational leaders overseeing agreement operations, people participating in business/service journeys, and practitioners inspecting implementation evidence. This can be any organization or sector; public-service language is not mandatory platform copy.
 
 The reusable identity combines developer-oriented clarity with an approved organization brand. Typography, spacing, accessible interactions and shared components provide coherence; organization profiles supply identity assets, palette choices, terminology and outcome messaging. The current docusign-inspired/public-sector blend is the first reference profile, not a required state identity for all deployments.

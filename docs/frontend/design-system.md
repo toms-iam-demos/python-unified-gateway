@@ -82,6 +82,8 @@ The portable examples provide the current generic artwork. Historical studio fil
 
 ## Product and validation rules
 
+Apply the [human experience contract](human-experience.md) to every shared surface, example and visitor screen. Developer branding is a visual reference, not evidence of accessibility conformance. Readable text, surface-specific colors, comfortable controls, visible focus, keyboard navigation and responsive reflow take priority over copying a source site's incidental styling.
+
 The active organization owns homepage identity; the shared public profile uses generic organization types. MCP, CLM and OpenClaw retain dedicated workspaces.
 Keep Who / What / How on department examples and provenance/ownership in management
 views. The homepage subheading is editorially aligned with
