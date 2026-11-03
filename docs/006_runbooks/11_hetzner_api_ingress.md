@@ -40,6 +40,12 @@ Using the existing authorized server connection:
 Do not paste full environment or rendered Compose configurations into reports: they
 may contain secrets. Record only the necessary nonsecret evidence.
 
+## Storage preflight
+
+Check available space on the actual application, database, Docker and backup filesystems before building or activating a candidate. Estimate the full image and consistent SQLite snapshot sizes; do not assume a small source change produces a small backup. Keep at least 2 GiB available to the application after those writes, with more reserved for large test artifacts. Use application-available space, not only root-reserved free blocks. An HTTP health response or successful read does not prove that the filesystem can accept new records.
+
+Retain rollback images and recovery data. If inactive snapshots are independently verified byte-identical, their immutable storage can be shared while retaining each recovery path and a checksum manifest. Never hard-link a live database. Copy a shared snapshot to a separate writable destination before restoring or opening it for modification. For archive compression, verify the decompressed checksum before replacing redundant raw storage. Keep private records on the host unless their export and destination are explicitly authorized. Historical logs belonging to stopped containers can be archived with the same verification; do not truncate an active service log as a shortcut.
+
 ## Backup and rollback preparation
 
 Keep the current image available by immutable ID or a local rollback tag. Preserve the
