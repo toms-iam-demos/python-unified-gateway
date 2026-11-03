@@ -12,7 +12,9 @@ A full-disk condition interrupted the concurrent native repair. Three separately
 
 The maintainer-approved reboot activated the installed kernel update; no reboot remained pending at verification. All eight live services returned automatically, fresh key-only SSH worked, the firewall remained active and no system units failed. Provider authentication required renewal and was subsequently verified.
 
-## Release boundary
+## Original release boundary
+
+This was the historical checkpoint. The expanded reconciliation is recorded in [Full hosted-stack reconciliation](2026-11-03-full-stack-reconciliation.md).
 
 GitHub main and the core gateway runtime are reconciled. The standalone website package remains a prepared candidate: a broad ingress replacement must first preserve scoped visitor access, external deployment profiles and the existing connected workspace routes. Separate private runtimes and a concurrent agent candidate must not be represented as reproduced from the public website package or as accepted merely because their pages load. Private profiles, provider records, credentials and runtime databases remain outside GitHub. Administrator MFA enrollment is still outstanding.
 
