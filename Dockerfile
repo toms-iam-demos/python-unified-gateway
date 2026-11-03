@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --no-cache-dir --upgrade pip==26.2 setuptools==84.1.0 \
+    && python -m pip install --no-cache-dir -r requirements.txt
 
 # Runtime code and static operator assets only. Local tools, documentation,
 # credentials and SQLite state never belong in the application image.

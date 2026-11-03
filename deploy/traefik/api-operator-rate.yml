@@ -1,0 +1,7 @@
+http:
+  middlewares:
+    api-operator-rate:
+      rateLimit:
+        average: 10
+        burst: 200
+        period: 1s

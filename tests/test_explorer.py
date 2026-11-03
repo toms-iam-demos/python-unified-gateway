@@ -1,7 +1,7 @@
 import os
 import unittest
 from unittest.mock import patch, AsyncMock
-from fastapi import FastAPI, Depends
+from fastapi import APIRouter, FastAPI, Depends
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 from gateway.app import create_app
@@ -105,6 +105,31 @@ class ExplorerTests(unittest.TestCase):
             route = client.get("/explorer/metadata").json()["routes"][0]
         self.assertEqual(route["request_model"]["type"], "Payload")
         self.assertTrue(route["dependencies"])
+
+    def test_nested_router_keeps_effective_prefix_and_dependencies(self):
+        def access_check():
+            return True
+
+        child = APIRouter()
+
+        @child.get("/items/{item_id}")
+        def items(item_id: int, query: str = ""):
+            return {"id": item_id}
+
+        parent = APIRouter()
+        parent.include_router(child, prefix="/nested")
+        local = FastAPI()
+        local.include_router(parent, prefix="/api", tags=["nested"],
+                             dependencies=[Depends(access_check)])
+        local.include_router(explorer.router)
+        with TestClient(local) as client:
+            routes = client.get("/explorer/metadata").json()["routes"]
+        route = next(r for r in routes if r["path"] == "/api/nested/items/{item_id}")
+        self.assertEqual(route["family"], ["nested"])
+        self.assertTrue(route["dependencies"])
+        params = {p["name"]: p for p in route["parameters"]}
+        self.assertTrue(params["item_id"]["required"])
+        self.assertFalse(params["query"]["required"])
 
     def test_oauth_spans_without_network(self):
         from gateway.routers.workflows import operator
