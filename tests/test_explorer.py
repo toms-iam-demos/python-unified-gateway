@@ -207,8 +207,29 @@ class ExplorerTests(unittest.TestCase):
         parser.feed(ui.text)
         self.assertFalse(parser.inline_script)
         self.assertFalse(parser.inline_style)
+        from urllib.parse import urljoin, urlsplit
+
+        # Presentation assets are served by existing sibling services at ingress,
+        # not by the gateway TestClient. Preserve the exact dependency boundary.
+        expected_shared = {
+            "/favicon.ico?v=pug-20261103-2",
+            "/api/classification/catalog/human.css",
+            "/api/classification/catalog/human.js",
+        }
+        observed_shared = set()
+        gateway_assets = set()
         for source in parser.sources:
-            self.assertEqual(self.client.get("/explorer/" + source).status_code, 200)
+            self.assertIsNotNone(source)
+            target = urljoin("/explorer/ui", source)
+            self.assertEqual(urlsplit(target).netloc, "")
+            if target in expected_shared:
+                observed_shared.add(target)
+            else:
+                self.assertTrue(target.startswith("/static/"), target)
+                gateway_assets.add(target)
+                self.assertEqual(self.client.get(target).status_code, 200)
+        self.assertEqual(observed_shared, expected_shared)
+        self.assertEqual(gateway_assets, {"/static/explorer.css", "/static/explorer.js"})
 
     def test_unhandled_exception_is_traced_without_leaking_details(self):
         @self.app.get("/test-failure")

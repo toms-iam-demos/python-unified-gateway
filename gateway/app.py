@@ -25,6 +25,8 @@ def create_app() -> FastAPI:
     )
     app.include_router(health.router)
     app.include_router(webhooks.router)
+    from gateway.events_ui import router as events_ui_router
+    app.include_router(events_ui_router)
     app.include_router(events.router)
     app.include_router(docusign.router)
     app.include_router(docusign_jwt_test.router, prefix="/docusign", dependencies=[Depends(workflows.operator)])
@@ -45,6 +47,8 @@ def create_app() -> FastAPI:
         from gateway.security_audit import SecurityAuditMiddleware, router as audit_router
         app.include_router(audit_router)
         app.add_middleware(SecurityAuditMiddleware)
+    from gateway.presentation import PresentationMiddleware
+    app.add_middleware(PresentationMiddleware)
     return app
 
 
