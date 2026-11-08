@@ -17,3 +17,10 @@
 **/*.key
 **/*.bak
 **/.DS_Store
+
+# Exclude Finder sidecars and all common runtime SQLite variants.
+**/._*
+**/*.sqlite
+**/*.sqlite-*
+**/*.sqlite3
+**/*.sqlite3-*

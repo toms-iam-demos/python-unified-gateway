@@ -37,7 +37,7 @@ def persist_inbound_event(
 ) -> Dict[str, Any]:
     """
     Best-effort persistence. Never raises to caller.
-    Returns an envelope describing persistence result and generated ids.
+    Returns an envelope describing persistence result and stored identifiers.
     """
     status = ensure_schema()
     if not status.ready:
@@ -57,7 +57,7 @@ def persist_inbound_event(
     try:
         conn = connect()
         try:
-            conn.execute(
+            cursor = conn.execute(
                 """
                 INSERT OR IGNORE INTO events (
                   event_id, kind, source, namespace,
@@ -82,6 +82,16 @@ def persist_inbound_event(
                     dedupe_key,
                 ),
             )
+            if cursor.rowcount == 0:
+                # A duplicate keeps the original ledger row and its identifiers.
+                stored = conn.execute(
+                    "SELECT event_id, correlation_id FROM events "
+                    "WHERE source = ? AND kind = 'inbound_http' AND dedupe_key = ?",
+                    (source, dedupe_key),
+                ).fetchone()
+                if stored is None:
+                    raise RuntimeError("Ignored insert has no matching stored event")
+                event_id, corr = stored["event_id"], stored["correlation_id"]
             conn.commit()
         finally:
             conn.close()

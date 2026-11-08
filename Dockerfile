@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12.12-slim@sha256:42f1689d6d6b906c7e829f9d9ec38491550344ac9adc01e464ff9a08df1ffb48
 
 # Work directory inside container
 WORKDIR /app
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN python -m pip install --no-cache-dir --upgrade pip==26.2 setuptools==84.1.0 \
+RUN python -m pip install --no-cache-dir --upgrade pip==26.2 \
     && python -m pip install --no-cache-dir -r requirements.txt
 
 # Runtime code and static operator assets only. Local tools, documentation,
