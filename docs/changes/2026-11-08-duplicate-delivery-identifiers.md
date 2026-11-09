@@ -133,3 +133,27 @@ preview hid the synthetic credential.
 The test uses synthetic routing and plain HTTP on an isolated network.
 Production routes and TLS are outside its scope. The monitor check exercises
 polling and does not cover SSE.
+
+## Clean-room image cutover
+
+On November 8, 2026 at 9:29:18 p.m. Pacific, the gateway started on the
+qualified Linux AMD64 clean-room image
+`sha256:5dbbcf738ea43fab4e55d7ca8bff13de0115873ce822ce5bc9b064132fec296f`,
+built from main at `6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb`. Both refreshed
+SQLite backup checksums and isolated restore checks passed before recreation.
+Orphan removal was disabled and the inventory of other project containers
+was unchanged. The prior image `35690f60beb4` remains available for rollback.
+No rollback was needed. Free space after cutover was 3.717 GB against a 2 GB
+reserve.
+
+- **Gateway and ingress passed.** Loopback and public HTTPS health passed.
+  Mounts, network and port binding matched the pre-cutover baseline. Monitor
+  and event browser pages, assets and feeds responded. Unauthenticated public
+  requests to protected routes returned HTTP 401.
+- **Authenticated operator checks passed.** The operator confirmed the
+  production monitor and event browser in the signed-in browser session.
+- **Organic Docusign delivery passed.** At 9:38:53 p.m. Pacific on November 8,
+  the gateway returned HTTP 200 for a naturally occurring delivery. The
+  monitor reported persistence and its event ID matched HMAC-verified ledger
+  receipt `b09ccf0f-37f4-4b4d-b38b-d0dba3712ba6`. No webhook was triggered
+  for verification. The live cutover acceptance checks are closed.
