@@ -17,3 +17,24 @@ requests reach the isolated image through Docker exec. Playwright simulates
 the ingress Basic Auth decision using synthetic credentials and blocks external
 browser requests. This exercises browser rendering and monitor polling. It
 does not validate production ingress, real operator credentials, or SSE.
+
+## Traefik ingress rehearsal
+
+With the isolated Colima profile running, use the following commands to cache
+the pinned Traefik 3.6.16 image and run the test. The verified AMD64 gateway
+image must already be in the same profile. The runner uses local `htpasswd`
+to generate a hash for the synthetic operator.
+
+```sh
+docker --context colima-pug-rehearsal pull --platform linux/amd64 \
+  traefik@sha256:f79c88ed5252ae1e31c757a9796d751461ddb502437b8d8526db9e12605a82eb
+bash tests/acceptance/ingress/run.sh
+```
+
+Both containers run on a disposable internal network with no published ports.
+The test checks real Traefik Basic Auth and routing, including signed webhook
+ingress without operator credentials, rejection of invalid signatures, and one
+matching HMAC-verified receipt in temporary SQLite and both operator feeds.
+The routes and credentials are synthetic. The test uses HTTP inside the
+isolated network and does not validate production routing, TLS certificates
+or termination, or browser rendering.

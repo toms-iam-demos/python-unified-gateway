@@ -103,3 +103,19 @@ The cutover acceptance checks are closed. Further Phase 2 production work requir
 ### Repeatable AMD64 acceptance rehearsal
 
 The test-only rehearsal passed on the verified image above using Python 3.12.12, temporary SQLite, synthetic signed deliveries and a network-disabled container. Both deliveries returned HTTP 200 with persistence confirmed. The duplicate left one HMAC-verified ledger row and both monitor receipts reported the original identifiers. The browser showed the matching monitor row and event detail, and its truncated Raw body preview hid the synthetic credential. The harness simulates ingress authentication and tests monitor polling. Production ingress authentication, real operator credentials and SSE are outside this rehearsal. See `tests/acceptance/README.md` for the local runner.
+
+### Isolated Traefik ingress acceptance
+
+Traefik 3.6.16 and the verified gateway image passed on Linux AMD64. Anonymous
+and incorrect credentials received HTTP 401 on the monitor and event browser
+pages, feeds, and scripts. The synthetic operator received HTTP 200. The
+webhook route allowed requests without operator credentials, rejected invalid
+HMAC with HTTP 401, and accepted a valid signature with HTTP 200 and confirmed
+persistence. Both operator feeds matched the single HMAC-verified receipt in
+temporary SQLite. Bounded polling accounts for the event-browser snapshot
+refresh cooldown.
+
+The test uses a synthetic Traefik routing configuration and plain HTTP on an
+isolated internal network. Production routing, TLS, and live traffic are
+outside its scope. Run it with `bash tests/acceptance/ingress/run.sh` after
+preparing the pinned images as described in `tests/acceptance/README.md`.
