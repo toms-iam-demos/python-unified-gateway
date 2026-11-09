@@ -99,3 +99,7 @@ A separate release-source checkout has now been prepared from fetched main `6ea1
 - **Rollback and side effect.** Rollback was unnecessary. The original image `sha256:762830c003fe89cc25fdbfbafdeaf933d76dc5da56ed5b46de0a7a445059e3b3` remains available under `python-unified-gateway:rollback-762830c003fe`. Compose unexpectedly removed ten historical gateway containers from the same project. The designated rollback image and verified backups remained available.
 
 The cutover acceptance checks are closed. Further Phase 2 production work requires its own scope and approval. This closeout is a local documentation update.
+
+### Repeatable AMD64 acceptance rehearsal
+
+The test-only rehearsal passed on the verified image above using Python 3.12.12, temporary SQLite, synthetic signed deliveries and a network-disabled container. Both deliveries returned HTTP 200 with persistence confirmed. The duplicate left one HMAC-verified ledger row and both monitor receipts reported the original identifiers. The browser showed the matching monitor row and event detail, and its truncated Raw body preview hid the synthetic credential. The harness simulates ingress authentication and tests monitor polling. Production ingress authentication, real operator credentials and SSE are outside this rehearsal. See `tests/acceptance/README.md` for the local runner.
