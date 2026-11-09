@@ -38,3 +38,13 @@ matching HMAC-verified receipt in temporary SQLite and both operator feeds.
 The routes and credentials are synthetic. The test uses HTTP inside the
 isolated network and does not validate production routing, TLS certificates
 or termination, or browser rendering.
+
+### Browser through Traefik
+
+With the same images and the Playwright setup above, run
+`bash tests/acceptance/ingress/run.sh --browser`. Playwright forwards browser
+requests over the internal Docker network. Traefik makes the Basic Auth
+decision. The check covers anonymous denial, signed webhook receipt and
+deduplication, matching monitor and event detail, and truncated raw preview
+masking. It uses synthetic routes and credentials over plain HTTP and tests
+monitor polling. Production routing, TLS, and SSE are outside its scope.

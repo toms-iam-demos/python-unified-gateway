@@ -119,3 +119,17 @@ The test uses a synthetic Traefik routing configuration and plain HTTP on an
 isolated internal network. Production routing, TLS, and live traffic are
 outside its scope. Run it with `bash tests/acceptance/ingress/run.sh` after
 preparing the pinned images as described in `tests/acceptance/README.md`.
+
+### Browser acceptance through Traefik
+
+The Linux AMD64 gateway and Traefik 3.6.16 passed the combined browser
+rehearsal. Anonymous requests to both operator pages received a Basic Auth
+challenge, and the synthetic operator could load both pages. A signed webhook
+without operator credentials returned HTTP 200 and persisted. An invalid
+signature returned HTTP 401. Replay preserved one HMAC-verified SQLite
+receipt and the browser showed its matching event ID. The truncated raw body
+preview hid the synthetic credential.
+
+The test uses synthetic routing and plain HTTP on an isolated network.
+Production routes and TLS are outside its scope. The monitor check exercises
+polling and does not cover SSE.
