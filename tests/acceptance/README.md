@@ -90,3 +90,28 @@ Record each live check as pending until observed.
   gateway returned HTTP 200 and match the monitor's persisted event ID to an
   HMAC-verified ledger receipt. Record the time and event ID. Leave this check
   pending while waiting for a delivery.
+
+### Clean-room build evidence
+
+On November 8, 2026, an empty disposable Colima Docker environment built
+`6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb` with
+`docker build --no-cache --pull --platform linux/amd64`. Rosetta provided
+AMD64 execution. The resulting image was
+`sha256:5dbbcf738ea43fab4e55d7ca8bff13de0115873ce822ce5bc9b064132fec296f`
+and ran Python 3.12.12 on x86_64.
+
+Both Traefik acceptance modes passed using the pinned Traefik 3.6.16 image.
+Basic Auth rejected anonymous and incorrect credentials. The synthetic
+operator could use both views. A valid signed delivery returned HTTP 200
+with persistence confirmed, and an invalid signature returned HTTP 401.
+The monitor and event browser matched the HMAC-verified SQLite receipt.
+Replay preserved one row and the original identifiers. The truncated Raw
+body preview masked the synthetic credential.
+
+Scratch copies of the runners pointed to the clean-room Docker context and
+fresh image ID. The browser used existing host Playwright and Chrome. Tests
+used synthetic routing and credentials, isolated HTTP, and temporary SQLite.
+Production routing, TLS, and SSE were outside scope. Test containers and the
+network were removed, and the clean-room profile was stopped. This is
+rehearsal evidence for the fresh image. The runner pins above identify the
+previously verified release artifact.
