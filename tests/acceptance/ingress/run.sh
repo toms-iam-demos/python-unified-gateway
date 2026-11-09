@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+if [[ $# -gt 1 || (${1:-} != "" && ${1:-} != --browser) ]]; then
+  echo "Usage: $0 [--browser]" >&2
+  exit 2
+fi
 cd "$(dirname "$0")"
 d() { docker --context colima-pug-rehearsal "$@"; }
 gateway=sha256:35690f60beb4d0cc8db6e0895c948c9fb601e4e6421e59cdd5e97d607dfc8928
@@ -50,4 +54,15 @@ net=$(d network create --internal "$name")
 app=$(d run -d --pull never --platform linux/amd64 --network "$net" --network-alias gateway --read-only --tmpfs /tmp -e PYTHONDONTWRITEBYTECODE=1 -e GATEWAY_DB_PATH=/tmp/events.db -e DOCUSIGN_CONNECT_HMAC_SECRET=synthetic-only "$gateway")
 edge=$(d run -d --pull never --platform linux/amd64 --network "$net" --network-alias edge --read-only --mount "type=bind,src=$config,dst=/fixture.yml,readonly" "$traefik" --entrypoints.web.address=:8080 --providers.file.filename=/fixture.yml --providers.file.watch=false --global.checknewversion=false --global.sendanonymoususage=false)
 d exec "$edge" traefik version
+if [[ ${1:-} == --browser ]]; then
+  for attempt in $(seq 1 25); do
+    if d exec "$app" python -c 'import urllib.request; urllib.request.urlopen("http://edge:8080/health", timeout=2)' 2>/dev/null; then
+      node ../rehearse.cjs "$app" --traefik
+      exit
+    fi
+    sleep 1
+  done
+  echo "Traefik did not route gateway health" >&2
+  exit 1
+fi
 d exec -i "$app" python - < check.py
