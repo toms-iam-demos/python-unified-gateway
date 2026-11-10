@@ -179,3 +179,26 @@ No containers, custom networks, or volumes remained in the rehearsal daemon.
 
 The runners now take documented image and context inputs. Gate 8 remains
 open until an operator who did not prepare them executes the procedure.
+
+### Gate 8 independent operator sign-off
+
+On November 9, 2026, the operator independently completed the documented
+rehearsal and confirmed that no undocumented overrides, assistance, or
+manual recovery were needed. Gate 8 passed.
+
+The run used candidate revision
+`347124c85c5944bc4a37b41ddc0c12291d60258a` and rollback source
+`6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb`. Both AMD64 builds succeeded.
+The candidate image was
+`sha256:0ad79c5a90ccfe70537524cf566ef6667a8af9eade1be0d9133a1e55aea1cccb`
+and the rollback image was
+`sha256:175b3b108b7a5fd601da2e9a9477655f87db8bffd0be8fee76c452c586ac8f16`.
+
+Review of the run log and both build logs confirmed preflight, Traefik
+authentication, operator browser views, signed receipt matching, duplicate
+identifiers, and masking. The missing-image and rollback-verification
+faults produced the expected results. Rollback preserved the synthetic
+SQLite receipt and the historical test container. The final inventory had
+no containers, custom networks, or volumes, and the disposable profile
+shut down successfully. This closes the independent rehearsal gate within
+the synthetic scope described in the acceptance README.
