@@ -157,3 +157,48 @@ reserve.
   monitor reported persistence and its event ID matched HMAC-verified ledger
   receipt `b09ccf0f-37f4-4b4d-b38b-d0dba3712ba6`. No webhook was triggered
   for verification. The live cutover acceptance checks are closed.
+
+### Independent operator rehearsal preparation
+
+On November 9, 2026, a fresh disposable Docker profile exercised gates 1–7
+from the acceptance README. The source was main at
+`13c852812549a562bf68d8913278de88ba59b73e`. The no-cache AMD64 build produced
+`sha256:3d629400f3440da8797011ebaf8cab589bfd1c2f3b2a891031f6f7c0433b8f8d`.
+Python 3.12.12, Traefik HTTP and browser checks, receipt matching,
+deduplication, and masking passed. The rollback baseline was rebuilt from
+`6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb` as
+`sha256:629efd9d23a6f0ec4fad137b9f64223ebf4d23509fa1a908379aad6e676bb9a3`.
+
+The first attempt stopped at preflight due to a shell quoting error in the
+disk check. The corrected run restarted from the empty image store and passed
+the technical gates. The missing-image case left the gateway unchanged.
+The injected post-start failure restored the baseline and preserved the
+synthetic receipt and historical container. The injected rollback
+verification failure returned the expected explicit failure result.
+No containers, custom networks, or volumes remained in the rehearsal daemon.
+
+The runners now take documented image and context inputs. Gate 8 remains
+open until an operator who did not prepare them executes the procedure.
+
+### Gate 8 independent operator sign-off
+
+On November 9, 2026, the operator independently completed the documented
+rehearsal and confirmed that no undocumented overrides, assistance, or
+manual recovery were needed. Gate 8 passed.
+
+The run used candidate revision
+`347124c85c5944bc4a37b41ddc0c12291d60258a` and rollback source
+`6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb`. Both AMD64 builds succeeded.
+The candidate image was
+`sha256:0ad79c5a90ccfe70537524cf566ef6667a8af9eade1be0d9133a1e55aea1cccb`
+and the rollback image was
+`sha256:175b3b108b7a5fd601da2e9a9477655f87db8bffd0be8fee76c452c586ac8f16`.
+
+Review of the run log and both build logs confirmed preflight, Traefik
+authentication, operator browser views, signed receipt matching, duplicate
+identifiers, and masking. The missing-image and rollback-verification
+faults produced the expected results. Rollback preserved the synthetic
+SQLite receipt and the historical test container. The final inventory had
+no containers, custom networks, or volumes, and the disposable profile
+shut down successfully. This closes the independent rehearsal gate within
+the synthetic scope described in the acceptance README.

@@ -115,3 +115,66 @@ Production routing, TLS, and SSE were outside scope. Test containers and the
 network were removed, and the clean-room profile was stopped. This is
 rehearsal evidence for the fresh image. The runner pins above identify the
 previously verified release artifact.
+
+## Independent operator rehearsal
+
+Use a fresh checkout of the candidate revision and a dedicated, empty local
+Docker daemon. On Apple Silicon, one option is a new Colima profile with
+`colima start --profile pug-operator --activate=false --vm-type vz --vz-rosetta --disk 20`.
+These commands are for the disposable profile. They use no production
+credentials, databases, mounts, or endpoints.
+
+1. **Preflight.** Install or make available Git, Bash, Docker and Compose,
+   Python 3, bcrypt-capable `htpasswd`, Node, Playwright, and Chromium. Set
+   `PLAYWRIGHT_MODULE` and `PUG_CHROME_PATH` as described above if needed.
+   Launch and close Chromium once before building. Inspect the context's
+   endpoint and confirm it is the new local daemon. Confirm its image store
+   and container inventory are empty and its Docker filesystem has at least
+   5 GiB available. Pull the pinned AMD64 Traefik image above into that context
+   and run its `version` command with `--platform linux/amd64 --network none`
+   to verify registry access and AMD64 execution. Stop on any failure.
+2. **Build and start.** Use a clean checkout of the source being built. Set
+   these variables from the build. Record the commit, image ID, Docker and
+   Compose versions, and Traefik digest.
+
+   ```sh
+   export PUG_REHEARSAL_CONTEXT=colima-pug-operator
+   docker --context "$PUG_REHEARSAL_CONTEXT" build --no-cache --pull \
+     --platform linux/amd64 -t pug-operator:candidate .
+   export PUG_GATEWAY_IMAGE=$(docker --context "$PUG_REHEARSAL_CONTEXT" \
+     image inspect -f '{{.Id}}' pug-operator:candidate)
+   docker --context "$PUG_REHEARSAL_CONTEXT" run --rm --pull never \
+     --network none --platform linux/amd64 "$PUG_GATEWAY_IMAGE" \
+     python -c 'import platform,sys; assert platform.machine()=="x86_64" and sys.version_info[:3]==(3,12,12)'
+   ```
+
+3. **Ingress and browser.** Run `bash tests/acceptance/ingress/run.sh` and
+   `bash tests/acceptance/ingress/run.sh --browser`. Both use the candidate
+   image and verify default startup, health, auth, and operator views.
+4. **Delivery and persistence.** Both runners check rejection of an invalid
+   signature and successful persistence of a signed delivery. The browser
+   runner also matches the ledger receipt to the monitor and browser, and
+   verifies deduplication with stable event and correlation IDs.
+5. **Masking.** The browser runner checks the stored synthetic body and
+   verifies the truncated preview hides its credential.
+6. **Recovery.** In the same disposable daemon, build a separate known-good
+   Linux AMD64 baseline from a clean checkout, such as
+   `6c94a01064d5bb9349f6ce6688f3f2bc36ff2acb`, using the same build command
+   with a different tag and source directory. Set `PUG_ROLLBACK_IMAGE` to its
+   full image ID. Run `bash tests/acceptance/rollback.sh`. It exercises both
+   images with orphan removal disabled, an internal network, and a temporary
+   named volume. It checks health, preservation of the historical test
+   container, and survival of the synthetic receipt across rollback.
+7. **Failure handling and cleanup.** The rollback runner exercises rejection
+   of a missing image, recovery after an injected post-start check failure,
+   and explicit reporting of a failed rollback verification. It removes its
+   Compose resources and checks that none remain. Inspect the disposable
+   daemon for leftover containers, custom networks, or volumes and stop it.
+8. **Handoff.** Have an operator who did not prepare the runners execute the
+   procedure. Record the exact commands, image IDs, results, and any help
+   needed. A private input, undocumented override, manual rescue, or failed
+   gate leaves handoff open. After a correction, start from a fresh daemon.
+
+The ingress tests cover synthetic HTTP routing and Basic Auth, with monitor
+polling. Production routes, TLS, live credentials, organic Docusign traffic,
+and SSE are outside this rehearsal.

@@ -5,8 +5,8 @@ if [[ $# -gt 1 || (${1:-} != "" && ${1:-} != --browser) ]]; then
   exit 2
 fi
 cd "$(dirname "$0")"
-d() { docker --context colima-pug-rehearsal "$@"; }
-gateway=sha256:35690f60beb4d0cc8db6e0895c948c9fb601e4e6421e59cdd5e97d607dfc8928
+d() { docker --context "${PUG_REHEARSAL_CONTEXT:-colima-pug-rehearsal}" "$@"; }
+gateway=${PUG_GATEWAY_IMAGE:-sha256:35690f60beb4d0cc8db6e0895c948c9fb601e4e6421e59cdd5e97d607dfc8928}
 traefik=traefik@sha256:f79c88ed5252ae1e31c757a9796d751461ddb502437b8d8526db9e12605a82eb
 for image in "$gateway" "$traefik"; do
   test "$(d image inspect -f '{{.Os}}/{{.Architecture}}' "$image")" = linux/amd64

@@ -6,7 +6,7 @@ const container = process.argv[2];
 const throughTraefik = process.argv[3] === '--traefik';
 const gatewayUrl = throughTraefik ? 'http://edge:8080' : 'http://127.0.0.1:8001';
 function inside(code, ...args) {
-  return execFileSync('docker', ['--context',(throughTraefik ? 'colima-pug-rehearsal' : process.env.PUG_REHEARSAL_CONTEXT || 'colima-pug-rehearsal'),'exec',container,'python','-c',code,...args], {encoding:'utf8'});
+  return execFileSync('docker', ['--context',process.env.PUG_REHEARSAL_CONTEXT || 'colima-pug-rehearsal','exec',container,'python','-c',code,...args], {encoding:'utf8'});
 }
 function request(path, headers={}, body=null) {
   return JSON.parse(inside(`
@@ -31,10 +31,11 @@ const decode = ([status, , data]) => { assert.equal(status,200); return JSON.par
   const rows=JSON.parse(inside(`
 import json,sqlite3
 db=sqlite3.connect('file:/tmp/events.db?mode=ro',uri=True)
-print(json.dumps(db.execute('SELECT event_id,correlation_id,verify_status FROM events').fetchall()))
+print(json.dumps(db.execute('SELECT event_id,correlation_id,verify_status,cast(body_raw as text) FROM events').fetchall()))
 `));
   assert.equal(rows.length,1);
-  const [[id, correlation, verified]]=rows;
+  const [[id, correlation, verified, storedBody]]=rows;
+  assert.equal(storedBody,body);
   assert.equal(correlation,'synthetic-original');
   assert.equal(verified,'verified');
   const {events}=decode(request('/webhooks/monitor',{Authorization:credentials}));
