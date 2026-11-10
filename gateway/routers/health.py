@@ -17,7 +17,8 @@ async def readiness_check():
     It reports whether persistence is currently available.
     """
     s = ensure_schema()
+    detail = "database unavailable" if s.mode == "degraded" else s.detail
     return {
         "ready": bool(s.ready),
-        "db": {"enabled": s.enabled, "mode": s.mode, "detail": s.detail},
+        "db": {"enabled": s.enabled, "mode": s.mode, "detail": detail},
     }
