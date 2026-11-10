@@ -25,3 +25,25 @@ HTTP 200 with `persisted: false`, and the monitor still marks the event
 
 Reverting this change removes the warning. No schema or configuration
 changes are involved. The candidate was verified locally.
+
+## Production cutover and live acceptance
+
+On November 9, 2026, at 5:25:39 p.m. Pacific, the gateway started on
+Linux AMD64 image
+`sha256:51e5edb6c02cb38a8133263ae05faa712547298560f68f097da0432ab40089bb`
+built from `f338f0997095273be828a1dde7029f397bd5ac95`. Refreshed SQLite
+backup checksums and isolated restore checks passed. Only the gateway
+was recreated, with orphan removal disabled. The other project container
+inventory was unchanged. The prior image `5dbbcf738ea4` remained available
+for rollback. No rollback was needed, and 3.051 GB remained free.
+
+Loopback and public HTTPS health passed. Mounts, network, and port binding
+matched the baseline. The monitor and event browser pages, assets, and
+feeds responded, and unauthenticated public requests to protected routes
+returned HTTP 401. The operator separately confirmed the monitor and
+event browser in the signed-in production browser session.
+
+At 5:30:39 p.m. Pacific, an organic Docusign delivery returned HTTP 200.
+The monitor reported successful persistence and its event ID matched
+HMAC-verified SQLite ledger receipt `32853a9b-9d5f-460b-8c58-30b5bd99fa80`.
+No webhook was triggered for verification. Live cutover acceptance passed.
