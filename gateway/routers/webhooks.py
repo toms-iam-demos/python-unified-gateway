@@ -81,6 +81,10 @@ async def docusign_webhook(request: Request):
         trace["persisted"] = persisted
 
 
+    monitor_persistence = persist_result
+    if persist_result.get("db_mode") == "degraded":
+        monitor_persistence = {**persist_result, "db_detail": "database unavailable"}
+
     event = {
         "id": len(_webhook_events) + 1,
         "source": "docusign",
@@ -88,7 +92,7 @@ async def docusign_webhook(request: Request):
         "headers": headers,
         "body_raw": raw_body.decode(errors="replace"),
         "json": parsed,
-        "persistence": persist_result,
+        "persistence": monitor_persistence,
         "status": "ok" if persisted else "warn",
     }
 

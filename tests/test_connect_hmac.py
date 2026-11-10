@@ -101,6 +101,26 @@ class ConnectHmacTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.json()["persisted"])
 
+    def test_monitor_hides_only_degraded_persistence_detail(self):
+        for mode, detail, expected in (
+            ("degraded", "synthetic-private-database-detail", "database unavailable"),
+            ("disabled", "GATEWAY_DB_ENABLED=0", "GATEWAY_DB_ENABLED=0"),
+        ):
+            with self.subTest(mode=mode):
+                original = {"persisted": False, "db_mode": mode, "db_detail": detail}
+                self.persist.return_value = original
+                response = self.post(headers={"X-DocuSign-Signature-1": sign()})
+                self.assertEqual(response.status_code, 200)
+                self.assertFalse(response.json()["persisted"])
+                feed = self.client.get("/webhooks/monitor").json()["events"]
+                event = feed[-1]
+                self.assertEqual(event["status"], "warn")
+                self.assertEqual(
+                    event["persistence"], {**original, "db_detail": expected}
+                )
+                self.assertEqual(self.broadcast.await_args.args[0], event)
+                self.assertEqual(original["db_detail"], detail)
+
     def test_valid_request_persists_verification_in_real_sqlite(self):
         with tempfile.TemporaryDirectory() as directory:
             path = directory + "/events.db"
