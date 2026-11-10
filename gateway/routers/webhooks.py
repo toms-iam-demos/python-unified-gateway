@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 import asyncio
 import functools
 import json
+import logging
 
 import anyio
 
@@ -15,6 +16,8 @@ from fastapi.responses import HTMLResponse, StreamingResponse
 from gateway.db.events_store import persist_inbound_event
 from gateway.connect_hmac import require_connect_hmac
 from gateway.observability import span, current
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 
@@ -69,10 +72,13 @@ async def docusign_webhook(request: Request):
                 verify_reason="hmac-sha256",
             )
         )
+    persisted = bool(persist_result.get("persisted"))
+    if not persisted:
+        log.warning("Verified Docusign webhook acknowledged without a ledger receipt.")
     trace = current.get()
     if trace is not None:
         trace["event_id"] = persist_result.get("event_id")
-        trace["persisted"] = bool(persist_result.get("persisted"))
+        trace["persisted"] = persisted
 
 
     event = {
@@ -83,7 +89,7 @@ async def docusign_webhook(request: Request):
         "body_raw": raw_body.decode(errors="replace"),
         "json": parsed,
         "persistence": persist_result,
-        "status": "ok" if persist_result.get("persisted") else "warn",
+        "status": "ok" if persisted else "warn",
     }
 
     _webhook_events.append(event)
@@ -95,7 +101,7 @@ async def docusign_webhook(request: Request):
     return {
         "status": "received",
         "length": len(raw_body),
-        "persisted": bool(persist_result.get("persisted")),
+        "persisted": persisted,
     }
 
 
