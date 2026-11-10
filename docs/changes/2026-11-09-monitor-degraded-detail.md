@@ -29,3 +29,22 @@ existing behavior.
 
 The change only formats the monitor event. Reverting it requires no
 schema, configuration, or data changes.
+
+## Production cutover and live acceptance
+
+On November 9, 2026, at 6:38:41 p.m. Pacific, the gateway started on
+Linux AMD64 image
+`sha256:c069e53c97cfceec9cd80be079acd92c3e80698418d43afcb8bdbf47b76ed884`
+built from `5b6634711e1da2b911477711757233a6795f2432`. Both SQLite backup
+checksums and isolated restore checks passed. Only the gateway was recreated,
+with orphan removal disabled. Rollback image `6ab70d0b0b0b` remained
+available, and rollback was unnecessary.
+
+Loopback and public HTTPS health passed, and readiness reported a healthy
+database. The operator confirmed the monitor and event browser worked in
+the signed-in production session.
+
+At 6:40:05 p.m. Pacific, an organic Docusign delivery returned HTTP 200.
+The monitor confirmed persistence, and its event ID matched HMAC-verified
+SQLite receipt `abe22cf6-a4cd-4468-b5e2-b7ad598c59a5`. No webhook was
+triggered for verification. Live cutover acceptance passed.
