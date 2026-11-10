@@ -23,3 +23,22 @@ schema check, and internal diagnostics and `GET /health` are unchanged.
 
 The change is limited to response formatting. It requires no schema,
 configuration, or data changes. The candidate was verified locally.
+
+## Production cutover and live acceptance
+
+On November 9, 2026, at 6:12:12 p.m. Pacific, the gateway started on
+Linux AMD64 image
+`sha256:6ab70d0b0b0b845406fb9a6c80672ba74991424a3e83f20281d612cac4266f69`,
+built from `79f9f4a80847a9f395e88b3c3ae1239b214aae16`. Both SQLite backup
+checksums and isolated restore checks passed. Only the gateway was recreated,
+with orphan removal disabled. The rollback image `51e5edb6c02c` remained
+available, and rollback was unnecessary.
+
+Loopback and public HTTPS health passed. Production readiness reported
+`ready: true` and `db.mode: "ok"`. The operator confirmed that the monitor
+and event browser worked in the signed-in production session.
+
+At 6:13:37 p.m. Pacific, an organic Docusign delivery returned HTTP 200.
+The monitor confirmed persistence and matched HMAC-verified SQLite ledger
+receipt `bdce16d2-e054-4aad-a054-c7eda22a7fc4`. No webhook was triggered for
+verification. Live cutover acceptance passed.
