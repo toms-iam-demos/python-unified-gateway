@@ -64,6 +64,43 @@ class ConnectHmacTests(unittest.TestCase):
         self.assertEqual(self.persist.call_args.kwargs["verify_reason"], "hmac-sha256")
         self.broadcast.assert_awaited_once()
 
+    def test_persistence_warning_preserves_fail_open_response(self):
+        self.persist.return_value = {
+            "persisted": False,
+            "db_mode": "degraded",
+            "db_detail": "synthetic-private-database-detail",
+        }
+        headers = {
+            "X-DocuSign-Signature-1": sign(),
+            "X-Correlation-Id": "synthetic-private-correlation",
+            "X-Private-Header": "synthetic-private-header",
+        }
+        with self.assertLogs(webhooks.__name__, level="WARNING") as logs:
+            response = self.post(headers=headers)
+        self.assertEqual(
+            [record.getMessage() for record in logs.records],
+            ["Verified Docusign webhook acknowledged without a ledger receipt."],
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json(),
+            {"status": "received", "length": len(BODY), "persisted": False},
+        )
+        self.assertEqual(webhooks._webhook_events[0]["status"], "warn")
+        self.broadcast.assert_awaited_once()
+
+        self.persist.reset_mock()
+        self.broadcast.reset_mock()
+        webhooks._webhook_events.clear()
+        with self.assertNoLogs(webhooks.__name__, level="WARNING"):
+            self.assert_rejected(self.post(headers={"X-DocuSign-Signature-1": "invalid"}))
+
+        self.persist.return_value = {"persisted": True}
+        with self.assertNoLogs(webhooks.__name__, level="WARNING"):
+            response = self.post(headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["persisted"])
+
     def test_valid_request_persists_verification_in_real_sqlite(self):
         with tempfile.TemporaryDirectory() as directory:
             path = directory + "/events.db"
