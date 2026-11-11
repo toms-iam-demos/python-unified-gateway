@@ -26,6 +26,15 @@ def create_app() -> FastAPI:
     if private_catalog:
         dependencies = [Depends(workflows.operator)]
 
+        @app.middleware("http")
+        async def private_document_cache_control(request: Request, call_next):
+            response = await call_next(request)
+            root = request.scope.get("root_path", "").rstrip("/")
+            path = request.scope["path"].removeprefix(root).rstrip("/")
+            if path in {"/docs", "/redoc", "/openapi.json"}:
+                response.headers["Cache-Control"] = "no-store"
+            return response
+
         @app.get("/openapi.json", include_in_schema=False, dependencies=dependencies)
         def private_openapi():
             return JSONResponse(app.openapi(), headers={"Cache-Control": "no-store"})

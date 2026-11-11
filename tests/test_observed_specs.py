@@ -81,7 +81,13 @@ def test_private_docs_require_existing_operator_login(monkeypatch,tmp_path):
     for path in ['/docs','/redoc','/openapi.json']:
         response=c.get(path)
         assert response.status_code==401
+        assert response.headers['cache-control']=='no-store'
         assert '/docusign/observed/' not in response.text
+    monkeypatch.setenv('PUG_OPERATOR_HTPASSWD_FILE',str(tmp_path/'missing-operators'))
+    for path in ['/docs','/redoc','/openapi.json']:
+        response=c.get(path,auth=('synthetic','invalid'))
+        assert response.status_code==503
+        assert response.headers['cache-control']=='no-store'
     a.dependency_overrides[operator]=lambda:None
     for path in ['/docs','/redoc','/openapi.json']:
         response=c.get(path)
@@ -90,6 +96,11 @@ def test_private_docs_require_existing_operator_login(monkeypatch,tmp_path):
     assert '/docusign/observed/reference' in c.get('/openapi.json').json()['paths']
     rooted=TestClient(a,root_path='/pug')
     assert '/pug/openapi.json' in rooted.get('/docs').text
+    a.dependency_overrides.clear()
+    for path in ['/pug/docs','/pug/redoc','/pug/openapi.json']:
+        response=rooted.get(path)
+        assert response.status_code==401
+        assert response.headers['cache-control']=='no-store'
 
 
 @pytest.mark.parametrize('failure',['query','origin','traversal','missing_parameter','duplicate_id','ambiguous_path','remote_parameter'])

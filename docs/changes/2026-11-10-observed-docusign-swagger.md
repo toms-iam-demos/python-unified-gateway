@@ -26,6 +26,8 @@ only the six explicitly allowlisted public-spec reads.
 
 When a private catalog is enabled, `/docs`, `/redoc` and `/openapi.json` also
 require the existing PUG operator login and return `Cache-Control: no-store`.
+The no-store policy also covers authentication failures and unavailable operator
+configuration, including deployments mounted under a URL prefix.
 Protecting only execution endpoints would still expose the route inventory.
 The usual public documentation behavior is unchanged when the setting is absent.
 
