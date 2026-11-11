@@ -24,6 +24,11 @@ or calling the network. Provider server URLs and execution claims in the file
 cannot configure a transport or enable execution. Existing policy still permits
 only the six explicitly allowlisted public-spec reads.
 
+When a private catalog is enabled, `/docs`, `/redoc` and `/openapi.json` also
+require the existing PUG operator login and return `Cache-Control: no-store`.
+Protecting only execution endpoints would still expose the route inventory.
+The usual public documentation behavior is unchanged when the setting is absent.
+
 The loader bounds file size, validates OpenAPI version, rejects malformed or
 ambiguous paths and duplicate operation IDs, and requires inline declared path
 parameters. It does not infer payloads, discover routes, fetch remote schemas,

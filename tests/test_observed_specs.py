@@ -71,6 +71,27 @@ def test_missing_private_file_is_not_silently_ignored(tmp_path):
     with pytest.raises(FileNotFoundError):load_observed_spec(tmp_path/'missing.json')
 
 
+def test_private_docs_require_existing_operator_login(monkeypatch,tmp_path):
+    import sys
+    from gateway.app import create_app
+    api=load_module(monkeypatch,save(tmp_path,fixture_spec()))
+    monkeypatch.setitem(sys.modules,'gateway.routers.full_api',api)
+    monkeypatch.setenv('GATEWAY_FULL_DOCUSIGN_API_ENABLED','1')
+    a=create_app();c=TestClient(a)
+    for path in ['/docs','/redoc','/openapi.json']:
+        response=c.get(path)
+        assert response.status_code==401
+        assert '/docusign/observed/' not in response.text
+    a.dependency_overrides[operator]=lambda:None
+    for path in ['/docs','/redoc','/openapi.json']:
+        response=c.get(path)
+        assert response.status_code==200
+        assert response.headers['cache-control']=='no-store'
+    assert '/docusign/observed/reference' in c.get('/openapi.json').json()['paths']
+    rooted=TestClient(a,root_path='/pug')
+    assert '/pug/openapi.json' in rooted.get('/docs').text
+
+
 @pytest.mark.parametrize('failure',['query','origin','traversal','missing_parameter','duplicate_id','ambiguous_path','remote_parameter'])
 def test_invalid_reference_catalog_is_rejected(tmp_path,failure):
     spec=fixture_spec();paths=spec['paths']
