@@ -103,7 +103,10 @@ def operation_schema(spec, path, method, product):
     op['operationId'] = product.replace('-', '_') + '_' + op.get('operationId', method + path)
     op['tags'] = ['docusign ' + product + ' · ' + t for t in op.get('tags', ['API'])]
     op.pop('security', None)  # FastAPI adds the operator dependency's scheme.
-    op['description'] = ('Sandbox provider operation. Registered from the official specification; not individually live-tested. '
+    provenance = ('Observed application route; historical evidence is recorded below. '
+        if op.get('x-pug-source-kind') == 'observed-client' else
+        'Sandbox provider operation. Registered from the official specification; not individually live-tested. ')
+    op['description'] = (provenance +
         'Account paths are restricted to the configured PUG sandbox account. '
         'Only explicitly allowlisted reads can execute. All other operations are locked.\n\n' + op.get('description', ''))
     if spec.get('swagger') == '2.0':
@@ -235,21 +238,34 @@ def handler(product, path, method, operation):
 SCHEMAS = {}
 COMPONENTS = {}
 OPERATIONS = []
-for product in PRODUCTS:
-    spec = json.loads((SPEC_DIR / (product + '.json')).read_text())
+
+
+def catalog_specs():
+    for product in PRODUCTS:
+        yield product, json.loads((SPEC_DIR / (product + '.json')).read_text())
+    filename = os.getenv('GATEWAY_OBSERVED_API_SPEC_PATH', '').strip()
+    if filename:
+        from gateway.observed_specs import load_observed_spec
+        yield 'observed', load_observed_spec(filename)
+
+
+# Observed routes have no transport or token configuration. They are cataloged
+# individually and rejected by the same default-deny policy before any I/O.
+for product, spec in catalog_specs():
     definitions = spec.get('definitions', spec.get('components', {}).get('schemas', {}))
     SCHEMAS.update({product + '_' + k: normalize(v, product) for k, v in definitions.items()})
     for kind, entries in spec.get('components', {}).items():
         if kind in ('schemas', 'securitySchemes'): continue
         COMPONENTS.setdefault(kind, {}).update({product + '_' + k: normalize(v, product) for k, v in entries.items()})
-    for path, item in spec['paths'].items():
+    # Static resources must precede placeholders (e.g. /filters before /{id}).
+    for path, item in sorted(spec['paths'].items(), key=lambda pair: (pair[0].count('{'), pair[0])):
         for method in item:
             if method not in METHODS: continue
             op = operation_schema(spec, path, method, product)
             local_path = '/docusign/' + product + path
             router.add_api_route(local_path, handler(product, path, method, op), methods=[method.upper()],
                 response_class=Response, openapi_extra=op)
-            OPERATIONS.append({'product':product,'method':method.upper(),'path':local_path,'operation_id':op['operationId'],'verification':'not_live_tested','executable':is_allowed(product,path,method)})
+            OPERATIONS.append({'product':product,'method':method.upper(),'path':local_path,'operation_id':op['operationId'],'verification':op.get('x-pug-verification', 'not_live_tested'),'executable':is_allowed(product,path,method)})
 
 
 def install(app):
