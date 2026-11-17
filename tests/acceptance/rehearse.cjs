@@ -36,7 +36,8 @@ print(json.dumps(db.execute('SELECT event_id,correlation_id,verify_status,cast(b
   assert.equal(rows.length,1);
   const [[id, correlation, verified, storedBody]]=rows;
   assert.equal(storedBody,body);
-  assert.equal(correlation,'synthetic-original');
+  // Correlation is server-assigned (ADR-0009); client headers cannot set it.
+  assert.match(correlation,/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
   assert.equal(verified,'verified');
   const {events}=decode(request('/webhooks/monitor',{Authorization:credentials}));
   assert.equal(events.length,2);

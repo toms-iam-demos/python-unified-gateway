@@ -1,10 +1,12 @@
 import base64
 import hashlib
 import hmac
+import json
 import os
 import sqlite3
 import tempfile
 import unittest
+import uuid
 from unittest.mock import AsyncMock, patch
 
 from fastapi import FastAPI
@@ -64,7 +66,7 @@ class ConnectHmacTests(unittest.TestCase):
         self.assertEqual(self.persist.call_args.kwargs["verify_reason"], "hmac-sha256")
         self.broadcast.assert_awaited_once()
 
-    def test_persistence_warning_preserves_fail_open_response(self):
+    def test_failed_persistence_requests_redelivery(self):
         self.persist.return_value = {
             "persisted": False,
             "db_mode": "degraded",
@@ -79,13 +81,15 @@ class ConnectHmacTests(unittest.TestCase):
             response = self.post(headers=headers)
         self.assertEqual(
             [record.getMessage() for record in logs.records],
-            ["Verified Docusign webhook acknowledged without a ledger receipt."],
+            ["Verified Docusign webhook not persisted; returning 503 for redelivery."],
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.headers["retry-after"], "60")
         self.assertEqual(
             response.json(),
-            {"status": "received", "length": len(BODY), "persisted": False},
+            {"status": "retry", "length": len(BODY), "persisted": False},
         )
+        self.assertNotIn("synthetic-private", response.text)
         self.assertEqual(webhooks._webhook_events[0]["status"], "warn")
         self.broadcast.assert_awaited_once()
 
@@ -102,15 +106,15 @@ class ConnectHmacTests(unittest.TestCase):
         self.assertTrue(response.json()["persisted"])
 
     def test_monitor_hides_only_degraded_persistence_detail(self):
-        for mode, detail, expected in (
-            ("degraded", "synthetic-private-database-detail", "database unavailable"),
-            ("disabled", "GATEWAY_DB_ENABLED=0", "GATEWAY_DB_ENABLED=0"),
+        for mode, detail, expected, status in (
+            ("degraded", "synthetic-private-database-detail", "database unavailable", 503),
+            ("disabled", "GATEWAY_DB_ENABLED=0", "GATEWAY_DB_ENABLED=0", 200),
         ):
             with self.subTest(mode=mode):
                 original = {"persisted": False, "db_mode": mode, "db_detail": detail}
                 self.persist.return_value = original
                 response = self.post(headers={"X-DocuSign-Signature-1": sign()})
-                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.status_code, status)
                 self.assertFalse(response.json()["persisted"])
                 feed = self.client.get("/webhooks/monitor").json()["events"]
                 event = feed[-1]
@@ -211,12 +215,96 @@ class ConnectHmacTests(unittest.TestCase):
                     ).fetchall()
                 self.assertEqual(rows, [("unknown", None)])
 
-    def test_verified_request_preserves_existing_fail_open_persistence_policy(self):
-        self.persist.return_value = {"persisted": False, "db_mode": "degraded"}
-        response = self.post(headers={"X-DocuSign-Signature-1": sign()})
+    def test_unpersisted_event_is_not_acknowledged_but_stays_visible(self):
+        for result in ({"persisted": False, "db_mode": "degraded"}, {"persisted": False}):
+            with self.subTest(result=result):
+                self.broadcast.reset_mock()
+                self.persist.return_value = result
+                response = self.post(headers={"X-DocuSign-Signature-1": sign()})
+                self.assertEqual(response.status_code, 503)
+                self.assertFalse(response.json()["persisted"])
+                self.broadcast.assert_awaited_once()
+
+    def test_disabled_ledger_still_acknowledges(self):
+        self.persist.return_value = {"persisted": False, "db_mode": "disabled"}
+        with self.assertLogs(webhooks.__name__, level="WARNING") as logs:
+            response = self.post(headers={"X-DocuSign-Signature-1": sign()})
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.json()["persisted"])
-        self.broadcast.assert_awaited_once()
+        self.assertEqual(
+            [record.getMessage() for record in logs.records],
+            ["Verified Docusign webhook acknowledged without a ledger receipt."],
+        )
+
+    def real_ledger(self, directory):
+        return (
+            patch.dict(os.environ, {"GATEWAY_DB_PATH": directory + "/events.db", "GATEWAY_DB_ENABLED": "1"}),
+            patch.object(init_db, "_SCHEMA_APPLIED", False),
+            patch.object(webhooks, "persist_inbound_event", events_store.persist_inbound_event),
+        )
+
+    def post_json(self, payload, extra_headers=None):
+        body = json.dumps(payload).encode()
+        return self.post(body, {"X-DocuSign-Signature-1": sign(body), **(extra_headers or {})})
+
+    def test_connect_redelivery_with_new_retry_count_is_deduplicated(self):
+        event = {"event": "envelope-completed", "retryCount": 0, "data": {"envelopeId": "synthetic-test"}}
+        with tempfile.TemporaryDirectory() as directory:
+            env, schema, persist = self.real_ledger(directory)
+            with env, schema, persist:
+                first = self.post_json(event)
+                second = self.post_json({**event, "retryCount": 1})
+                changed = self.post_json({**event, "retryCount": 2, "event": "envelope-voided"})
+                with sqlite3.connect(directory + "/events.db") as db:
+                    rows = db.execute("SELECT body_raw FROM events ORDER BY rowid").fetchall()
+        self.assertEqual([r.status_code for r in (first, second, changed)], [200, 200, 200])
+        self.assertEqual(len(rows), 2, "a retry adds no row; a different event does")
+        self.assertIn(b'"retryCount": 0', rows[0][0], "the first delivery's original bytes are kept")
+        self.assertIn(b"envelope-voided", rows[1][0])
+
+    def test_dedupe_basis_only_strips_top_level_retry_count(self):
+        self.assertIsNone(webhooks.dedupe_basis(None))
+        self.assertIsNone(webhooks.dedupe_basis({"event": "x"}))
+        self.assertIsNone(webhooks.dedupe_basis([{"retryCount": 1}]))
+        nested = {"retryCount": 3, "data": {"retryCount": 9}}
+        self.assertEqual(webhooks.dedupe_basis(nested), b'{"data":{"retryCount":9}}')
+
+    def test_client_headers_cannot_set_ledger_correlation(self):
+        supplied = "synthetic-client-correlation"
+        with tempfile.TemporaryDirectory() as directory:
+            env, schema, persist = self.real_ledger(directory)
+            with env, schema, persist:
+                response = self.post_json({"event": "envelope-sent"}, {"X-Correlation-Id": supplied, "X-Request-Id": supplied})
+                with sqlite3.connect(directory + "/events.db") as db:
+                    correlation, headers = db.execute("SELECT correlation_id, headers_json FROM events").fetchone()
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(correlation, supplied)
+        self.assertEqual(str(uuid.UUID(correlation)), correlation)
+        self.assertEqual(json.loads(headers)["x-correlation-id"], supplied, "kept as unverified input only")
+        self.post(headers={"X-DocuSign-Signature-1": sign(), "X-Correlation-Id": supplied})
+        self.assertNotIn("correlation_id", self.persist.call_args.kwargs)
+
+    def test_oversized_body_rejected_before_verification(self):
+        with patch.dict(os.environ, {"DOCUSIGN_CONNECT_MAX_BODY_BYTES": str(len(BODY))}):
+            self.assertEqual(self.post(headers={"X-DocuSign-Signature-1": sign()}).status_code, 200)
+            self.persist.reset_mock()
+            self.broadcast.reset_mock()
+            webhooks._webhook_events.clear()
+            big = BODY + b" "
+            with self.assertLogs(webhooks.__name__, level="WARNING") as logs:
+                response = self.post(big, {"X-DocuSign-Signature-1": sign(big)})
+            self.assert_rejected(response, 413)
+            self.assertEqual([r.getMessage() for r in logs.records], ["connect_webhook_rejected reason=body_too_large"])
+            # No Content-Length (chunked) is bounded by the streaming read.
+            chunked = self.client.post("/webhooks/docusign", content=iter([BODY, b" "]),
+                                       headers={"X-DocuSign-Signature-1": sign(big)})
+            self.assert_rejected(chunked, 413)
+
+    def test_body_limit_configuration_falls_back_to_default(self):
+        for value in ("", "abc", "0", "-5"):
+            with self.subTest(value=value), patch.dict(os.environ, {"DOCUSIGN_CONNECT_MAX_BODY_BYTES": value}):
+                self.assertEqual(webhooks.max_body_bytes(), webhooks.DEFAULT_MAX_BODY_BYTES)
+        with patch.dict(os.environ, {"DOCUSIGN_CONNECT_MAX_BODY_BYTES": "1024"}):
+            self.assertEqual(webhooks.max_body_bytes(), 1024)
 
 
 if __name__ == "__main__":
