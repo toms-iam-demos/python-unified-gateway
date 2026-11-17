@@ -1,7 +1,7 @@
 # Duplicate deliveries return stored ledger identifiers
 
 - Date / timezone: 2026-11-08, America/Los_Angeles.
-- Actor and authorization: Codex, explicitly authorized by the maintainer to implement the smallest fix, review it, and commit locally.
+- Actor and authorization: coding agent, explicitly authorized by the maintainer to implement the smallest fix, review it, and commit locally.
 - Baseline commit: `78e3dbe6e879dd52cc1a879d9ffc197006eed988`.
 - Scope: `gateway/db/events_store.py` and `tests/test_duplicate_delivery_identifiers.py`, plus this validation record.
 - Behavior: when INSERT OR IGNORE inserts no row, retrieve identifiers using the existing unique key (source, kind, dedupe_key) on the same connection before commit. Return the original event and correlation identifiers without updating the stored row. If no matching row exists, retain the existing degraded-persistence error response rather than claim success.

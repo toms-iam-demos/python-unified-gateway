@@ -1,7 +1,7 @@
 # Fresh checkout and repository working agreement
 
 - Date: 2026-10-09 (America/Los_Angeles).
-- Actor: Codex, on the maintainer's request to refresh local main and establish working and logging practices.
+- Actor: coding agent, on the maintainer's request to refresh local main and establish working and logging practices.
 - Baseline: `58755e93c276a991a0cc6c61351e5fc4ac102b18` from GitHub main.
 - Refresh: cloned main before replacement; confirmed the prior working tree had no tracked changes; preserved the entire prior checkout by rename outside the repository. The earlier full development backup remains retained. Confirmed the fresh clone's baseline before starting this branch.
 - Scope: root agent/contributor instructions, a repository runbook, public-safe change record template, PR checklist and explicit ignore boundaries for local experiments and documentation build output.
