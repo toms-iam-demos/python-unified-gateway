@@ -34,10 +34,13 @@ def persist_inbound_event(
     correlation_id: Optional[str] = None,
     verify_status: str = "unknown",
     verify_reason: Optional[str] = None,
+    dedupe_basis: Optional[bytes] = None,
 ) -> Dict[str, Any]:
     """
-    Best-effort persistence. Never raises to caller.
+    Never raises to caller; callers decide how to answer a failed write.
     Returns an envelope describing persistence result and stored identifiers.
+    dedupe_basis replaces the raw body in the deduplication key when a caller
+    knows which bytes identify a redelivery (e.g. excluding a retry counter).
     """
     status = ensure_schema()
     if not status.ready:
@@ -51,8 +54,9 @@ def persist_inbound_event(
     body_sha256 = _sha256_bytes(raw_body)
     json_text = json.dumps(json_parsed, default=str) if json_parsed is not None else None
 
-    # Dedupe key: stable hash of source+path+body
-    dedupe_key = _sha256_bytes(f"{source}|{path}|{body_sha256}".encode("utf-8"))
+    # Dedupe key: stable hash of source+path+body (or caller-supplied semantic basis)
+    basis_sha256 = body_sha256 if dedupe_basis is None else _sha256_bytes(dedupe_basis)
+    dedupe_key = _sha256_bytes(f"{source}|{path}|{basis_sha256}".encode("utf-8"))
 
     try:
         conn = connect()

@@ -7,11 +7,12 @@ import asyncio
 import functools
 import json
 import logging
+import os
 
 import anyio
 
 from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 
 from gateway.db.events_store import persist_inbound_event
 from gateway.connect_hmac import require_connect_hmac
@@ -38,9 +39,60 @@ async def _broadcast_event(event: Dict[str, Any]) -> None:
             _subscribers.remove(q)
 
 
+DEFAULT_MAX_BODY_BYTES = 16 * 1024 * 1024
+
+
+def max_body_bytes() -> int:
+    """Upper bound on an unauthenticated request body, read before HMAC."""
+    value = os.getenv("DOCUSIGN_CONNECT_MAX_BODY_BYTES", "").strip()
+    try:
+        limit = int(value)
+    except ValueError:
+        return DEFAULT_MAX_BODY_BYTES
+    return limit if limit > 0 else DEFAULT_MAX_BODY_BYTES
+
+
+class BodyTooLarge(Exception):
+    pass
+
+
+async def read_bounded_body(request: Request, limit: int) -> bytes:
+    declared = request.headers.get("content-length")
+    if declared is not None:
+        try:
+            if int(declared) > limit:
+                raise BodyTooLarge()
+        except ValueError:
+            pass  # Malformed lengths are bounded by the streaming read below.
+    chunks: List[bytes] = []
+    total = 0
+    async for chunk in request.stream():
+        total += len(chunk)
+        if total > limit:
+            raise BodyTooLarge()
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def dedupe_basis(parsed: Any) -> bytes | None:
+    """Connect increments top-level retryCount on redelivery; exclude only that field.
+
+    Returns None (raw-body deduplication) for anything else, so payloads without
+    retryCount keep their existing ledger keys.
+    """
+    if not isinstance(parsed, dict) or "retryCount" not in parsed:
+        return None
+    semantic = {k: v for k, v in parsed.items() if k != "retryCount"}
+    return json.dumps(semantic, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
 @router.post("/docusign")
 async def docusign_webhook(request: Request):
-    raw_body = await request.body()
+    try:
+        raw_body = await read_bounded_body(request, max_body_bytes())
+    except BodyTooLarge:
+        log.warning("connect_webhook_rejected reason=body_too_large")
+        return JSONResponse({"detail": "Webhook body too large"}, status_code=413)
     with span("webhook HMAC verification"):
         require_connect_hmac(raw_body, request.headers.items())
     headers = dict(request.headers)
@@ -50,11 +102,13 @@ async def docusign_webhook(request: Request):
     except Exception:
         parsed = None
 
-    # Best-effort persistence (fail-open). Offloaded to a worker thread:
+    # Custody (ADR-0002): a verified event that is not durably recorded is
+    # answered with 503 so Connect redelivers it. Offloaded to a worker thread:
     # sqlite3 is synchronous, and running it inline on this coroutine would
     # block the event loop for every other in-flight request on this worker
     # for the duration of the disk write. Verification still happens before
-    # persistence as required by ADR-0010.
+    # persistence as required by ADR-0010. Correlation IDs are server-assigned
+    # (ADR-0009); client headers remain visible only in headers_json.
     with span("webhook idempotency / ledger persistence"):
         persist_result = await anyio.to_thread.run_sync(
             functools.partial(
@@ -67,13 +121,18 @@ async def docusign_webhook(request: Request):
                 headers=headers,
                 raw_body=raw_body,
                 json_parsed=parsed if isinstance(parsed, dict) else None,
-                correlation_id=headers.get("x-correlation-id") or headers.get("x-request-id"),
                 verify_status="verified",
                 verify_reason="hmac-sha256",
+                dedupe_basis=dedupe_basis(parsed),
             )
         )
     persisted = bool(persist_result.get("persisted"))
-    if not persisted:
+    # Only an explicitly disabled ledger (GATEWAY_DB_ENABLED=0) may acknowledge
+    # without a receipt; any other failure asks the provider to redeliver.
+    retry_required = not persisted and persist_result.get("db_mode") != "disabled"
+    if retry_required:
+        log.warning("Verified Docusign webhook not persisted; returning 503 for redelivery.")
+    elif not persisted:
         log.warning("Verified Docusign webhook acknowledged without a ledger receipt.")
     trace = current.get()
     if trace is not None:
@@ -102,6 +161,12 @@ async def docusign_webhook(request: Request):
 
     await _broadcast_event(event)
 
+    if retry_required:
+        return JSONResponse(
+            {"status": "retry", "length": len(raw_body), "persisted": False},
+            status_code=503,
+            headers={"Retry-After": "60"},
+        )
     return {
         "status": "received",
         "length": len(raw_body),

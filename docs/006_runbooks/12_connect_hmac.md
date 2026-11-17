@@ -22,8 +22,13 @@ signature returns HTTP 401. Rejected requests are neither persisted nor broadcas
 Logs record only a rejection reason (WARNING for invalid signatures, ERROR for missing
 configuration). Valid requests retain existing persistence
 behavior, with `verify_status=verified` and `verify_reason=hmac-sha256`.
-Verification does not guarantee successful persistence; inspect `persisted` in
-the response. Existing fail-open persistence behavior is outside this change.
+A verified event that cannot be recorded returns HTTP 503 with `Retry-After: 60`
+so Connect redelivers it; only `GATEWAY_DB_ENABLED=0` acknowledges with 200 and
+`persisted=false`. Bodies over `DOCUSIGN_CONNECT_MAX_BODY_BYTES` (default 16 MiB)
+return 413 before verification. Raise the limit before enabling document inclusion
+in Connect, or those deliveries will be refused. Redeliveries that differ only in
+`retryCount` deduplicate to the first stored row. `X-Correlation-Id`/`X-Request-Id`
+are kept in `headers_json` only; the ledger assigns `correlation_id`.
 
 The verifier checks every numbered `X-DocuSign-Signature-N` header. During rotation,
 keep both keys active in docusign, switch the receiver to the new key and verify
@@ -42,14 +47,15 @@ Tests use synthetic bytes and a test key. Most persistence calls and all broadca
 are mocked; dedicated tests use temporary SQLite databases. No production database,
 provider account or remote webhook is touched. They cover acceptance,
 missing/wrong/malformed signatures, exact-body integrity, missing configuration,
-rotation, verification metadata, rejection-log redaction, duplicate legacy rows and
-the existing fail-open persistence policy.
+rotation, verification metadata, rejection-log redaction, duplicate legacy rows,
+503 on failed persistence, retry-count deduplication, server-owned correlation and
+the body limit.
 
 ## Existing ledger limits
 
 Duplicate deliveries do not add rows or upgrade historical verification metadata.
-The helper may report a generated ID even when its insert was ignored. Check stored
-rows directly; a trace ID or HTTP 200 does not establish successful new persistence.
+Duplicates return the stored row's identifiers. Check stored rows directly; a trace
+ID or HTTP 200 does not establish successful new persistence.
 
 ## Rollout
 

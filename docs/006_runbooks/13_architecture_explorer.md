@@ -72,9 +72,9 @@ older requests so late results cannot overwrite the selected view. Trace failure
 trace results rather than presenting old samples as current. Ledger failure leaves the
 architecture available. Values are inserted as text, not HTML.
 
-Ledger persistence remains best-effort and duplicate inserts retain the original row.
-The helper's reported event ID may not identify that row. Trace metadata does not cure
-these existing custody or deduplication limitations. No schema migration is introduced.
+A verified webhook that is not persisted returns 503 for redelivery; duplicate inserts
+retain the original row and return its identifiers. Trace metadata is not custody
+evidence. No schema migration is introduced.
 
 ## Presentation scope
 

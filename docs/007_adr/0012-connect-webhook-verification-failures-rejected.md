@@ -54,11 +54,16 @@ sender's identity or a fresh event. Signed payloads may be replayed; existing de
 still governs repeated bodies. Existing unverified ledger rows are not retroactively
 validated. Other write paths, if added, need their own verified admission boundary.
 
-Persistence remains best-effort: a verified request can return HTTP 200 with
-`persisted=false`. Verification does not imply durable custody. A duplicate insert is
-ignored; it does not upgrade an older row's verification metadata. The persistence
-helper can also report a newly generated event ID that does not resolve to the existing
-duplicate row. These pre-existing ledger semantics are outside this decision.
+Since 2026-11-16, a verified request that is not durably recorded returns HTTP 503
+with `persisted=false` and `Retry-After`, so Connect redelivers it (ADR-0002 custody).
+Only an explicitly disabled ledger (`GATEWAY_DB_ENABLED=0`) still answers 200 without
+a receipt. Redelivery depends on the Connect configuration's retry behavior; a 503 is
+not itself durable custody. A duplicate insert is ignored; it does not upgrade an older
+row's verification metadata, and duplicates return the stored row's identifiers.
+Deduplication ignores only the top-level `retryCount`, which Connect increments on
+redelivery. Correlation IDs are server-assigned (ADR-0009). Unauthenticated bodies are
+bounded by `DOCUSIGN_CONNECT_MAX_BODY_BYTES` (default 16 MiB, HTTP 413) before
+verification.
 
 A rejected legitimate request has no ledger body to inspect or replay. Recovery depends
 on provider redelivery or another authorized recovery source. Rejections are logged by
@@ -87,6 +92,9 @@ the rejection policy; changing the admission/quarantine boundary requires a supe
 - **2026-09-19:** recorded the existing reject-before-persistence policy.
 - **2026-09-20:** clarified shared-key trust, historical/duplicate rows, log levels,
   optional explorer visibility and the remaining durability gap. No policy change.
+- **2026-11-16:** maintainer decision: replace fail-open acknowledgement with 503 on
+  failed persistence; retry-stable deduplication; server-owned correlation; pre-HMAC
+  body limit. The reject-before-persistence verification policy is unchanged.
 
 ## Links
 - [HMAC runbook](../006_runbooks/12_connect_hmac.md)
